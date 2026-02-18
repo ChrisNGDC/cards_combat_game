@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cniswy7pwm8r0"]
+
+[ext_resource type="Script" uid="uid://byy0gnvcl33js" path="res://scripts/card.gd" id="1_axbyx"]
+[ext_resource type="Texture2D" uid="uid://cf6hh3u0cfy15" path="res://images/attack_card.jpg" id="1_h76d2"]
+[ext_resource type="Texture2D" uid="uid://bl7mqkxk72bga" path="res://images/card_border.png" id="2_o6ujv"]
+[ext_resource type="Texture2D" uid="uid://dkcqanw4fnmis" path="res://images/cardback.jpg" id="3_axbyx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gh8tw"]
+size = Vector2(1344, 2016)
+
+[node name="Card" type="Node2D" unique_id=1298467811]
+z_index = 1
+scale = Vector2(0.25, 0.25)
+script = ExtResource("1_axbyx")
+
+[node name="Borde" type="Sprite2D" parent="." unique_id=1286464844]
+z_index = 1
+position = Vector2(1.4543533e-05, -9.536743e-07)
+scale = Vector2(1.82, 1.865)
+texture = ExtResource("2_o6ujv")
+
+[node name="CardFrontImage" type="Sprite2D" parent="." unique_id=630626316]
+z_index = 1
+position = Vector2(-1.5497208e-06, 9.655952e-06)
+scale = Vector2(1.7684209, 1.8260871)
+texture = ExtResource("1_h76d2")
+
+[node name="CardBackImage" type="Sprite2D" parent="." unique_id=1822254016]
+z_index = 1
+position = Vector2(-7.6293945e-06, -1.5258789e-05)
+scale = Vector2(1.7684212, 1.8260869)
+texture = ExtResource("3_axbyx")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1256997498]
+z_index = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=383029384]
+scale = Vector2(0.25, 0.25)
+shape = SubResource("RectangleShape2D_gh8tw")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

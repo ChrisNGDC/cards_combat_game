@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://cxjctpo57vj0p"]
+
+[ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_cpw5v"]
+[ext_resource type="Script" uid="uid://dk0gg0w5qgw67" path="res://scripts/card_manager.gd" id="3_atiws"]
+[ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="3_mlxek"]
+[ext_resource type="Texture2D" uid="uid://bbqmvfd7wxs5s" path="res://images/ataque.png" id="4_atiws"]
+[ext_resource type="Script" uid="uid://c3aku1x6osrty" path="res://scripts/health_manager.gd" id="5_gh8tw"]
+[ext_resource type="Texture2D" uid="uid://da00pqxr43212" path="res://images/health_bar.png" id="6_ai0oo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gh8tw"]
+bg_color = Color(0, 0, 0, 0.4745098)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ai0oo"]
+bg_color = Color(0, 0, 0, 0.6666667)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7qh8"]
+atlas = ExtResource("6_ai0oo")
+region = Rect2(0, 24, 72, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6u1da"]
+atlas = ExtResource("6_ai0oo")
+region = Rect2(0, 0, 72, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vj04y"]
+atlas = ExtResource("6_ai0oo")
+region = Rect2(0, 48, 72, 24)
+
+[node name="Combat" type="Node2D" unique_id=1554882214]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1835461004]
+z_index = -1
+position = Vector2(800, 450)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_cpw5v")
+
+[node name="CardManager" type="Node2D" parent="." unique_id=1954557925]
+script = ExtResource("3_atiws")
+
+[node name="PlayerSlot" type="Sprite2D" parent="CardManager" unique_id=1420705759]
+modulate = Color(1, 1, 1, 0.5019608)
+z_index = 1
+position = Vector2(600, 450)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("3_mlxek")
+
+[node name="CPUSlot" type="Sprite2D" parent="CardManager" unique_id=790030662]
+modulate = Color(1, 1, 1, 0.5019608)
+z_index = 1
+position = Vector2(1000, 450)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("3_mlxek")
+
+[node name="Control" type="Control" parent="CardManager" unique_id=1024288642]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Fight" type="Button" parent="CardManager/Control" unique_id=195518851]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 370.0
+offset_right = 880.0
+offset_bottom = 530.0
+theme_override_icons/icon = ExtResource("4_atiws")
+theme_override_styles/normal = SubResource("StyleBoxFlat_gh8tw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ai0oo")
+autowrap_trim_flags = 192
+icon_alignment = 1
+
+[node name="UserHand" type="Node2D" parent="CardManager" unique_id=501328040]
+
+[node name="CpuHand" type="Node2D" parent="CardManager" unique_id=1988542456]
+
+[node name="HPManager" type="Control" parent="." unique_id=877922947]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_gh8tw")
+
+[node name="PlayerHP" type="TextureProgressBar" parent="HPManager" unique_id=607212178]
+layout_mode = 0
+offset_left = 1339.0
+offset_top = 806.0
+offset_right = 1573.0
+offset_bottom = 872.0
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_d7qh8")
+texture_over = SubResource("AtlasTexture_6u1da")
+texture_progress = SubResource("AtlasTexture_vj04y")
+
+[node name="CpuHP" type="TextureProgressBar" parent="HPManager" unique_id=720681214]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 33.0
+offset_right = 276.0
+offset_bottom = 99.0
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_d7qh8")
+texture_over = SubResource("AtlasTexture_6u1da")
+texture_progress = SubResource("AtlasTexture_vj04y")
+
+[connection signal="pressed" from="CardManager/Control/Fight" to="CardManager" method="_on_fight_pressed"]

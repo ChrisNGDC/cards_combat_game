@@ -1,0 +1,235 @@
+extends Node2D
+
+var screen_size
+var card_being_dragged
+var card_original_pos: Vector2
+var card_scene = preload("res://escenes/card.tscn")
+var player_slot_pos: Vector2
+var cpu_slot_pos: Vector2
+var slot_scale: Vector2
+var highlight_color = Color(1.5, 1.5, 1.5, 0.6)
+var normal_color = Color(1, 1, 1, 0.4)
+var card_in_slot
+var mazo_seleccionado: Array[BaseCard]
+var player_mazo_pos
+var cpu_mazo_pos
+var hand_size = 4
+var cartas_mazo_player = []
+var cartas_mano_player = []
+var cartas_mazo_cpu = []
+var cartas_mano_cpu = []
+var last_hand_pos = 0
+
+@onready var player_card_slot = $PlayerSlot
+@onready var cpu_card_slot = $CPUSlot
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	randomize()
+	screen_size = get_viewport_rect().size
+	player_slot_pos = player_card_slot.global_position
+	cpu_slot_pos = cpu_card_slot.global_position
+	player_card_slot.modulate = normal_color
+	cpu_card_slot.modulate = normal_color
+	slot_scale = player_card_slot.scale
+	if GlobalData.selected_deck != null:
+		player_mazo_pos = Vector2(160, screen_size.y - 100)
+		cpu_mazo_pos = Vector2(screen_size.x - 160, 100)
+		mazo_seleccionado = GlobalData.selected_deck.cartas
+		mazo_seleccionado.shuffle()
+		crear_mazo(cartas_mazo_player, player_mazo_pos)
+		mazo_seleccionado.shuffle()
+		crear_mazo(cartas_mazo_cpu, cpu_mazo_pos)
+
+		repartir_mano(cartas_mazo_player, cartas_mano_player, true)
+		repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	if card_being_dragged:
+		card_being_dragged.position = get_global_mouse_position()
+	var debe_resaltar = card_being_dragged and \
+	card_being_dragged.position.distance_to(player_slot_pos) < 120
+	var target_color = highlight_color if debe_resaltar else normal_color
+	var target_scale = slot_scale * 1.2 if debe_resaltar else slot_scale
+	if player_card_slot.modulate != target_color:
+		var tween = get_tree().create_tween()
+		player_card_slot.modulate = target_color
+		tween.tween_property(player_card_slot, "scale", target_scale, 0.1)
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			var card = check_card_click()
+			if card and card.position.x >= 300 and card.position.y > 300:
+				card_being_dragged = card
+				card_original_pos = card.position
+				card_being_dragged.move_to_front()
+		else:
+			if card_being_dragged:
+				check_drop_card()
+				card_being_dragged = null
+
+
+func crear_mazo(mazo: Array, mazo_pos: Vector2):
+	var cards_amount = mazo_seleccionado.size()
+	var anchor_rel = 0
+	for i in range(cards_amount):
+		var nueva_carta = card_scene.instantiate()
+		add_child(nueva_carta)
+		nueva_carta.setup(mazo_seleccionado[i])
+		if anchor_rel % 4 == 0:
+			anchor_rel = 0
+		var offset_mazo
+		if mazo_pos.x == player_mazo_pos.x:
+			nueva_carta.anchor_pos = Vector2(screen_size.x / 3 + (anchor_rel * 160), screen_size.y - 150)
+			offset_mazo = Vector2(i * -2, i * -2)
+		else:
+			nueva_carta.quitar_borde()
+			nueva_carta.anchor_pos = Vector2(screen_size.x * 0.75 - (anchor_rel * 160), 150)
+			offset_mazo = Vector2(i * +2, i * +2)
+		nueva_carta.position = mazo_pos + offset_mazo
+		mazo.append(nueva_carta)
+		anchor_rel += 1
+
+
+func repartir_carta(mazo, mano, player: bool):
+	await get_tree().create_timer(0.75).timeout
+	var carta = mazo.pop_front()
+	if carta:
+		mano.append(carta)
+		animar_vuelo_repartida(carta, carta.anchor_pos, player)
+
+
+func repartir_mano(mazo, mano, player: bool):
+	for i in range(min(hand_size, mazo.size())):
+		await repartir_carta(mazo, mano, player)
+
+
+func animar_vuelo_repartida(carta, destino, flip: bool):
+	var tween = get_tree().create_tween().set_parallel(true)
+	carta.z_index = 100
+	carta.show_card(false)
+	carta.scale = carta.escala_normal
+	tween.tween_property(carta, "position", destino, 1.0) \
+	.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(carta, "rotation", 0, 1.0)
+	if flip:
+		flip_card(carta)
+	tween.chain().tween_callback(func(): carta.z_index = 2)
+
+
+func check_drop_card():
+	var distancia = card_being_dragged.position.distance_to(player_slot_pos)
+	if distancia < 120:
+		var tween = get_tree().create_tween()
+		tween.tween_property(card_being_dragged, "position", player_slot_pos, 0.1)
+		if !card_in_slot:
+			card_in_slot = card_being_dragged
+		else:
+			tween.tween_property(card_in_slot, "position", card_in_slot.anchor_pos, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			card_in_slot.z_index = 2
+			card_in_slot = card_being_dragged
+	else:
+		var tween = get_tree().create_tween()
+		tween.tween_property(card_being_dragged, "position", card_being_dragged.anchor_pos, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		card_being_dragged.z_index = 2
+		if card_in_slot == card_being_dragged:
+			card_in_slot = null
+
+
+func check_card_click() -> Node2D:
+	var space_state = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.position = get_global_mouse_position()
+	parameters.collide_with_areas = true
+	parameters.collision_mask = 1
+	var result = space_state.intersect_point(parameters)
+	if result.size() > 0:
+		return result[0].collider.get_parent()
+	return null
+
+
+func flip_card(carta):
+	var flip_tween = get_tree().create_tween()
+	flip_tween.tween_property(carta, "scale:x", 0.0, 0.5).set_ease(Tween.EASE_IN)
+	flip_tween.tween_callback(func(): carta.show_card(true))
+	flip_tween.tween_property(carta, "scale:x", carta.escala_normal.x, 0.5).set_ease(Tween.EASE_OUT)
+
+
+func combat(player_card: BaseCard, cpu_card: BaseCard):
+	var primera: BaseCard
+	var segunda: BaseCard
+	var player_va_primero: bool
+
+	if cpu_card.tipo == "Ofensivo" and player_card.tipo != "Ofensivo":
+		primera = cpu_card
+		segunda = player_card
+		player_va_primero = false
+	else:
+		primera = player_card
+		segunda = cpu_card
+		player_va_primero = true
+
+	var invalid_potion = primera.tipo == "Ofensivo" and segunda.nombre == "Potion"
+	var invalid_mirror = primera.tipo_danio == "Fisico" and segunda.nombre == "Mirror"
+
+	await play_card(primera, player_va_primero)
+
+	if not invalid_potion and not invalid_mirror:
+		await play_card(segunda, !player_va_primero)
+
+	GlobalData.player_hp -= GlobalData.player_damage_to_recieve
+	GlobalData.cpu_hp -= GlobalData.cpu_damage_to_recieve
+	GlobalData.reset_damages()
+
+
+func play_card(card: BaseCard, es_jugador: bool):
+	match card.nombre:
+		"Attack", "Magic":
+			var d = 10 + 10 * card.nivel_actual
+			if es_jugador:
+				GlobalData.cpu_damage_to_recieve += d
+			else:
+				GlobalData.player_damage_to_recieve += d
+		"Defense":
+			var d = 10 + 10 * card.nivel_actual
+			if es_jugador:
+				GlobalData.player_damage_to_recieve = max(0, GlobalData.player_damage_to_recieve - d)
+			else:
+				GlobalData.cpu_damage_to_recieve = max(0, GlobalData.cpu_damage_to_recieve - d)
+		"Mirror":
+			if es_jugador:
+				GlobalData.cpu_damage_to_recieve += GlobalData.player_damage_to_recieve
+				GlobalData.player_damage_to_recieve = 0
+			else:
+				GlobalData.player_damage_to_recieve += GlobalData.cpu_damage_to_recieve
+				GlobalData.cpu_damage_to_recieve = 0
+		"Potion":
+			var c = 10 + 20 * card.nivel_actual
+			if es_jugador:
+				GlobalData.player_damage_to_recieve -= c
+			else:
+				GlobalData.cpu_damage_to_recieve -= c
+	await get_tree().create_timer(0.8).timeout
+
+
+func _on_fight_pressed() -> void:
+	cartas_mano_player.erase(card_in_slot)
+	if is_instance_valid(card_in_slot):
+		var cpu_choice = cartas_mano_cpu.pick_random()
+		cartas_mano_cpu.erase(cpu_choice)
+		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
+		await get_tree().create_timer(3.0).timeout
+		await combat(card_in_slot.datos_carta, cpu_choice.datos_carta)
+		card_in_slot.queue_free()
+		cpu_choice.queue_free()
+	if cartas_mano_player.size() == 0:
+		if cartas_mazo_player.size() > 0:
+			repartir_mano(cartas_mazo_player, cartas_mano_player, true)
+			repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
+		else:
+			print("End of round")

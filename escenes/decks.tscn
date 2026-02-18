@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b6fmwabl5ep4m"]
+
+[ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_mhx0s"]
+[ext_resource type="Script" uid="uid://bk4uvjmuv3in0" path="res://scripts/decks_manager.gd" id="2_ds01j"]
+
+[node name="Decks" type="Node2D" unique_id=791792099]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1926900199]
+position = Vector2(800, 450)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_mhx0s")
+
+[node name="DecksManager" type="Node2D" parent="." unique_id=1766591008]
+script = ExtResource("2_ds01j")

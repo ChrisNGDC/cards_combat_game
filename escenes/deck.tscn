@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://26rgetsr743"]
+
+[ext_resource type="Script" uid="uid://cplbvbqkimxwo" path="res://scripts/deck.gd" id="1_506qi"]
+[ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="1_pwmxt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xi40s"]
+size = Vector2(834, 1250)
+
+[node name="Deck" type="Node2D" unique_id=1785670977]
+script = ExtResource("1_506qi")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1819367106]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_pwmxt")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1599537086]
+z_index = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=464297334]
+shape = SubResource("RectangleShape2D_xi40s")
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=1573376872]
+offset_left = -340.0
+offset_top = -535.0
+offset_right = 305.0
+offset_bottom = -253.76001
+focus_mode = 0
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+theme_override_font_sizes/font_size = 96
+alignment = 1
+middle_mouse_paste_enabled = false
+flat = true
+icon_expand_mode = 2
+right_icon_scale = 0.69
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
