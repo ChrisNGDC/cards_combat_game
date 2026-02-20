@@ -11,6 +11,8 @@ var escala_normal = Vector2(0.3, 0.3)
 var escala_grande = Vector2(0.325, 0.325)
 var datos_carta: BaseCard = null
 var anchor_pos: Vector2
+var own_by_player: bool
+var selected: bool = false
 
 
 func _ready():
@@ -23,8 +25,9 @@ func _process(_delta: float) -> void:
 	pass
 
 
-func setup(datos: BaseCard):
+func setup(datos: BaseCard, player: bool):
 	datos_carta = datos
+	own_by_player = player
 	if is_inside_tree():
 		_aplicar_datos()
 
@@ -59,14 +62,18 @@ func quitar_borde():
 		nodo_borde.self_modulate = Color(1, 1, 1)
 
 func _on_area_2d_mouse_entered():
-	if self.position.x >= 350 and self.position.y >= 350:
-		var tween = get_tree().create_tween()
-		tween.tween_property(self, "scale", escala_grande, 0.1).set_trans(Tween.TRANS_QUAD)
+	if self.own_by_player:
 		get_node("Borde").self_modulate *= 1.5
+		if not self.selected:
+			apply_scale_tween(self.escala_grande)
 
 
 func _on_area_2d_mouse_exited():
-	if self.position.x >= 350 and self.position.y >= 350:
-		var tween = get_tree().create_tween()
-		tween.tween_property(self, "scale", escala_normal, 0.1).set_trans(Tween.TRANS_QUAD)
+	if self.own_by_player:
 		get_node("Borde").self_modulate /= 1.5
+		if not self.selected:
+			apply_scale_tween(self.escala_normal)
+
+func apply_scale_tween(target_scale: Vector2):
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", target_scale, 0.2)

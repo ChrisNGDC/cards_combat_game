@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cniswy7pwm8r0"]
 
-[ext_resource type="Script" uid="uid://byy0gnvcl33js" path="res://scripts/card.gd" id="1_axbyx"]
+[ext_resource type="Script" uid="uid://byy0gnvcl33js" path="res://scripts/Cards/card.gd" id="1_axbyx"]
 [ext_resource type="Texture2D" uid="uid://cf6hh3u0cfy15" path="res://images/attack_card.jpg" id="1_h76d2"]
 [ext_resource type="Texture2D" uid="uid://bl7mqkxk72bga" path="res://images/card_border.png" id="2_o6ujv"]
 [ext_resource type="Texture2D" uid="uid://dkcqanw4fnmis" path="res://images/cardback.jpg" id="3_axbyx"]

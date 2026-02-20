@@ -19,11 +19,3 @@ func _on_exit_pressed() -> void:
 
 func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://escenes/decks.tscn")
-
-
-func _on_continue_mouse_entered() -> void:
-	continue_button.disabled = false
-
-
-func _on_continue_mouse_exited() -> void:
-	continue_button.disabled = true

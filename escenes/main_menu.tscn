@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cduyerybdtq7u"]
 
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_nfhie"]
-[ext_resource type="Script" uid="uid://c0nc6qaehdj66" path="res://scripts/menu_options.gd" id="2_ofhy1"]
+[ext_resource type="Script" uid="uid://c0nc6qaehdj66" path="res://scripts/MainMenu/menu_options.gd" id="2_ofhy1"]
 
 [sub_resource type="GDScript" id="GDScript_ofhy1"]
 
@@ -273,5 +273,3 @@ metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="MenuOptions/Play" to="MenuOptions" method="_on_play_pressed"]
 [connection signal="pressed" from="MenuOptions/Exit" to="MenuOptions" method="_on_exit_pressed"]
-[connection signal="mouse_entered" from="MenuOptions/Continue" to="MenuOptions" method="_on_continue_mouse_entered"]
-[connection signal="mouse_exited" from="MenuOptions/Continue" to="MenuOptions" method="_on_continue_mouse_exited"]

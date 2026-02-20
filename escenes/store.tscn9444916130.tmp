@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bkry5313ehu6e"]
+
+[ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_m851b"]
+[ext_resource type="Script" uid="uid://j1j6edb0kclb" path="res://scripts/item_shelf.gd" id="2_eoh0j"]
+
+[node name="Store" type="Node2D" unique_id=1238178734]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1252011351]
+position = Vector2(-100, 0)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_m851b")
+centered = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1372835649]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=527115154]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -350.0
+offset_right = 600.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1136447454]
+layout_mode = 2
+
+[node name="StoreTitle" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1257675316]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 92
+text = "Store"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ItemShelf" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1628054363]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+alignment = 1
+last_wrap_alignment = 1
+script = ExtResource("2_eoh0j")
+
+[node name="ActionDescription" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=700358622]
+layout_mode = 2
+
+[node name="Footer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=81743359]
+layout_mode = 2
+
+[node name="NextRoundButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=402484906]
+layout_mode = 2

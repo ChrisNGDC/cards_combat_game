@@ -1,0 +1,11 @@
+res://escenes/game_over_ui.tscn
+res://scripts/game_over_ui.gd
+res://scripts/global_data.gd
+res://scripts/card_manager.gd
+res://escenes/combat.tscn
+res://escenes/main_menu.tscn
+res://scripts/menu_options.gd
+res://escenes/card.tscn
+res://escenes/deck.tscn
+res://escenes/store.tscn
+res://escenes/decks.tscn

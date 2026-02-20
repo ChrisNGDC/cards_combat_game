@@ -1,0 +1,397 @@
+[gd_scene format=3 uid="uid://bkry5313ehu6e"]
+
+[ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_m851b"]
+[ext_resource type="Script" uid="uid://j1j6edb0kclb" path="res://scripts/Store/item_shelf.gd" id="2_eoh0j"]
+[ext_resource type="Texture2D" uid="uid://bw2iw1qjdrq8f" path="res://images/plus-minus.png" id="3_plgn8"]
+[ext_resource type="Texture2D" uid="uid://c5y0y7rc78nqg" path="res://images/up-down-arrow.png" id="4_4cg75"]
+[ext_resource type="Script" uid="uid://bgswurevd2bgj" path="res://scripts/Store/store_button.gd" id="4_suv53"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgjx4"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p64wd"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plgn8"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.8117647)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4cg75"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3vssa"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vssa"]
+atlas = ExtResource("3_plgn8")
+region = Rect2(832, 838, 2951, 2951)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mcdm5"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajhae"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4pyq"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.8117647)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ju0q"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36hbf"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mgjx4"]
+atlas = ExtResource("3_plgn8")
+region = Rect2(4217, 838, 2951, 2951)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qy7a4"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2n4ms"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6214"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.8117647)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhus7"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_suv53"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p64wd"]
+atlas = ExtResource("4_4cg75")
+region = Rect2(4119, 294, 3595, 3596)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ne6wg"]
+content_margin_top = 20.0
+bg_color = Color(1, 1, 1, 0)
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i12re"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kiawn"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j6plc"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.8117647)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rry0p"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubd51"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0, 0, 0, 0.6862745)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[node name="Store" type="Node2D" unique_id=1238178734]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1252011351]
+position = Vector2(-100, 0)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_m851b")
+centered = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1372835649]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=527115154]
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.1
+anchor_right = 0.8
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1136447454]
+layout_mode = 2
+
+[node name="StoreTitle" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1257675316]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 92
+text = "Store"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1214334919]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ItemShelf" type="HFlowContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1628054363]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+alignment = 1
+last_wrap_alignment = 1
+script = ExtResource("2_eoh0j")
+
+[node name="Footer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=81743359]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+
+[node name="Add" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=402484906 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgjx4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p64wd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_plgn8")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4cg75")
+theme_override_styles/focus = SubResource("StyleBoxFlat_3vssa")
+text = "           "
+icon = SubResource("AtlasTexture_3vssa")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("4_suv53")
+description_label = NodePath("../../ActionHoverEffect")
+hover_text = "Add same basic card"
+footer_node = NodePath("..")
+next_button = NodePath("../../NextRoundButton")
+
+[node name="Remove" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=1448282381 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_mcdm5")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ajhae")
+theme_override_styles/hover = SubResource("StyleBoxFlat_d4pyq")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_8ju0q")
+theme_override_styles/focus = SubResource("StyleBoxFlat_36hbf")
+text = "           "
+icon = SubResource("AtlasTexture_mgjx4")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("4_suv53")
+description_label = NodePath("../../ActionHoverEffect")
+hover_text = "Remove Card"
+mode = "Remove"
+footer_node = NodePath("..")
+next_button = NodePath("../../NextRoundButton")
+
+[node name="Upgrade" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=315696457 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_qy7a4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2n4ms")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f6214")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xhus7")
+theme_override_styles/focus = SubResource("StyleBoxFlat_suv53")
+text = "           "
+icon = SubResource("AtlasTexture_p64wd")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("4_suv53")
+description_label = NodePath("../../ActionHoverEffect")
+hover_text = "Upgrade card effect"
+mode = "Upgrade"
+footer_node = NodePath("..")
+next_button = NodePath("../../NextRoundButton")
+
+[node name="ActionHoverEffect" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1006803085]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_ne6wg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NextRoundButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=698081096]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxFlat_i12re")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kiawn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_j6plc")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_rry0p")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ubd51")
+text = "Next Round"
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/NextRoundButton" to="CanvasLayer/MarginContainer/VBoxContainer/Footer/Add" method="_on_next_round_button_pressed"]

@@ -4,6 +4,7 @@ var screen_size
 var card_being_dragged
 var card_original_pos: Vector2
 var card_scene = preload("res://escenes/card.tscn")
+var game_over_scene = preload("res://escenes/game_over_ui.tscn")
 var player_slot_pos: Vector2
 var cpu_slot_pos: Vector2
 var slot_scale: Vector2
@@ -19,6 +20,7 @@ var cartas_mano_player = []
 var cartas_mazo_cpu = []
 var cartas_mano_cpu = []
 var last_hand_pos = 0
+var fighting: bool
 
 @onready var player_card_slot = $PlayerSlot
 @onready var cpu_card_slot = $CPUSlot
@@ -33,14 +35,15 @@ func _ready() -> void:
 	player_card_slot.modulate = normal_color
 	cpu_card_slot.modulate = normal_color
 	slot_scale = player_card_slot.scale
+	fighting = false
 	if GlobalData.selected_deck != null:
 		player_mazo_pos = Vector2(160, screen_size.y - 100)
 		cpu_mazo_pos = Vector2(screen_size.x - 160, 100)
 		mazo_seleccionado = GlobalData.selected_deck.cartas
 		mazo_seleccionado.shuffle()
-		crear_mazo(cartas_mazo_player, player_mazo_pos)
+		crear_mazo(cartas_mazo_player, player_mazo_pos, true)
 		mazo_seleccionado.shuffle()
-		crear_mazo(cartas_mazo_cpu, cpu_mazo_pos)
+		crear_mazo(cartas_mazo_cpu, cpu_mazo_pos, false)
 
 		repartir_mano(cartas_mazo_player, cartas_mano_player, true)
 		repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
@@ -74,13 +77,13 @@ func _input(event: InputEvent) -> void:
 				card_being_dragged = null
 
 
-func crear_mazo(mazo: Array, mazo_pos: Vector2):
+func crear_mazo(mazo: Array, mazo_pos: Vector2, player: bool):
 	var cards_amount = mazo_seleccionado.size()
 	var anchor_rel = 0
 	for i in range(cards_amount):
 		var nueva_carta = card_scene.instantiate()
 		add_child(nueva_carta)
-		nueva_carta.setup(mazo_seleccionado[i])
+		nueva_carta.setup(mazo_seleccionado[i], player)
 		if anchor_rel % 4 == 0:
 			anchor_rel = 0
 		var offset_mazo
@@ -124,7 +127,7 @@ func animar_vuelo_repartida(carta, destino, flip: bool):
 
 func check_drop_card():
 	var distancia = card_being_dragged.position.distance_to(player_slot_pos)
-	if distancia < 120:
+	if distancia < 120 and not fighting:
 		var tween = get_tree().create_tween()
 		tween.tween_property(card_being_dragged, "position", player_slot_pos, 0.1)
 		if !card_in_slot:
@@ -218,6 +221,7 @@ func play_card(card: BaseCard, es_jugador: bool):
 
 
 func _on_fight_pressed() -> void:
+	fighting = true
 	cartas_mano_player.erase(card_in_slot)
 	if is_instance_valid(card_in_slot):
 		var cpu_choice = cartas_mano_cpu.pick_random()
@@ -227,9 +231,23 @@ func _on_fight_pressed() -> void:
 		await combat(card_in_slot.datos_carta, cpu_choice.datos_carta)
 		card_in_slot.queue_free()
 		cpu_choice.queue_free()
+	GlobalData.turns += 1
+	check_game_over()
 	if cartas_mano_player.size() == 0:
 		if cartas_mazo_player.size() > 0:
 			repartir_mano(cartas_mazo_player, cartas_mano_player, true)
 			repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
 		else:
-			print("End of round")
+			get_tree().change_scene_to_file("res://escenes/store.tscn")
+	fighting = false
+
+func check_game_over():
+	if GlobalData.player_hp > 0 and GlobalData.cpu_hp > 0:
+		return 
+	var won = (GlobalData.player_hp > 0 and GlobalData.cpu_hp <= 0)
+	show_game_over_ui(won)
+	
+func show_game_over_ui(won: bool):
+	var instance = game_over_scene.instantiate()
+	add_child(instance)
+	instance.setup(won)
