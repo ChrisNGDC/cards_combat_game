@@ -1,7 +1,7 @@
 extends Node2D
 
-var escala_normal = Vector2(0.3, 0.3)
-var escala_grande = Vector2(0.35, 0.35)
+var escala_normal = Vector2(0.25, 0.25)
+var escala_grande = Vector2(0.3, 0.3)
 var datos_mazo: BaseDeck = null
 
 func setup(datos: BaseDeck):

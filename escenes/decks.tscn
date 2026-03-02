@@ -6,9 +6,26 @@
 [node name="Decks" type="Node2D" unique_id=791792099]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1926900199]
-position = Vector2(800, 450)
-scale = Vector2(0.3, 0.3)
+position = Vector2(-150, 0)
+scale = Vector2(0.24, 0.24)
 texture = ExtResource("1_mhx0s")
+centered = false
 
 [node name="DecksManager" type="Node2D" parent="." unique_id=1766591008]
 script = ExtResource("2_ds01j")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="DecksManager" unique_id=218799872]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical_scroll_mode = 0
+
+[node name="DeckList" type="HBoxContainer" parent="DecksManager/ScrollContainer" unique_id=1392500945]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+alignment = 1

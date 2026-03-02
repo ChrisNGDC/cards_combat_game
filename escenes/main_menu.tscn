@@ -212,10 +212,13 @@ script = SubResource("GDScript_ofhy1")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1235040181]
 z_index = 25
-editor_draw_limits = true
+drag_left_margin = 0.0
+drag_top_margin = 0.0
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1146990033]
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.24, 0.24)
 texture = ExtResource("1_nfhie")
 
 [node name="MenuOptions" type="Control" parent="." unique_id=907341426]
@@ -227,10 +230,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Title" type="Label" parent="MenuOptions" unique_id=258757631]
 layout_mode = 0
-offset_left = -343.0
-offset_top = -283.0
-offset_right = 355.0
-offset_bottom = -93.0
+offset_left = -350.0
+offset_top = -360.0
+offset_right = 350.0
+offset_bottom = -210.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
@@ -240,50 +243,43 @@ text = "Cards Combat"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
-metadata/_edit_use_anchors_ = true
 
 [node name="Play" type="Button" parent="MenuOptions" unique_id=1120966283]
 layout_mode = 0
-offset_left = -550.0
-offset_top = 100.0
-offset_right = -200.0
-offset_bottom = 225.0
-theme_override_font_sizes/font_size = 50
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = -25.0
+theme_override_font_sizes/font_size = 32
 text = "Jugar"
 icon_alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="Exit" type="Button" parent="MenuOptions" unique_id=2056947766]
 layout_mode = 0
-offset_left = 200.0
+offset_left = -100.0
 offset_top = 100.0
-offset_right = 550.0
-offset_bottom = 225.0
-theme_override_font_sizes/font_size = 50
+offset_right = 100.0
+offset_bottom = 175.0
+theme_override_font_sizes/font_size = 32
 text = "Salir"
 icon_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Continue" type="Button" parent="MenuOptions" unique_id=470905266]
-layout_mode = 0
-offset_left = -175.0
-offset_top = 100.0
-offset_right = 175.0
-offset_bottom = 225.0
-theme_override_font_sizes/font_size = 50
-disabled = true
-text = "Continuar"
-icon_alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="History" type="Button" parent="MenuOptions" unique_id=1784234902]
 layout_mode = 0
-offset_left = 424.0
-offset_top = -425.0
-offset_right = 774.0
-offset_bottom = -300.0
-theme_override_font_sizes/font_size = 50
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 75.0
+theme_override_font_sizes/font_size = 32
 text = "History"
+
+[node name="ResolutionButton" type="OptionButton" parent="MenuOptions" unique_id=2064373700]
+layout_mode = 0
+offset_left = -620.0
+offset_top = -340.0
+offset_right = -499.0
+offset_bottom = -293.0
+theme = ExtResource("2_qernj")
+theme_override_font_sizes/font_size = 30
 
 [connection signal="pressed" from="MenuOptions/Play" to="MenuOptions" method="_on_play_pressed"]
 [connection signal="pressed" from="MenuOptions/Exit" to="MenuOptions" method="_on_exit_pressed"]

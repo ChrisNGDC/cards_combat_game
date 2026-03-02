@@ -34,9 +34,10 @@ region = Rect2(0, 48, 72, 24)
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1835461004]
 z_index = -1
-position = Vector2(800, 450)
-scale = Vector2(0.3, 0.3)
+position = Vector2(-150, 0)
+scale = Vector2(0.24, 0.24)
 texture = ExtResource("1_cpw5v")
+centered = false
 
 [node name="CardManager" type="Node2D" parent="." unique_id=1954557925]
 script = ExtResource("3_atiws")
@@ -44,14 +45,14 @@ script = ExtResource("3_atiws")
 [node name="PlayerSlot" type="Sprite2D" parent="CardManager" unique_id=1420705759]
 modulate = Color(1, 1, 1, 0.5019608)
 z_index = 1
-position = Vector2(600, 450)
+position = Vector2(460, 360)
 scale = Vector2(0.03, 0.03)
 texture = ExtResource("3_mlxek")
 
 [node name="CPUSlot" type="Sprite2D" parent="CardManager" unique_id=790030662]
 modulate = Color(1, 1, 1, 0.5019608)
 z_index = 1
-position = Vector2(1000, 450)
+position = Vector2(820, 360)
 scale = Vector2(0.03, 0.03)
 texture = ExtResource("3_mlxek")
 
@@ -62,10 +63,10 @@ theme = ExtResource("4_d7qh8")
 
 [node name="Fight" type="Button" parent="CardManager/Control" unique_id=195518851]
 layout_mode = 0
-offset_left = 720.0
-offset_top = 370.0
-offset_right = 880.0
-offset_bottom = 530.0
+offset_left = 560.0
+offset_top = 280.0
+offset_right = 720.0
+offset_bottom = 440.0
 theme_override_icons/icon = ExtResource("4_atiws")
 theme_override_styles/normal = SubResource("StyleBoxFlat_gh8tw")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ai0oo")
@@ -86,10 +87,10 @@ script = ExtResource("5_gh8tw")
 
 [node name="PlayerHP" type="TextureProgressBar" parent="HPManager" unique_id=607212178]
 layout_mode = 0
-offset_left = 1339.0
-offset_top = 806.0
-offset_right = 1573.0
-offset_bottom = 872.0
+offset_left = 1010.0
+offset_top = 625.0
+offset_right = 1260.0
+offset_bottom = 700.0
 nine_patch_stretch = true
 texture_under = SubResource("AtlasTexture_d7qh8")
 texture_over = SubResource("AtlasTexture_6u1da")
@@ -97,10 +98,10 @@ texture_progress = SubResource("AtlasTexture_vj04y")
 
 [node name="CpuHP" type="TextureProgressBar" parent="HPManager" unique_id=720681214]
 layout_mode = 0
-offset_left = 42.0
-offset_top = 33.0
-offset_right = 276.0
-offset_bottom = 99.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 270.0
+offset_bottom = 95.0
 nine_patch_stretch = true
 texture_under = SubResource("AtlasTexture_d7qh8")
 texture_over = SubResource("AtlasTexture_6u1da")

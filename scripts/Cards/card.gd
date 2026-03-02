@@ -4,6 +4,9 @@ const COLOR_OFENSIVO = Color(0.8, 0.2, 0.2)
 const COLOR_DEFENSIVO = Color(0.2, 0.2, 0.8)
 
 @onready var level_label = $UpgradeLabel
+@onready var card_front = $CardFrontImage
+@onready var card_back = $CardBackImage
+
 var gold_style = preload("res://resources/maxLevelLabelSettings.tres")
 var basic_style = preload("res://resources/basicLevelLabelSettings.tres")
 
@@ -32,13 +35,14 @@ func _process(_delta: float) -> void:
 func setup(datos: BaseCard, player: bool):
 	datos_carta = datos
 	own_by_player = player
+	show_card(false)
 	if is_inside_tree():
 		_aplicar_datos()
 
 
 func show_card(si: bool):
-	$CardFrontImage.visible = si
-	$CardBackImage.visible = !si
+	card_front.visible = si
+	card_back.visible = !si
 
 
 func _aplicar_datos():
@@ -81,14 +85,14 @@ func update_level_display():
 		level_label.label_settings = gold_style		
 
 func _on_area_2d_mouse_entered():
-	if self.own_by_player:
+	if self.own_by_player and self.card_front.visible:
 		get_node("Borde").self_modulate *= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_grande)
 
 
 func _on_area_2d_mouse_exited():
-	if self.own_by_player:
+	if self.own_by_player and self.card_front.visible:
 		get_node("Borde").self_modulate /= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_normal)

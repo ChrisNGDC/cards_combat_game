@@ -20,11 +20,16 @@ config/icon="uid://dpe8ixn4tq0o0"
 
 GlobalData="*uid://d36hbym4lvg2a"
 SaveManager="*uid://wsmh8wpfeill"
+ConfigManager="*uid://dq4fpa7w2jdbu"
 
 [display]
 
-window/size/viewport_width=1600
-window/size/viewport_height=900
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/resizable=false
+window/size/borderless=true
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 

@@ -1,14 +1,38 @@
 extends Control
 
 @onready var continue_button: Button = $Continue
+@onready var res_button = $ResolutionButton
+
+var resolutions: Dictionary = {
+	"1280x720": Vector2i(1280, 720),
+	"1600x900": Vector2i(1600, 900),
+	"1920x1080": Vector2i(1920, 1080)
+}
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _ready():
+	_fill_resolution_options()
+	res_button.item_selected.connect(_on_resolution_selected)
 
+func _fill_resolution_options():
+	res_button.clear()
+	for res_text in resolutions.keys():
+		res_button.add_item(res_text)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+	var current_res = DisplayServer.window_get_size()
+	for i in res_button.item_count:
+		if resolutions.values()[i] == current_res:
+			res_button.selected = i
+
+func _on_resolution_selected(index: int):
+	var selected_res_text = res_button.get_item_text(index)
+	var target_size = resolutions[selected_res_text]
+	
+	DisplayServer.window_set_size(target_size)
+	var screen_center = DisplayServer.screen_get_position() + (DisplayServer.screen_get_size() / 2)
+	DisplayServer.window_set_position(screen_center - (target_size / 2))
+	ConfigManager.save_resolution(target_size.x, target_size.y)
+
 func _process(_delta: float) -> void:
 	pass
 

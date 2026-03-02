@@ -34,10 +34,10 @@ last_wrap_alignment = 1
 script = ExtResource("2_lskk3")
 
 [node name="CloseButton" type="Button" parent="." unique_id=1318211013]
-offset_left = 699.0
-offset_top = 730.0
-offset_right = 910.0
-offset_bottom = 867.0
+offset_left = 536.0
+offset_top = 547.0
+offset_right = 747.0
+offset_bottom = 684.0
 theme_override_font_sizes/font_size = 50
 text = "Close"
 

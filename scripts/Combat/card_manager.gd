@@ -67,7 +67,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var card = check_card_click()
-			if card and card.position.x >= 300 and card.position.y > 300:
+			if card and card.own_by_player and card.card_front.visible and card != card_in_slot:
 				card_being_dragged = card
 				card_original_pos = card.position
 				card_being_dragged.move_to_front()
@@ -87,7 +87,7 @@ func crear_mazo(mazo: Array, mazo_pos: Vector2, player: bool):
 		if anchor_rel % 4 == 0:
 			anchor_rel = 0
 		var offset_mazo
-		if mazo_pos.x == player_mazo_pos.x:
+		if player:
 			nueva_carta.anchor_pos = Vector2(screen_size.x / 3 + (anchor_rel * 160), screen_size.y - 150)
 			offset_mazo = Vector2(i * -2, i * -2)
 		else:
