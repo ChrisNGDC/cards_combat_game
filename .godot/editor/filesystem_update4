@@ -1,0 +1,14 @@
+res://escenes/history_entry.tscn
+res://scripts/MainMenu/history_entry.gd
+res://escenes/history_menu.tscn
+res://scripts/MainMenu/history_menu.gd
+res://escenes/deck_overlay.tscn
+res://scripts/MainMenu/deck_overlay.gd
+res://scripts/Store/item_shelf.gd
+res://scripts/Combat/card_manager.gd
+res://escenes/main_menu.tscn
+res://scripts/MainMenu/menu_options.gd
+res://escenes/store.tscn
+res://scripts/MainMenu/item_shelf.gd
+res://escenes/card.tscn
+res://scripts/global_data.gd

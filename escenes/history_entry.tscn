@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://jkub1bbktbli"]
+
+[ext_resource type="Script" uid="uid://cd76d78qkux4" path="res://scripts/MainMenu/history_entry.gd" id="1_l30ns"]
+
+[sub_resource type="Theme" id="Theme_l30ns"]
+default_font_size = 50
+
+[node name="HistoryEntry" type="HBoxContainer" unique_id=1610987984]
+offset_right = 30.0
+offset_bottom = 23.0
+theme = SubResource("Theme_l30ns")
+theme_override_constants/separation = 20
+script = ExtResource("1_l30ns")
+
+[node name="DateLabel" type="Label" parent="." unique_id=634362041]
+layout_mode = 2
+
+[node name="ResultLabel" type="Label" parent="." unique_id=1963291918]
+layout_mode = 2
+
+[node name="PlayerDeckButton" type="Button" parent="." unique_id=1270956001]
+layout_mode = 2
+text = "Player"
+
+[node name="CPUDeckButton" type="Button" parent="." unique_id=49342596]
+layout_mode = 2
+text = "CPU"
+
+[connection signal="pressed" from="PlayerDeckButton" to="." method="_on_player_deck_button_pressed"]
+[connection signal="pressed" from="CPUDeckButton" to="." method="_on_cpu_deck_button_pressed"]

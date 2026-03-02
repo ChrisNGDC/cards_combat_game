@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cqsiuf2ecnqmp"]
+
+[ext_resource type="Script" uid="uid://4bgfjgioukuq" path="res://scripts/MainMenu/history_menu.gd" id="1_6vont"]
+
+[node name="HistoryMenu" type="Control" unique_id=1901656517]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6vont")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1022262977]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.24115604, 0.24115604, 0.24115601, 0.99607843)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1041779064]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HistoryList" type="VBoxContainer" parent="ScrollContainer" unique_id=2078961321]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="BackButton" type="Button" parent="." unique_id=912264283]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 277.0
+offset_bottom = 174.0
+theme_override_font_sizes/font_size = 50
+text = "Back"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

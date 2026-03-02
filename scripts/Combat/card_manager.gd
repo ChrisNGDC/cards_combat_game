@@ -255,8 +255,6 @@ func show_game_over_ui(won: bool):
 	instance.setup(won)
 	var run_data = {
 		"date": Time.get_date_string_from_system(),
-		"player_hp": GlobalData.player_hp,
-		"cpu_hp": GlobalData.cpu_hp,
 		"won": (GlobalData.player_hp > 0),
 		"player_deck": cards_to_save(GlobalData.selected_deck.cartas),
 		"cpu_deck": cards_to_save(GlobalData.selected_deck.cartas)
@@ -267,8 +265,7 @@ func cards_to_save(deck: Array[BaseCard]) -> Array:
 	var deck_cards = []
 	for card in deck:
 		deck_cards.append({
-			"nombre": card.nombre,
-			"nivel_actual": card.nivel_actual,
-			"nivel_max": card.nivel_max
+			"tipo": card.nombre,
+			"datos": [card.nivel_actual, card.nivel_max]
 		})
 	return deck_cards

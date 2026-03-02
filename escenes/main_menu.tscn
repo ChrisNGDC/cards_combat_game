@@ -211,6 +211,8 @@ cache/0/96/0/scale = 1.0
 script = SubResource("GDScript_ofhy1")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1235040181]
+z_index = 25
+editor_draw_limits = true
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1146990033]
 scale = Vector2(0.3, 0.3)
@@ -274,5 +276,15 @@ text = "Continuar"
 icon_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="History" type="Button" parent="MenuOptions" unique_id=1784234902]
+layout_mode = 0
+offset_left = 424.0
+offset_top = -425.0
+offset_right = 774.0
+offset_bottom = -300.0
+theme_override_font_sizes/font_size = 50
+text = "History"
+
 [connection signal="pressed" from="MenuOptions/Play" to="MenuOptions" method="_on_play_pressed"]
 [connection signal="pressed" from="MenuOptions/Exit" to="MenuOptions" method="_on_exit_pressed"]
+[connection signal="pressed" from="MenuOptions/History" to="MenuOptions" method="_on_history_pressed"]

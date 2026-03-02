@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://dma0kfkxtq4pi"]
+
+[ext_resource type="Script" uid="uid://daprw7wlelbff" path="res://scripts/MainMenu/deck_overlay.gd" id="1_lskk3"]
+[ext_resource type="Script" uid="uid://bg4hhu4xbx5mf" path="res://scripts/MainMenu/item_shelf.gd" id="2_lskk3"]
+
+[node name="DeckOverlay" type="CanvasLayer" unique_id=1022579553]
+script = ExtResource("1_lskk3")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=373236479]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.40392157)
+
+[node name="ItemShelf" type="HFlowContainer" parent="." unique_id=278130130]
+z_index = 5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 174.0
+offset_top = 164.0
+offset_right = -185.0
+offset_bottom = -207.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+alignment = 1
+last_wrap_alignment = 1
+script = ExtResource("2_lskk3")
+
+[node name="CloseButton" type="Button" parent="." unique_id=1318211013]
+offset_left = 699.0
+offset_top = 730.0
+offset_right = 910.0
+offset_bottom = 867.0
+theme_override_font_sizes/font_size = 50
+text = "Close"
+
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

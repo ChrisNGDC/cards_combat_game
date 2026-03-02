@@ -8,7 +8,7 @@ var player_hp: int = 100:
 		player_hp = clamp(val, 0, 100)
 		hp_changed.emit(player_hp, true)
 var player_damage_to_recieve: int = 0
-var cpu_hp: int = 10:
+var cpu_hp: int = 100:
 	set(val):
 		cpu_hp = clamp(val, 0, 100)
 		hp_changed.emit(cpu_hp, false)
