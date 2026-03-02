@@ -16,6 +16,5 @@ func setup(won: bool):
 		description_label.add_theme_color_override("font_color", Color.WHITE)
 
 func _on_restart_button_pressed():
-	GlobalData.player_hp = 100
-	GlobalData.cpu_hp = 10
+	GlobalData.reset_game()
 	get_tree().change_scene_to_file("res://escenes/main_menu.tscn")

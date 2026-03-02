@@ -1,4 +1,3 @@
-@abstract
 extends Resource
 class_name BaseCard
 
@@ -9,13 +8,13 @@ class_name BaseCard
 @export var nivel_max: int
 @export_enum("Fisico", "Magico", "Ninguno") var tipo_danio: String
 
-func _init(n_actual = 0, n_max = 0) -> void:
-	self.nivel_actual = n_actual
-	self.nivel_max = n_max
-	self.setup()
-
-@abstract
-func setup()
+func _init(nombre, ruta_imagen, tipo, nivel_actual, nivel_max, tipo_danio):
+	self.nombre = nombre
+	self.ruta_imagen = ruta_imagen
+	self.tipo = tipo
+	self.nivel_actual = nivel_actual
+	self.nivel_max = nivel_max
+	self.tipo_danio = tipo_danio
 
 func upgradeable():
 	return nivel_actual < nivel_max

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dk0gg0w5qgw67" path="res://scripts/Combat/card_manager.gd" id="3_atiws"]
 [ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="3_mlxek"]
 [ext_resource type="Texture2D" uid="uid://bbqmvfd7wxs5s" path="res://images/ataque.png" id="4_atiws"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="4_d7qh8"]
 [ext_resource type="Script" uid="uid://c3aku1x6osrty" path="res://scripts/Combat/health_manager.gd" id="5_gh8tw"]
 [ext_resource type="Texture2D" uid="uid://da00pqxr43212" path="res://images/health_bar.png" id="6_ai0oo"]
 
@@ -57,6 +58,7 @@ texture = ExtResource("3_mlxek")
 [node name="Control" type="Control" parent="CardManager" unique_id=1024288642]
 layout_mode = 3
 anchors_preset = 0
+theme = ExtResource("4_d7qh8")
 
 [node name="Fight" type="Button" parent="CardManager/Control" unique_id=195518851]
 layout_mode = 0
@@ -79,6 +81,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+theme = ExtResource("4_d7qh8")
 script = ExtResource("5_gh8tw")
 
 [node name="PlayerHP" type="TextureProgressBar" parent="HPManager" unique_id=607212178]

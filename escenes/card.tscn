@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://cf6hh3u0cfy15" path="res://images/attack_card.jpg" id="1_h76d2"]
 [ext_resource type="Texture2D" uid="uid://bl7mqkxk72bga" path="res://images/card_border.png" id="2_o6ujv"]
 [ext_resource type="Texture2D" uid="uid://dkcqanw4fnmis" path="res://images/cardback.jpg" id="3_axbyx"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="5_mv2r5"]
+[ext_resource type="LabelSettings" uid="uid://iy5dh2vhvyv8" path="res://resources/basicLevelLabelSettings.tres" id="5_uobs4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh8tw"]
 size = Vector2(1344, 2016)
@@ -24,6 +26,20 @@ z_index = 1
 position = Vector2(-1.5497208e-06, 9.655952e-06)
 scale = Vector2(1.7684209, 1.8260871)
 texture = ExtResource("1_h76d2")
+
+[node name="UpgradeLabel" type="Label" parent="." unique_id=34580293]
+z_index = 1
+offset_left = 56.0
+offset_top = -256.0
+offset_right = 159.0
+offset_bottom = -187.0
+size_flags_horizontal = 4
+theme = ExtResource("5_mv2r5")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Max"
+label_settings = ExtResource("5_uobs4")
+horizontal_alignment = 2
 
 [node name="CardBackImage" type="Sprite2D" parent="." unique_id=1822254016]
 z_index = 1

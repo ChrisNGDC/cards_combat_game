@@ -1,5 +1,6 @@
-Button
+Camera2D
 Label
+Button
 VBoxContainer
 CenterContainer
 ColorRect
@@ -9,6 +10,5 @@ HFlowContainer
 PanelContainer
 HBoxContainer
 MarginContainer
-Camera2D
 Control
 Sprite2D

@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://bkycbh3g4o6t8"]
+
+[resource]
+resource_name = "maxStyle"
+line_spacing = 0.0
+font_size = 50
+font_color = Color(0.96696, 0.9669604, 4.6205523e-06, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)

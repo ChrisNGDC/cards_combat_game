@@ -20,6 +20,7 @@ func _aplicar_datos():
 		var tex = load(datos_mazo.ruta_imagen)
 		if tex:
 			get_node("Sprite2D").texture = tex
+	self.scale = escala_normal
 	
 func _on_area_2d_mouse_entered():
 	var tween = get_tree().create_tween()

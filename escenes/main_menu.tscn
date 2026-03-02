@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_nfhie"]
 [ext_resource type="Script" uid="uid://c0nc6qaehdj66" path="res://scripts/MainMenu/menu_options.gd" id="2_ofhy1"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_qernj"]
 
 [sub_resource type="GDScript" id="GDScript_ofhy1"]
 
@@ -207,8 +208,9 @@ cache/0/96/0/underline_thickness = 0.0
 cache/0/96/0/scale = 1.0
 
 [node name="MainMenu" type="Node2D" unique_id=718942201]
-position = Vector2(800, 450)
 script = SubResource("GDScript_ofhy1")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1235040181]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1146990033]
 scale = Vector2(0.3, 0.3)
@@ -217,6 +219,7 @@ texture = ExtResource("1_nfhie")
 [node name="MenuOptions" type="Control" parent="." unique_id=907341426]
 layout_mode = 3
 anchors_preset = 0
+theme = ExtResource("2_qernj")
 script = ExtResource("2_ofhy1")
 metadata/_edit_use_anchors_ = true
 

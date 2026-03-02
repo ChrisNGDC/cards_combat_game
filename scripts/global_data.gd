@@ -8,13 +8,26 @@ var player_hp: int = 100:
 		player_hp = clamp(val, 0, 100)
 		hp_changed.emit(player_hp, true)
 var player_damage_to_recieve: int = 0
-var cpu_hp: int = 100:
+var cpu_hp: int = 10:
 	set(val):
 		cpu_hp = clamp(val, 0, 100)
 		hp_changed.emit(cpu_hp, false)
 var cpu_damage_to_recieve: int = 0
 var selected_deck: BaseDeck = FighterDeck.new()
 var turns = 0
+
+var cards_classes = {
+	"Attack": AttackCard,
+	"Shield": ShieldCard,
+	"Mirror": MirrorCard,
+	"Magic": MagicCard,
+	"Potion": PotionCard
+}
+
+func create_card(tipo: String, datos: Array):
+	if cards_classes.has(tipo):
+		var nueva_carta = cards_classes[tipo].new(datos[0], datos[1])
+		return nueva_carta
 
 func reset_damages():
 	player_damage_to_recieve = 0

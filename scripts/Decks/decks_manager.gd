@@ -1,7 +1,7 @@
 extends Node2D
 
 var deck_scene = preload("res://escenes/deck.tscn")
-var lista_mazos = [FighterDeck.new(), MageDeck.new()]
+var lista_mazos = [FighterDeck.new(), MageDeck.new(), PaladinDeck.new()]
 var screen_size
 
 func _ready() -> void:

@@ -3,6 +3,10 @@ extends Node2D
 const COLOR_OFENSIVO = Color(0.8, 0.2, 0.2)
 const COLOR_DEFENSIVO = Color(0.2, 0.2, 0.8)
 
+@onready var level_label = $UpgradeLabel
+var gold_style = preload("res://resources/maxLevelLabelSettings.tres")
+var basic_style = preload("res://resources/basicLevelLabelSettings.tres")
+
 var tipo
 var nivel_actual: int
 var nivel_max: int
@@ -44,6 +48,13 @@ func _aplicar_datos():
 		var tex = load(datos_carta.ruta_imagen)
 		if tex:
 			get_node("CardFrontImage").texture = tex
+	tipo = datos_carta.tipo
+	nivel_actual = datos_carta.nivel_actual
+	nivel_max = datos_carta.nivel_max
+	tipo_danio = datos_carta.tipo_danio
+	self.update_level_display()
+
+func dar_borde():
 	if has_node("Borde"):
 		var nodo_borde = get_node("Borde")
 		match datos_carta.tipo:
@@ -51,15 +62,23 @@ func _aplicar_datos():
 				nodo_borde.self_modulate = COLOR_OFENSIVO
 			"Defensivo":
 				nodo_borde.self_modulate = COLOR_DEFENSIVO
-	tipo = datos_carta.tipo
-	nivel_actual = datos_carta.nivel_actual
-	nivel_max = datos_carta.nivel_max
-	tipo_danio = datos_carta.tipo_danio
 
 func quitar_borde():
 	if has_node("Borde"):
 		var nodo_borde = get_node("Borde")
 		nodo_borde.self_modulate = Color(1, 1, 1)
+		
+func update_level_display():
+	print(nivel_actual, "---", nivel_max)
+	if nivel_max > nivel_actual:
+		if nivel_actual > 0:
+			level_label.text = "+" + str(nivel_actual)
+		else :
+			level_label.text = ""
+		level_label.label_settings = basic_style
+	else:
+		level_label.text = "Max"
+		level_label.label_settings = gold_style		
 
 func _on_area_2d_mouse_entered():
 	if self.own_by_player:

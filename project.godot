@@ -19,6 +19,7 @@ config/icon="uid://dpe8ixn4tq0o0"
 [autoload]
 
 GlobalData="*uid://d36hbym4lvg2a"
+SaveManager="*uid://wsmh8wpfeill"
 
 [display]
 
@@ -38,3 +39,4 @@ enabled=PackedStringArray("res://addons/GDQuest_GDScript_formatter/plugin.cfg")
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

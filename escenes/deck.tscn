@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cplbvbqkimxwo" path="res://scripts/Decks/deck.gd" id="1_506qi"]
 [ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="1_pwmxt"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="3_506qi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xi40s"]
 size = Vector2(834, 1250)
@@ -27,6 +28,7 @@ offset_bottom = -253.76001
 focus_mode = 0
 mouse_filter = 2
 mouse_default_cursor_shape = 0
+theme = ExtResource("3_506qi")
 theme_override_font_sizes/font_size = 96
 alignment = 1
 middle_mouse_paste_enabled = false

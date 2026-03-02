@@ -34,6 +34,7 @@ func mostrar_cartas():
 		wrapper.add_child(nueva_carta)
 		nueva_carta.setup(mazo[i], true)
 		nueva_carta.show_card(true)
+		nueva_carta.dar_borde()
 		nueva_carta.position = wrapper.custom_minimum_size / 2
 
 		wrapper.gui_input.connect(_on_slot_gui_input.bind(wrapper, nueva_carta, mazo[i], i))

@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://c4u10tupcw13s"]
+
+[ext_resource type="FontFile" uid="uid://bkmp6cbx1sym3" path="res://fonts/Inter-VariableFont_opsz,wght.ttf" id="1_ols5k"]
+
+[resource]
+resource_name = "MainTheme"
+default_font = ExtResource("1_ols5k")

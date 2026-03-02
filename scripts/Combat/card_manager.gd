@@ -159,6 +159,7 @@ func check_card_click() -> Node2D:
 func flip_card(carta):
 	var flip_tween = get_tree().create_tween()
 	flip_tween.tween_property(carta, "scale:x", 0.0, 0.5).set_ease(Tween.EASE_IN)
+	carta.dar_borde()
 	flip_tween.tween_callback(func(): carta.show_card(true))
 	flip_tween.tween_property(carta, "scale:x", carta.escala_normal.x, 0.5).set_ease(Tween.EASE_OUT)
 
@@ -179,10 +180,11 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 
 	var invalid_potion = primera.tipo == "Ofensivo" and segunda.nombre == "Potion"
 	var invalid_mirror = primera.tipo_danio == "Fisico" and segunda.nombre == "Mirror"
+	var invalid_shield = primera.tipo_danio == "Magico" and segunda.nombre == "Shield"
 
 	await play_card(primera, player_va_primero)
 
-	if not invalid_potion and not invalid_mirror:
+	if not invalid_potion and not invalid_mirror and not invalid_shield:
 		await play_card(segunda, !player_va_primero)
 
 	GlobalData.player_hp -= GlobalData.player_damage_to_recieve
@@ -198,7 +200,7 @@ func play_card(card: BaseCard, es_jugador: bool):
 				GlobalData.cpu_damage_to_recieve += d
 			else:
 				GlobalData.player_damage_to_recieve += d
-		"Defense":
+		"Shield":
 			var d = 10 + 10 * card.nivel_actual
 			if es_jugador:
 				GlobalData.player_damage_to_recieve = max(0, GlobalData.player_damage_to_recieve - d)
@@ -251,3 +253,22 @@ func show_game_over_ui(won: bool):
 	var instance = game_over_scene.instantiate()
 	add_child(instance)
 	instance.setup(won)
+	var run_data = {
+		"date": Time.get_date_string_from_system(),
+		"player_hp": GlobalData.player_hp,
+		"cpu_hp": GlobalData.cpu_hp,
+		"won": (GlobalData.player_hp > 0),
+		"player_deck": cards_to_save(GlobalData.selected_deck.cartas),
+		"cpu_deck": cards_to_save(GlobalData.selected_deck.cartas)
+	}
+	SaveManager.save_run(run_data)
+	
+func cards_to_save(deck: Array[BaseCard]) -> Array:
+	var deck_cards = []
+	for card in deck:
+		deck_cards.append({
+			"nombre": card.nombre,
+			"nivel_actual": card.nivel_actual,
+			"nivel_max": card.nivel_max
+		})
+	return deck_cards
