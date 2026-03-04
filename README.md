@@ -1,11 +1,6 @@
 # Espacio para ideas y mecanicas
 
-- 1
-  1. a
-  2. b
-  3. c
-- 2
-- 3
+> **[Documento](https://docs.google.com/document/d/1Ut8oPihJeD685jM8cJV6yoM5Sd1g0vDTLFnu3Eqqndg/)**
 
 ## Links de Ayuda
 
