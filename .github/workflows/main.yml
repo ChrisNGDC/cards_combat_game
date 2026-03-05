@@ -1,43 +1,41 @@
-# Whenever a tag push matching pattern "v*" then run the job
+name: Build and Release Godot Game
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  # job id, can be anything
   export_game:
-    # Always use ubuntu-latest for this action
+    # Only runs if the commit message starts with "build"
+    if: startsWith(github.event.head_commit.message, 'build')
     runs-on: ubuntu-latest
-    # Add permission for release creation. Can be made narrower according to your needs
     permissions:
       contents: write
-    # Job name, can be anything
-    name: Export Game
+    
     steps:
-      # Always include the checkout step so that 
-      # your project is available for Godot to export
-    - name: checkout
-      uses: actions/checkout@v5
-  
-    - name: export game
-      id: export
-      # Use latest version (see releases for all versions)
-      uses: firebelley/godot-export@v7.0.0
-      with:
-        # Defining all the required inputs
-        godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_linux.x86_64.zip
-        godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.0/Godot_v4.0-stable_export_templates.tpz
-        relative_project_path: ./
-        archive_output: true
+      - name: Checkout Source Code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # Ensures all history is available
 
-      # This release action has worked well for me. However, you can most likely use any release action of your choosing.
-      # https://github.com/ncipollo/release-action
-    - name: create release
-      uses: ncipollo/release-action@v1.18.0
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        generateReleaseNotes: true
-        tag: ${{ github.ref_name }}
-        artifacts: ${{ steps.export.outputs.archive_directory }}/*
+      - name: Export Game
+        id: export
+        uses: firebelley/godot-export@v7.0.0
+        with:
+          # Match these URLs to your specific Godot version (currently set to 4.0)
+          godot_executable_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=win64.exe.zip&platform=windows.64
+          godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=export_templates.tpz&platform=templates
+          relative_project_path: ./
+          archive_output: true
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          # Generates a unique tag based on the commit hash (e.g., build-a1b2c3d)
+          tag: build-${{ github.sha }}
+          artifacts: ${{ steps.export.outputs.archive_directory }}/*
+          allowUpdates: true
           
