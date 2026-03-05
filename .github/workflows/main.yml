@@ -7,6 +7,7 @@ on:
 jobs:
   # job id, can be anything
   export_game:
+    if: startsWith(github.event.head_commit.message, 'build')
     # Always use ubuntu-latest for this action
     runs-on: ubuntu-latest
     # Add permission for release creation. Can be made narrower according to your needs
@@ -34,7 +35,7 @@ jobs:
       # This release action has worked well for me. However, you can most likely use any release action of your choosing.
       # https://github.com/ncipollo/release-action
     - name: create release
-      uses: ncipollo/release-action@v1.18.0
+      uses: ncipollo/release-action@v1.20.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         generateReleaseNotes: true
