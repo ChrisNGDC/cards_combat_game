@@ -2,7 +2,7 @@ extends Button
 
 @export var description_label: Label
 @export var hover_text: String = ""
-@export_enum("ADD", "REMOVE", "UPGRADE") var mode: String
+@export_enum("STORE_ADD", "STORE_REMOVE", "STORE_UPGRADE") var mode: String
 
 @export var footer_node: Control
 @export var next_button: Button
@@ -16,12 +16,12 @@ func _ready():
 	pivot_offset = size / 2
 
 func _on_mouse_entered():
-	create_tween().tween_property(self, "scale", Vector2(1.1, 1.1), 0.1)
+	create_tween().tween_property(self , "scale", Vector2(1.1, 1.1), 0.1)
 	if description_label:
 		description_label.text = hover_text
 
 func _on_mouse_exited():
-	create_tween().tween_property(self, "scale", Vector2(1.0, 1.0), 0.1)
+	create_tween().tween_property(self , "scale", Vector2(1.0, 1.0), 0.1)
 	if description_label:
 		description_label.text = ""
 		description_label.add_theme_color_override("font_color", Color.BLACK)
@@ -40,7 +40,7 @@ func _on_pressed():
 		"REMOVE":
 			if selected_index != -1:
 				GlobalData.selected_deck.cartas.remove_at(selected_index)
-				shelf.selected_card_index = -1 
+				shelf.selected_card_index = -1
 				shelf.selected_card_data = null
 				action_success = true
 		"UPGRADE":

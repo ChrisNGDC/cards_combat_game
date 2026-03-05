@@ -15,20 +15,27 @@ script = ExtResource("1_l30ns")
 
 [node name="DateLabel" type="Label" parent="." unique_id=634362041]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ResultLabel" type="Label" parent="." unique_id=1963291918]
+custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PlayerDeckButton" type="Button" parent="." unique_id=1270956001]
 layout_mode = 2
 theme = ExtResource("2_y7nox")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 30
 text = "HISTORY_PLAYER"
 
 [node name="CPUDeckButton" type="Button" parent="." unique_id=49342596]
 layout_mode = 2
 theme = ExtResource("2_y7nox")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 30
 text = "HISTORY_ENEMY"
 
 [connection signal="pressed" from="PlayerDeckButton" to="." method="_on_player_deck_button_pressed"]

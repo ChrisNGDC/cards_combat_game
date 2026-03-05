@@ -234,28 +234,29 @@ func _on_fight_pressed() -> void:
 		card_in_slot.queue_free()
 		cpu_choice.queue_free()
 	GlobalData.turns += 1
-	check_game_over()
-	if cartas_mano_player.size() == 0:
-		if cartas_mazo_player.size() > 0:
-			repartir_mano(cartas_mazo_player, cartas_mano_player, true)
-			repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
-		else:
-			await get_tree().create_timer(1.0).timeout
-			get_tree().change_scene_to_file("res://escenes/store.tscn")
+	if not check_game_over():
+		if cartas_mano_player.size() == 0:
+			if cartas_mazo_player.size() > 0:
+				repartir_mano(cartas_mazo_player, cartas_mano_player, true)
+				repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
+			else:
+				await get_tree().create_timer(.75).timeout
+				get_tree().change_scene_to_file("res://escenes/store.tscn")
 	fighting = false
 
 func check_game_over():
 	if GlobalData.player_hp > 0 and GlobalData.cpu_hp > 0:
-		return 
+		return false
 	var won = (GlobalData.player_hp > 0 and GlobalData.cpu_hp <= 0)
 	show_game_over_ui(won)
-	
+	return true
+
 func show_game_over_ui(won: bool):
 	var instance = game_over_scene.instantiate()
 	add_child(instance)
 	instance.setup(won)
 	var run_data = {
-		"date": Time.get_date_string_from_system(),
+		"date": Time.get_datetime_string_from_system(false, true),
 		"won": (GlobalData.player_hp > 0),
 		"player_deck": cards_to_save(GlobalData.selected_deck.cartas),
 		"cpu_deck": cards_to_save(GlobalData.selected_deck.cartas)
