@@ -17,11 +17,11 @@ var selected_deck: BaseDeck = null
 var turns = 0
 
 var cards_classes = {
-	"Sword": SwordCard,
-	"Shield": ShieldCard,
-	"Mirror": MirrorCard,
-	"Magic": MagicCard,
-	"Potion": PotionCard
+	"CARD_SWORD": SwordCard,
+	"CARD_SHIELD": ShieldCard,
+	"CARD_MIRROR": MirrorCard,
+	"CARD_MAGIC": MagicCard,
+	"CARD_POTION": PotionCard
 }
 
 func create_card(tipo: String, datos: Array):

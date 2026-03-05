@@ -333,6 +333,7 @@ expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
 hover_text = "STORE_ADD_MSG"
+mode = "ADD"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
 
@@ -351,7 +352,7 @@ expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
 hover_text = "STORE_REMOVE_MSG"
-mode = "Remove"
+mode = "REMOVE"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
 
@@ -370,7 +371,7 @@ expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
 hover_text = "STORE_UPGRADE_MSG"
-mode = "Upgrade"
+mode = "UPGRADE"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
 
