@@ -14,7 +14,7 @@ func _init(_nombre, _ruta_imagen, _tipo, _nivel_actual, _nivel_max, _tipo_danio)
 	self.tipo = _tipo
 	self.nivel_actual = _nivel_actual
 	self.nivel_max = _nivel_max
-	self.tipo_danio = tipo_danio
+	self.tipo_danio = _tipo_danio
 
 func upgradeable():
 	return nivel_actual < nivel_max

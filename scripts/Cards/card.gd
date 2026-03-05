@@ -78,7 +78,6 @@ func quitar_borde():
 		nodo_borde.self_modulate = Color(1.0, 1.0, 1.0, 0.0)
 		
 func update_level_display():
-	print(nivel_actual, "---", nivel_max)
 	if nivel_max > nivel_actual:
 		if nivel_actual > 0:
 			level_label.text = "+" + str(nivel_actual)
