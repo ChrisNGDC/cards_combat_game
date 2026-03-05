@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dkcqanw4fnmis" path="res://images/cardback.jpg" id="3_axbyx"]
 [ext_resource type="Texture2D" uid="uid://bysdss4i3428i" path="res://images/blank_card.jpg" id="3_mv2r5"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="5_mv2r5"]
-[ext_resource type="LabelSettings" uid="uid://iy5dh2vhvyv8" path="res://resources/basicLevelLabelSettings.tres" id="5_uobs4"]
+[ext_resource type="LabelSettings" uid="uid://iy5dh2vhvyv8" path="res://resources/basic_level_label_settings.tres" id="5_uobs4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh8tw"]
 size = Vector2(1344, 2016)

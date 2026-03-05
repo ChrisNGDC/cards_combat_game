@@ -6,11 +6,11 @@ const COLOR_DEFENSIVO = Color(0.2, 0.2, 0.8)
 @onready var level_label = $UpgradeLabel
 @onready var card_front = $CardFrontImage
 @onready var card_icon = $CardFrontIcon
-@onready var card_name= $CardLabel
+@onready var card_name = $CardLabel
 @onready var card_back = $CardBackImage
 
-var gold_style = preload("res://resources/maxLevelLabelSettings.tres")
-var basic_style = preload("res://resources/basicLevelLabelSettings.tres")
+var gold_style = preload("res://resources/max_level_label_settings.tres")
+var basic_style = preload("res://resources/basic_level_label_settings.tres")
 
 var tipo
 var nivel_actual: int
@@ -82,12 +82,12 @@ func update_level_display():
 	if nivel_max > nivel_actual:
 		if nivel_actual > 0:
 			level_label.text = "+" + str(nivel_actual)
-		else :
+		else:
 			level_label.text = ""
 		level_label.label_settings = basic_style
 	else:
 		level_label.text = "Max"
-		level_label.label_settings = gold_style		
+		level_label.label_settings = gold_style
 
 func _on_area_2d_mouse_entered():
 	if self.own_by_player and self.card_front.visible:
@@ -104,4 +104,4 @@ func _on_area_2d_mouse_exited():
 
 func apply_scale_tween(target_scale: Vector2):
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "scale", target_scale, 0.2)
+	tween.tween_property(self , "scale", target_scale, 0.2)
