@@ -23,18 +23,16 @@ jobs:
         id: export
         uses: firebelley/godot-export@v7.0.0
         with:
-          # Match these URLs to your specific Godot version (currently set to 4.0)
           godot_executable_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=win64.exe.zip&platform=windows.64
           godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=export_templates.tpz&platform=templates
           relative_project_path: ./
           archive_output: true
 
       - name: Create Release
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1.20.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
-          # Generates a unique tag based on the commit hash (e.g., build-a1b2c3d)
           tag: build-${{ github.sha }}
           artifacts: ${{ steps.export.outputs.archive_directory }}/*
           allowUpdates: true
