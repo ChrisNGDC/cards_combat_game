@@ -9,11 +9,7 @@ var deck_scene = preload("res://escenes/deck.tscn")
 var lista_mazos = [
 	FighterDeck.new(),
 	MageDeck.new(),
-	PaladinDeck.new(),
-	FighterDeck.new(),
-	FighterDeck.new(),
-	FighterDeck.new(),
-	FighterDeck.new()
+	PaladinDeck.new()
 	]
 var screen_size
 

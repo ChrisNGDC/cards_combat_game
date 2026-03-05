@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cniswy7pwm8r0"]
 
 [ext_resource type="Script" uid="uid://byy0gnvcl33js" path="res://scripts/Cards/card.gd" id="1_axbyx"]
-[ext_resource type="Texture2D" uid="uid://cf6hh3u0cfy15" path="res://images/attack_card.jpg" id="1_h76d2"]
 [ext_resource type="Texture2D" uid="uid://bl7mqkxk72bga" path="res://images/card_border.png" id="2_o6ujv"]
 [ext_resource type="Texture2D" uid="uid://dkcqanw4fnmis" path="res://images/cardback.jpg" id="3_axbyx"]
+[ext_resource type="Texture2D" uid="uid://bysdss4i3428i" path="res://images/blank_card.jpg" id="3_mv2r5"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="5_mv2r5"]
 [ext_resource type="LabelSettings" uid="uid://iy5dh2vhvyv8" path="res://resources/basicLevelLabelSettings.tres" id="5_uobs4"]
 
@@ -22,12 +22,32 @@ scale = Vector2(1.82, 1.865)
 texture = ExtResource("2_o6ujv")
 
 [node name="CardFrontImage" type="Sprite2D" parent="." unique_id=630626316]
+visible = false
 z_index = 1
 position = Vector2(-1.5497208e-06, 9.655952e-06)
 scale = Vector2(1.7684209, 1.8260871)
-texture = ExtResource("1_h76d2")
+texture = ExtResource("3_mv2r5")
+
+[node name="CardLabel" type="Label" parent="." unique_id=700180342]
+visible = false
+z_index = 1
+offset_left = -160.0
+offset_top = -196.0
+offset_right = 160.0
+offset_bottom = -97.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardFrontIcon" type="Sprite2D" parent="." unique_id=447606339]
+visible = false
+z_index = 2
+position = Vector2(3.0000029, 35.000008)
+scale = Vector2(1.7125001, 1.7125001)
 
 [node name="UpgradeLabel" type="Label" parent="." unique_id=34580293]
+visible = false
 z_index = 1
 offset_left = 56.0
 offset_top = -256.0

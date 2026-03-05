@@ -1,0 +1,30 @@
+id,en,es
+GAME_NAME,Coliseum,Coliseo
+MENU_PLAY,Play,Jugar
+MENU_HISTORY,History,Historial
+MENU_EXIT,Exit,Salir
+DECK_FIGHTER,Fighter,Luchador
+DECK_MAGE,Mage,Mago
+DECK_PALADIN,Paladin,Paladín
+CARD_SWORD,Sword,Espada
+CARD_SHIELD,Shield,Escudo
+CARD_MAGIC,Magic,Magia
+CARD_MIRROR,Mirror,Espejo
+CARD_POTION,Potion,Poción
+STORE_NAME,Store,Tienda
+STORE_ADD,Card Added,Carta Añadida
+STORE_REMOVE,Card Removed,Carta Removida
+STORE_UPGRADE,Card Upgraded,Carta Mejorada
+STORE_ADD_MSG,Add same basic card,Añadir una copia basica
+STORE_REMOVE_MSG,Remove Card,Remover carta
+STORE_UPGRADE_MSG,Upgrade card effect,Mejorar efecto de carta
+STORE_INVALID_UPGRADE,Not Upgradeable,No mejorable
+STORE_EXIT,Next Round,Siguiente Ronda
+HISTORY_BACK,Back,Volver
+HISTORY_PLAYER,Player,Jugador
+HISTORY_ENEMY,Enemy,Enemigo
+GAMEOVER_WIN_TITLE,Victory,Victoria
+GAMEOVER_LOSS_TITLE,Defeat,Derrota
+GAMEOVER_WIN_MSG,You won on %d turns.,Ganaste en %d turnos.
+GAMEOVER_LOSS_MSG,You lost on %d turns.,Perdiste en %d turnos.
+GAMEOVER_RESTART,Restart,Reiniciar

@@ -1,14 +1,14 @@
+Sprite2D
+Label
+OptionButton
 HBoxContainer
 HFlowContainer
 ScrollContainer
 CanvasLayer
 CenterContainer
-OptionButton
 Button
 ColorRect
 VBoxContainer
 Control
-Label
 Camera2D
 PanelContainer
-MarginContainer

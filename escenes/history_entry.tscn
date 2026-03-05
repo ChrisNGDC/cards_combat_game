@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://jkub1bbktbli"]
 
 [ext_resource type="Script" uid="uid://cd76d78qkux4" path="res://scripts/MainMenu/history_entry.gd" id="1_l30ns"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_y7nox"]
 
 [sub_resource type="Theme" id="Theme_l30ns"]
 default_font_size = 50
@@ -20,11 +21,15 @@ layout_mode = 2
 
 [node name="PlayerDeckButton" type="Button" parent="." unique_id=1270956001]
 layout_mode = 2
-text = "Player"
+theme = ExtResource("2_y7nox")
+theme_override_font_sizes/font_size = 50
+text = "HISTORY_PLAYER"
 
 [node name="CPUDeckButton" type="Button" parent="." unique_id=49342596]
 layout_mode = 2
-text = "CPU"
+theme = ExtResource("2_y7nox")
+theme_override_font_sizes/font_size = 50
+text = "HISTORY_ENEMY"
 
 [connection signal="pressed" from="PlayerDeckButton" to="." method="_on_player_deck_button_pressed"]
 [connection signal="pressed" from="CPUDeckButton" to="." method="_on_cpu_deck_button_pressed"]

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://cqsiuf2ecnqmp"]
 
 [ext_resource type="Script" uid="uid://4bgfjgioukuq" path="res://scripts/MainMenu/history_menu.gd" id="1_6vont"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_6rn3f"]
+[ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="2_7ytxl"]
 
 [node name="HistoryMenu" type="Control" unique_id=1901656517]
 layout_mode = 3
@@ -11,6 +13,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6vont")
 
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=33044301]
+position = Vector2(-80, 0)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("2_7ytxl")
+centered = false
+
 [node name="Background" type="ColorRect" parent="." unique_id=1022262977]
 layout_mode = 1
 anchors_preset = 15
@@ -18,7 +26,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.24115604, 0.24115604, 0.24115601, 0.99607843)
+color = Color(0, 0, 0, 0.48235294)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1041779064]
 layout_mode = 1
@@ -37,9 +45,11 @@ size_flags_vertical = 6
 layout_mode = 0
 offset_left = 30.0
 offset_top = 30.0
-offset_right = 277.0
-offset_bottom = 174.0
+offset_right = 256.0
+offset_bottom = 134.0
+theme = ExtResource("2_6rn3f")
 theme_override_font_sizes/font_size = 50
-text = "Back"
+text = "HISTORY_BACK"
+clip_text = true
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

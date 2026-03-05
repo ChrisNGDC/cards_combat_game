@@ -2,7 +2,7 @@ extends Button
 
 @export var description_label: Label
 @export var hover_text: String = ""
-@export_enum("Add", "Remove", "Upgrade") var mode: String = "Add"
+@export_enum("ADD", "REMOVE", "UPGRADE") var mode: String
 
 @export var footer_node: Control
 @export var next_button: Button
@@ -31,23 +31,24 @@ func _on_pressed():
 	var selected_index = shelf.selected_card_index
 	var action_success = false
 	match mode:
-		"Add":
+		"ADD":
 			if selected_data:
 				var new_card = selected_data.duplicate(true)
+				new_card.nivel_actual = 0
 				GlobalData.selected_deck.cartas.append(new_card)
 				action_success = true
-		"Remove":
+		"REMOVE":
 			if selected_index != -1:
 				GlobalData.selected_deck.cartas.remove_at(selected_index)
 				shelf.selected_card_index = -1 
 				shelf.selected_card_data = null
 				action_success = true
-		"Upgrade":
+		"UPGRADE":
 			if selected_index != -1 and selected_data and selected_data.upgradeable():
 				GlobalData.selected_deck.cartas[selected_index].upgrade()
 				action_success = true
 			else:
-				description_label.text = "Not Upgradeable"
+				description_label.text = tr("STORE_INVALID_UPGRADE")
 				description_label.add_theme_color_override("font_color", Color.RED)
 				var tween = create_tween()
 				tween.tween_property(description_label, "position:x", description_label.position.x + 10, 0.075)
@@ -63,7 +64,7 @@ func finalize_transaction():
 	if next_button:
 		next_button.visible = true
 	if description_label:
-		description_label.text = mode + " Done!"
+		description_label.text = tr(mode)
 		description_label.add_theme_color_override("font_color", Color.GREEN)
 
 

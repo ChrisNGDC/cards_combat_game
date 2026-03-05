@@ -230,16 +230,16 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Title" type="Label" parent="MenuOptions" unique_id=258757631]
 layout_mode = 0
-offset_left = -350.0
+offset_left = -421.0
 offset_top = -360.0
-offset_right = 350.0
+offset_right = 408.0
 offset_bottom = -210.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("FontFile_06t4h")
 theme_override_font_sizes/font_size = 96
-text = "Cards Combat"
+text = "GAME_NAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
@@ -251,7 +251,7 @@ offset_top = -100.0
 offset_right = 100.0
 offset_bottom = -25.0
 theme_override_font_sizes/font_size = 32
-text = "Jugar"
+text = "MENU_PLAY"
 icon_alignment = 1
 
 [node name="Exit" type="Button" parent="MenuOptions" unique_id=2056947766]
@@ -261,7 +261,7 @@ offset_top = 100.0
 offset_right = 100.0
 offset_bottom = 175.0
 theme_override_font_sizes/font_size = 32
-text = "Salir"
+text = "MENU_EXIT"
 icon_alignment = 1
 
 [node name="History" type="Button" parent="MenuOptions" unique_id=1784234902]
@@ -270,7 +270,7 @@ offset_left = -100.0
 offset_right = 100.0
 offset_bottom = 75.0
 theme_override_font_sizes/font_size = 32
-text = "History"
+text = "MENU_HISTORY"
 
 [node name="ResolutionButton" type="OptionButton" parent="MenuOptions" unique_id=2064373700]
 layout_mode = 0
@@ -280,6 +280,19 @@ offset_right = -499.0
 offset_bottom = -293.0
 theme = ExtResource("2_qernj")
 theme_override_font_sizes/font_size = 30
+
+[node name="LanguageButton" type="OptionButton" parent="MenuOptions" unique_id=930897014]
+layout_mode = 0
+offset_left = 494.0
+offset_top = -340.0
+offset_right = 620.0
+offset_bottom = -300.0
+theme_override_font_sizes/font_size = 25
+item_count = 2
+popup/item_0/text = "English"
+popup/item_0/id = 0
+popup/item_1/text = "Español"
+popup/item_1/id = 1
 
 [connection signal="pressed" from="MenuOptions/Play" to="MenuOptions" method="_on_play_pressed"]
 [connection signal="pressed" from="MenuOptions/Exit" to="MenuOptions" method="_on_exit_pressed"]

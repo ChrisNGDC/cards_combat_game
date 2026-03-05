@@ -270,7 +270,7 @@ corner_radius_bottom_left = 15
 [node name="Store" type="Node2D" unique_id=1238178734]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1252011351]
-position = Vector2(-100, 0)
+position = Vector2(-80, 0)
 scale = Vector2(0.24, 0.24)
 texture = ExtResource("1_m851b")
 centered = false
@@ -293,7 +293,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 96
-text = "Store"
+text = "STORE_NAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
@@ -332,7 +332,7 @@ icon_alignment = 1
 expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
-hover_text = "Add same basic card"
+hover_text = "STORE_ADD_MSG"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
 
@@ -350,7 +350,7 @@ icon_alignment = 1
 expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
-hover_text = "Remove Card"
+hover_text = "STORE_REMOVE_MSG"
 mode = "Remove"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
@@ -369,7 +369,7 @@ icon_alignment = 1
 expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
-hover_text = "Upgrade card effect"
+hover_text = "STORE_UPGRADE_MSG"
 mode = "Upgrade"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
@@ -392,6 +392,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_kiawn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_j6plc")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_rry0p")
 theme_override_styles/focus = SubResource("StyleBoxFlat_ubd51")
-text = "Next Round"
+text = "STORE_EXIT"
 
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/NextRoundButton" to="CanvasLayer/MarginContainer/VBoxContainer/Footer/Add" method="_on_next_round_button_pressed"]

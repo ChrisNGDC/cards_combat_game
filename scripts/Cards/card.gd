@@ -5,6 +5,8 @@ const COLOR_DEFENSIVO = Color(0.2, 0.2, 0.8)
 
 @onready var level_label = $UpgradeLabel
 @onready var card_front = $CardFrontImage
+@onready var card_icon = $CardFrontIcon
+@onready var card_name= $CardLabel
 @onready var card_back = $CardBackImage
 
 var gold_style = preload("res://resources/maxLevelLabelSettings.tres")
@@ -27,7 +29,6 @@ func _ready():
 	self.scale = escala_normal
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
 
@@ -42,16 +43,20 @@ func setup(datos: BaseCard, player: bool):
 
 func show_card(si: bool):
 	card_front.visible = si
+	card_icon.visible = si
+	card_name.visible = si
+	level_label.visible = si
 	card_back.visible = !si
 
 
 func _aplicar_datos():
 	if datos_carta == null:
 		return
-	if has_node("CardFrontImage"):
+	if has_node("CardFrontIcon"):
 		var tex = load(datos_carta.ruta_imagen)
 		if tex:
-			get_node("CardFrontImage").texture = tex
+			get_node("CardFrontIcon").texture = tex
+	card_name.text = tr(datos_carta.nombre)
 	tipo = datos_carta.tipo
 	nivel_actual = datos_carta.nivel_actual
 	nivel_max = datos_carta.nivel_max
@@ -70,7 +75,7 @@ func dar_borde():
 func quitar_borde():
 	if has_node("Borde"):
 		var nodo_borde = get_node("Borde")
-		nodo_borde.self_modulate = Color(1, 1, 1)
+		nodo_borde.self_modulate = Color(1.0, 1.0, 1.0, 0.0)
 		
 func update_level_display():
 	print(nivel_actual, "---", nivel_max)

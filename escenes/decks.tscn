@@ -6,7 +6,7 @@
 [node name="Decks" type="Node2D" unique_id=791792099]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1926900199]
-position = Vector2(-150, 0)
+position = Vector2(-80, 0)
 scale = Vector2(0.24, 0.24)
 texture = ExtResource("1_mhx0s")
 centered = false

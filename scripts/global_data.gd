@@ -13,11 +13,11 @@ var cpu_hp: int = 100:
 		cpu_hp = clamp(val, 0, 100)
 		hp_changed.emit(cpu_hp, false)
 var cpu_damage_to_recieve: int = 0
-var selected_deck: BaseDeck = FighterDeck.new()
+var selected_deck: BaseDeck = null
 var turns = 0
 
 var cards_classes = {
-	"Attack": AttackCard,
+	"Sword": SwordCard,
 	"Shield": ShieldCard,
 	"Mirror": MirrorCard,
 	"Magic": MagicCard,
@@ -38,4 +38,4 @@ func reset_game():
 	cpu_hp = 100
 	turns = 0
 	reset_damages()
-	selected_deck = FighterDeck.new()
+	selected_deck = null

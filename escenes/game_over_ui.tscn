@@ -41,6 +41,6 @@ vertical_alignment = 1
 [node name="RestartButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=887134884]
 layout_mode = 2
 theme_override_font_sizes/font_size = 72
-text = "Restart"
+text = "GAMEOVER_RESTART"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

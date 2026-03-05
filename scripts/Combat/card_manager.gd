@@ -178,9 +178,9 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 		segunda = cpu_card
 		player_va_primero = true
 
-	var invalid_potion = primera.tipo == "Ofensivo" and segunda.nombre == "Potion"
-	var invalid_mirror = primera.tipo_danio == "Fisico" and segunda.nombre == "Mirror"
-	var invalid_shield = primera.tipo_danio == "Magico" and segunda.nombre == "Shield"
+	var invalid_potion = primera.tipo == "Ofensivo" and segunda.nombre == "CARD_POTION"
+	var invalid_mirror = primera.tipo_danio == "Fisico" and segunda.nombre == "CARD_MIRROR"
+	var invalid_shield = primera.tipo_danio == "Magico" and segunda.nombre == "CARD_SHIELD"
 
 	await play_card(primera, player_va_primero)
 
@@ -194,26 +194,26 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 
 func play_card(card: BaseCard, es_jugador: bool):
 	match card.nombre:
-		"Attack", "Magic":
+		"CARD_SWORD", "CARD_MAGIC":
 			var d = 10 + 10 * card.nivel_actual
 			if es_jugador:
 				GlobalData.cpu_damage_to_recieve += d
 			else:
 				GlobalData.player_damage_to_recieve += d
-		"Shield":
+		"CARD_SHIELD":
 			var d = 10 + 10 * card.nivel_actual
 			if es_jugador:
 				GlobalData.player_damage_to_recieve = max(0, GlobalData.player_damage_to_recieve - d)
 			else:
 				GlobalData.cpu_damage_to_recieve = max(0, GlobalData.cpu_damage_to_recieve - d)
-		"Mirror":
+		"CARD_MIRROR":
 			if es_jugador:
 				GlobalData.cpu_damage_to_recieve += GlobalData.player_damage_to_recieve
 				GlobalData.player_damage_to_recieve = 0
 			else:
 				GlobalData.player_damage_to_recieve += GlobalData.cpu_damage_to_recieve
 				GlobalData.cpu_damage_to_recieve = 0
-		"Potion":
+		"CARD_POTION":
 			var c = 10 + 20 * card.nivel_actual
 			if es_jugador:
 				GlobalData.player_damage_to_recieve -= c
@@ -240,6 +240,7 @@ func _on_fight_pressed() -> void:
 			repartir_mano(cartas_mazo_player, cartas_mano_player, true)
 			repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
 		else:
+			await get_tree().create_timer(1.0).timeout
 			get_tree().change_scene_to_file("res://escenes/store.tscn")
 	fighting = false
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy16s3u8cmvlq"
-path="res://.godot/imported/defensa.png-c487664d8ad277b42f987fa8cadd7480.ctex"
+uid="uid://djhueknpi4a4t"
+path="res://.godot/imported/mirror.png-fc9f43e22bf6813fbaf4de7864e09f78.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/defensa.png"
-dest_files=["res://.godot/imported/defensa.png-c487664d8ad277b42f987fa8cadd7480.ctex"]
+source_file="res://images/mirror.png"
+dest_files=["res://.godot/imported/mirror.png-fc9f43e22bf6813fbaf4de7864e09f78.ctex"]
 
 [params]
 

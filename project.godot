@@ -35,6 +35,10 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/GDQuest_GDScript_formatter/plugin.cfg")
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://resources/translations.en.translation", "res://resources/translations.es.translation")
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

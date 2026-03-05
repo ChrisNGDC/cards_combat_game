@@ -5,14 +5,14 @@ extends CanvasLayer
 
 func setup(won: bool):
 	if won:
-		result_label.text = "VICTORY"
+		result_label.text = tr("GAMEOVER_WIN_TITLE")
 		result_label.add_theme_color_override("font_color", Color.GREEN)
-		description_label.text = "You won on %d turns." % GlobalData.turns
+		description_label.text = tr("GAMEOVER_WIN_MSG") % GlobalData.turns
 		description_label.add_theme_color_override("font_color", Color.WHITE)
 	else:
-		result_label.text = "DEFEAT"
+		result_label.text = tr("GAMEOVER_LOSS_TITLE")
 		result_label.add_theme_color_override("font_color", Color.RED)
-		description_label.text = "You lost on %d turns." % GlobalData.turns
+		description_label.text = tr("GAMEOVER_LOSS_MSG") % GlobalData.turns
 		description_label.add_theme_color_override("font_color", Color.WHITE)
 
 func _on_restart_button_pressed():

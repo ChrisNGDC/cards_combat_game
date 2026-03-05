@@ -1,11 +1,2 @@
-res://escenes/main_menu.tscn
-res://scripts/MainMenu/menu_options.gd
-res://scripts/config_manager.gd
-res://escenes/store.tscn
-res://escenes/deck_overlay.tscn
-res://escenes/decks.tscn
-res://scripts/Decks/deck.gd
-res://scripts/Decks/decks_manager.gd
-res://escenes/combat.tscn
-res://scripts/Combat/card_manager.gd
-res://scripts/Cards/card.gd
+res://resources/translations.en.translation
+res://resources/translations.es.translation
