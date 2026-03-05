@@ -1,0 +1,18 @@
+# --- Godot Core ---
+.godot/
+
+# --- VS Code ---
+.vscode/
+*.code-workspace
+
+# --- Build Artifacts ---
+build/
+bin/
+dist/
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+
+# --- User-Specific Configurations ---
+!export_presets.cfg
