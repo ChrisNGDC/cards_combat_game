@@ -11,7 +11,8 @@ var slot_scale: Vector2
 var highlight_color = Color(1.5, 1.5, 1.5, 0.6)
 var normal_color = Color(1, 1, 1, 0.4)
 var card_in_slot
-var mazo_seleccionado: Array[BaseCard]
+var player_deck: Array[BaseCard]
+var cpu_deck: Array[BaseCard]
 var player_mazo_pos
 var cpu_mazo_pos
 var hand_size = 4
@@ -36,13 +37,14 @@ func _ready() -> void:
 	cpu_card_slot.modulate = normal_color
 	slot_scale = player_card_slot.scale
 	fighting = false
-	if GlobalData.selected_deck != null:
+	if GlobalData.player_deck != null:
 		player_mazo_pos = Vector2(160, screen_size.y - 100)
 		cpu_mazo_pos = Vector2(screen_size.x - 160, 100)
-		mazo_seleccionado = GlobalData.selected_deck.cartas
-		mazo_seleccionado.shuffle()
+		player_deck = GlobalData.player_deck.cartas
+		cpu_deck = GlobalData.cpu_deck.cartas
+		player_deck.shuffle()
+		cpu_deck.shuffle()
 		crear_mazo(cartas_mazo_player, player_mazo_pos, true)
-		mazo_seleccionado.shuffle()
 		crear_mazo(cartas_mazo_cpu, cpu_mazo_pos, false)
 
 		repartir_mano(cartas_mazo_player, cartas_mano_player, true)
@@ -78,6 +80,7 @@ func _input(event: InputEvent) -> void:
 
 
 func crear_mazo(mazo: Array, mazo_pos: Vector2, player: bool):
+	var mazo_seleccionado = player_deck if player else cpu_deck
 	var cards_amount = mazo_seleccionado.size()
 	var anchor_rel = 0
 	for i in range(cards_amount):
@@ -258,8 +261,8 @@ func show_game_over_ui(won: bool):
 	var run_data = {
 		"date": Time.get_datetime_string_from_system(false, true),
 		"won": (GlobalData.player_hp > 0),
-		"player_deck": cards_to_save(GlobalData.selected_deck.cartas),
-		"cpu_deck": cards_to_save(GlobalData.selected_deck.cartas)
+		"player_deck": cards_to_save(GlobalData.player_deck.cartas),
+		"cpu_deck": cards_to_save(GlobalData.cpu_deck.cartas)
 	}
 	SaveManager.save_run(run_data)
 	

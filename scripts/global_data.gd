@@ -13,7 +13,8 @@ var cpu_hp: int = 100:
 		cpu_hp = clamp(val, 0, 100)
 		hp_changed.emit(cpu_hp, false)
 var cpu_damage_to_recieve: int = 0
-var selected_deck: BaseDeck = FighterDeck.new()
+var player_deck: BaseDeck = null
+var cpu_deck: BaseDeck = null
 var turns = 0
 
 var cards_classes = {
@@ -23,6 +24,17 @@ var cards_classes = {
 	"CARD_MAGIC": MagicCard,
 	"CARD_POTION": PotionCard
 }
+
+var decks_classes = {
+	"DECK_FIGHTER": FighterDeck,
+	"DECK_MAGE": MageDeck,
+	"DECK_PALADIN": PaladinDeck
+}
+
+func create_deck(tipo: String):
+	if decks_classes.has(tipo):
+		var nuevo_mazo = decks_classes[tipo].new()
+		return nuevo_mazo
 
 func create_card(tipo: String, datos: Array):
 	if cards_classes.has(tipo):
@@ -38,4 +50,5 @@ func reset_game():
 	cpu_hp = 100
 	turns = 0
 	reset_damages()
-	selected_deck = null
+	player_deck = null
+	cpu_deck = null

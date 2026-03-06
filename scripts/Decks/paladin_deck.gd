@@ -2,7 +2,7 @@ extends BaseDeck
 class_name PaladinDeck
 
 func _init() -> void:
-	nombre = tr("DECK_PALADIN")
+	nombre = "DECK_PALADIN"
 	ruta_imagen = "res://images/dorso.jpg"
 	crear_cartas()
 	

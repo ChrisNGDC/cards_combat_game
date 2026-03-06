@@ -6,11 +6,7 @@ extends Node2D
 var dragging = false
 var last_mouse_pos = Vector2()
 var deck_scene = preload("res://escenes/deck.tscn")
-var lista_mazos = [
-	FighterDeck.new(),
-	MageDeck.new(),
-	PaladinDeck.new()
-	]
+var lista_mazos = GlobalData.decks_classes.keys()
 var screen_size
 
 func _ready() -> void:
@@ -22,7 +18,7 @@ func crear_mazos_en_pantalla():
 	for child in deck_list.get_children():
 		child.queue_free()
 		
-	for data in lista_mazos:
+	for nombre in lista_mazos:
 		var wrapper = Control.new()
 		wrapper.custom_minimum_size = Vector2(300, 350)
 		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -32,13 +28,15 @@ func crear_mazos_en_pantalla():
 		wrapper.add_child(nuevo_mazo)
 		nuevo_mazo.position = wrapper.custom_minimum_size / 2
 		
-		nuevo_mazo.setup(data)
+		nuevo_mazo.setup(GlobalData.create_deck(nombre))
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		var deck = check_deck_click()
 		if deck:
-			GlobalData.selected_deck = deck.datos_mazo
+			GlobalData.player_deck = GlobalData.create_deck(deck.datos_mazo.nombre)
+			var cpu_deck_name = lista_mazos.pick_random()
+			GlobalData.cpu_deck = GlobalData.create_deck(cpu_deck_name)
 			get_tree().change_scene_to_file("res://escenes/combat.tscn")
 		else:
 			dragging = event.pressed

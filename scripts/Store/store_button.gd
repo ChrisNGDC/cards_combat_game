@@ -33,19 +33,27 @@ func _on_pressed():
 	match mode:
 		"STORE_ADD":
 			if selected_data:
-				var new_card = selected_data.duplicate(true)
-				new_card.nivel_actual = 0
-				GlobalData.selected_deck.cartas.append(new_card)
+				var player_new_card = GlobalData.create_card(selected_data.nombre, [0, selected_data.nivel_max])
+				var cpu_card = GlobalData.cpu_deck.pick_random()
+				var cpu_new_card = GlobalData.create_card(cpu_card.nombre, [0, cpu_card.nivel_max])
+				GlobalData.player_deck.cartas.append(player_new_card)
+				GlobalData.cpu_deck.cartas.append(cpu_new_card)
 				action_success = true
 		"STORE_REMOVE":
 			if selected_index != -1:
-				GlobalData.selected_deck.cartas.remove_at(selected_index)
+				GlobalData.player_deck.cartas.remove_at(selected_index)
+				var cpu_card_pos = randi() % GlobalData.cpu_deck.cartas.size()
+				GlobalData.cpu_deck.cartas.remove_at(cpu_card_pos)
 				shelf.selected_card_index = -1
 				shelf.selected_card_data = null
 				action_success = true
 		"STORE_UPGRADE":
 			if selected_index != -1 and selected_data and selected_data.upgradeable():
-				GlobalData.selected_deck.cartas[selected_index].upgrade()
+				GlobalData.player_deck.cartas[selected_index].upgrade()
+				var cpu_card_pos = randi() % GlobalData.cpu_deck.cartas.size()
+				while not GlobalData.cpu_deck.cartas[cpu_card_pos].upgradeable():
+					cpu_card_pos = randi() % GlobalData.cpu_deck.cartas.size()
+				GlobalData.cpu_deck.cartas[cpu_card_pos].upgrade()
 				action_success = true
 			else:
 				description_label.text = tr("STORE_INVALID_UPGRADE")

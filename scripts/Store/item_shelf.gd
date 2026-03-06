@@ -8,7 +8,7 @@ var selected_card_index: int = -1
 
 
 func _ready() -> void:
-	mazo = GlobalData.selected_deck.cartas
+	mazo = GlobalData.player_deck.cartas
 	mostrar_cartas()
 
 

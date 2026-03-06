@@ -2,7 +2,7 @@ extends BaseDeck
 class_name MageDeck
 
 func _init() -> void:
-	nombre = tr("DECK_MAGE")
+	nombre = "DECK_MAGE"
 	ruta_imagen = "res://images/dorso.jpg"
 	crear_cartas()
 	
