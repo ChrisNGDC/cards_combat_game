@@ -25,7 +25,7 @@ func apply_fullscreen(is_full: bool):
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 
-func load_settings():
+func load_resolution():
 	var err = config.load(SETTINGS_PATH)
 
 	if err != OK:
@@ -34,9 +34,14 @@ func load_settings():
 	var w = config.get_value("video", "width", 1280)
 	var h = config.get_value("video", "height", 720)
 
-	DisplayServer.window_set_size(Vector2i(w, h))
+	return Vector2i(w, h)
+
+
+func load_settings():
+	var resolution = load_resolution()
+	DisplayServer.window_set_size(resolution)
 	var screen_center = DisplayServer.screen_get_position() + Vector2i(DisplayServer.screen_get_size() / 2.0)
-	DisplayServer.window_set_position(screen_center - Vector2i(Vector2(w, h) / 2.0))
+	DisplayServer.window_set_position(screen_center - Vector2i(resolution / 2.0))
 
 	var is_full = config.get_value("video", "fullscreen", false)
 	apply_fullscreen(is_full)

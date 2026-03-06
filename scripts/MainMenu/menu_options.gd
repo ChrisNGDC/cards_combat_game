@@ -38,20 +38,25 @@ func _fill_resolution_options():
 	for res_text in resolutions.keys():
 		res_button.add_item(res_text)
 
-	var current_res = DisplayServer.window_get_size()
+	var current_res = ConfigManager.load_resolution()
 	for i in res_button.item_count:
 		if resolutions.values()[i] == current_res:
 			res_button.selected = i
+			set_resolution(current_res)
+			break
 
 
 func _on_resolution_selected(index: int):
 	var selected_res_text = res_button.get_item_text(index)
 	var target_size = resolutions[selected_res_text]
 
-	DisplayServer.window_set_size(target_size)
+	set_resolution(target_size)
+
+func set_resolution(resolution: Vector2i):
+	DisplayServer.window_set_size(resolution)
 	var screen_center = DisplayServer.screen_get_position() + Vector2i(DisplayServer.screen_get_size() / 2.0)
-	DisplayServer.window_set_position(screen_center - (target_size / 2))
-	ConfigManager.save_resolution(target_size.x, target_size.y)
+	DisplayServer.window_set_position(screen_center - Vector2i(resolution / 2.0))
+	ConfigManager.save_resolution(resolution.x, resolution.y)
 
 func _on_fullscreen_toggled(is_pressed: bool):
 	ConfigManager.save_fullscreen(is_pressed)
