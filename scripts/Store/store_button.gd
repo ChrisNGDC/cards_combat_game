@@ -31,19 +31,19 @@ func _on_pressed():
 	var selected_index = shelf.selected_card_index
 	var action_success = false
 	match mode:
-		"ADD":
+		"STORE_ADD":
 			if selected_data:
 				var new_card = selected_data.duplicate(true)
 				new_card.nivel_actual = 0
 				GlobalData.selected_deck.cartas.append(new_card)
 				action_success = true
-		"REMOVE":
+		"STORE_REMOVE":
 			if selected_index != -1:
 				GlobalData.selected_deck.cartas.remove_at(selected_index)
 				shelf.selected_card_index = -1
 				shelf.selected_card_data = null
 				action_success = true
-		"UPGRADE":
+		"STORE_UPGRADE":
 			if selected_index != -1 and selected_data and selected_data.upgradeable():
 				GlobalData.selected_deck.cartas[selected_index].upgrade()
 				action_success = true

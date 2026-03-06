@@ -281,6 +281,7 @@ centered = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -29.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
@@ -333,7 +334,7 @@ expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
 hover_text = "STORE_ADD_MSG"
-mode = "ADD"
+mode = "STORE_ADD"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
 
@@ -352,7 +353,7 @@ expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
 hover_text = "STORE_REMOVE_MSG"
-mode = "REMOVE"
+mode = "STORE_REMOVE"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
 
@@ -371,7 +372,7 @@ expand_icon = true
 script = ExtResource("4_suv53")
 description_label = NodePath("../../ActionHoverEffect")
 hover_text = "STORE_UPGRADE_MSG"
-mode = "UPGRADE"
+mode = "STORE_UPGRADE"
 footer_node = NodePath("..")
 next_button = NodePath("../../NextRoundButton")
 
