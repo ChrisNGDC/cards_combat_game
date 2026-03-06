@@ -2,12 +2,10 @@ name: Build and Release Godot Game
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   export_game:
-    # Only runs if the commit message starts with "build"
     if: startsWith(github.event.head_commit.message, 'build')
     runs-on: ubuntu-latest
     permissions:
@@ -17,7 +15,29 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0 # Ensures all history is available
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Increment Version
+        id: versioning
+        run: |
+          VERSION=$(cat version.txt)
+          MSG="${{ github.event.head_commit.message }}"
+          IFS='.' read -r V_MAJOR V_MINOR V_PATCH <<< "$VERSION"
+          if [[ "$MSG" == *"build-major"* ]]; then
+            V_MAJOR=$((V_MAJOR + 1))
+            V_MINOR=0
+            V_PATCH=0
+          elif [[ "$MSG" == *"build-minor"* ]]; then
+            V_MINOR=$((V_MINOR + 1))
+            V_PATCH=0
+          else
+            V_PATCH=$((V_PATCH + 1))
+          fi
+          NEW_VERSION="$V_MAJOR.$V_MINOR.$V_PATCH"
+          echo $NEW_VERSION > version.txt
+          echo "NEW_V=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "Version updated from $VERSION to $NEW_VERSION"
 
       - name: Export Game
         id: export
@@ -28,12 +48,25 @@ jobs:
           relative_project_path: ./
           archive_output: true
 
+      - name: Rename and Prepare Artifacts
+        run: |
+          cd ${{ steps.export.outputs.archive_directory }}
+          mv *.zip "Game-v${{ steps.versioning.outputs.NEW_V }}.zip"
+
       - name: Create Release
         uses: ncipollo/release-action@v1.20.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag: v${{ steps.versioning.outputs.NEW_V }}
+          name: "Release v${{ steps.versioning.outputs.NEW_V }}"
+          artifacts: ${{ steps.export.outputs.archive_directory }}/Game-*.zip
           generateReleaseNotes: true
-          tag: build-${{ github.sha }}
-          artifacts: ${{ steps.export.outputs.archive_directory }}/*
           allowUpdates: true
-          
+
+      - name: Commit Updated Version
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.txt
+          git commit -m "chore: bump version to ${{ steps.versioning.outputs.NEW_V }} [skip ci]"
+          git push
