@@ -4,8 +4,7 @@
 [ext_resource type="Script" uid="uid://c0nc6qaehdj66" path="res://scripts/MainMenu/menu_options.gd" id="2_ofhy1"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_qernj"]
 [ext_resource type="Texture2D" uid="uid://cspyd2gh0wc4l" path="res://images/fullscreen.png" id="4_jpqaq"]
-
-[sub_resource type="GDScript" id="GDScript_ofhy1"]
+[ext_resource type="Script" uid="uid://dk3dnlne184qw" path="res://scripts/MainMenu/version.gd" id="5_7yixx"]
 
 [sub_resource type="FontFile" id="FontFile_06t4h"]
 cache/0/variation_coordinates = {}
@@ -215,7 +214,6 @@ bg_color = Color(0, 0, 0, 0.5019608)
 bg_color = Color(0.225, 0.225, 0.225, 0.6)
 
 [node name="MainMenu" type="Node2D" unique_id=718942201]
-script = SubResource("GDScript_ofhy1")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1235040181]
 z_index = 25
@@ -320,6 +318,17 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_7yixx")
 toggle_mode = true
 icon_alignment = 1
 expand_icon = true
+
+[node name="Version" type="Label" parent="." unique_id=597389288]
+offset_left = 430.0
+offset_top = 310.0
+offset_right = 630.0
+offset_bottom = 360.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 2
+vertical_alignment = 2
+script = ExtResource("5_7yixx")
 
 [connection signal="pressed" from="MenuOptions/Play" to="MenuOptions" method="_on_play_pressed"]
 [connection signal="pressed" from="MenuOptions/Exit" to="MenuOptions" method="_on_exit_pressed"]
