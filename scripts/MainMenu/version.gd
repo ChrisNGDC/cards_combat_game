@@ -1,11 +1,10 @@
 extends Label
 
-
-func _ready() -> void:
-	var file = FileAccess.open("res://version.txt", FileAccess.READ)
-	if file:
-		text = file.get_as_text().strip_edges()
-
-
-func _process(_delta: float) -> void:
-	pass
+func _ready():
+    var path = "res://version.txt"
+    if FileAccess.file_exists(path):
+        var file = FileAccess.open(path, FileAccess.READ)
+        var content = file.get_as_text().strip_edges()
+        text = content
+    else:
+        text = "0.0.0-dev"
