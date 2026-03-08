@@ -11,6 +11,15 @@ CARD_SHIELD,Shield,Escudo
 CARD_MAGIC,Magic,Magia
 CARD_MIRROR,Mirror,Espejo
 CARD_POTION,Potion,Poción
+CARD_OFFENSIVE,Offensive,Ofensiva
+CARD_DEFENSIVE,Defensive,Defensiva
+CARD_PHYSICAL,Physical,Físico
+CARD_MAGICAL,Magical,Mágico
+CARD_NONE,None,Ninguno
+CARD_OFFENSIVE_DESC,Deal [color=%s]%d[/color] %s damage to the enemy.,Inflige [color=%s]%d[/color] de daño %s al enemigo.
+CARD_SHIELD_DESC,Block [color=%s]%d[/color] Physical damage.,Bloquea [color=%s]%d[/color] de daño Físico.
+CARD_MIRROR_DESC,Reflect all Magic damage back to the enemy.,Refleja todo el daño Mágico de vuelta al enemigo.
+CARD_POTION_DESC,Heal [color=%s]%d[/color] HP.,Cura [color=%s]%d[/color] de vida.
 COMBAT_ROUND,Round,Ronda
 COMBAT_NEXT_ROUND,Next Round,Siguiente Ronda
 COMBAT_ROUND_WARNING,This can only be pressed with an empty deck and full hand.,Esto solo se puede presionar con el mazo vacío y la mano llena.

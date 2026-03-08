@@ -21,6 +21,7 @@ config/icon="uid://dpe8ixn4tq0o0"
 GlobalData="*uid://d36hbym4lvg2a"
 SaveManager="*uid://wsmh8wpfeill"
 ConfigManager="*uid://dq4fpa7w2jdbu"
+TooltipManager="*uid://dwougphpc3plb"
 
 [display]
 

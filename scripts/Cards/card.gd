@@ -3,6 +3,8 @@ extends Node2D
 const COLOR_OFENSIVO = Color(0.8, 0.2, 0.2)
 const COLOR_DEFENSIVO = Color(0.2, 0.2, 0.8)
 
+@export var tooltip_scene: PackedScene
+
 @onready var level_label = $UpgradeLabel
 @onready var card_front = $CardFrontImage
 @onready var card_icon = $CardFrontIcon
@@ -22,7 +24,8 @@ var datos_carta: BaseCard = null
 var anchor_pos: Vector2
 var own_by_player: bool
 var selected: bool = false
-
+var show_tooltip: bool = true
+var current_tooltip = null
 
 func _ready():
 	_aplicar_datos()
@@ -30,7 +33,17 @@ func _ready():
 
 
 func _process(_delta: float) -> void:
-	pass
+	if current_tooltip:
+		var mouse_pos = get_global_mouse_position()
+		var screen_size = get_viewport_rect().size
+		var tooltip_size = current_tooltip.get_global_rect().size
+		var offset = Vector2(10, 10)
+		if mouse_pos.x + offset.x + tooltip_size.x > screen_size.x:
+			offset.x = - tooltip_size.x
+		if mouse_pos.y + offset.y + tooltip_size.y > screen_size.y:
+			offset.y = - tooltip_size.y
+			
+		current_tooltip.global_position = mouse_pos + offset
 
 
 func setup(datos: BaseCard, player: bool):
@@ -47,6 +60,32 @@ func show_card(si: bool):
 	card_name.visible = si
 	level_label.visible = si
 	card_back.visible = !si
+
+
+func show_tooltip_info(si: bool):
+	if si:
+		current_tooltip = tooltip_scene.instantiate()
+		TooltipManager.add_child(current_tooltip)
+		current_tooltip.get_node("VBox/HBox/TypeLabel").text = tr(datos_carta.tipo)
+		current_tooltip.get_node("VBox/HBox/LevelLabel").text = "Lvl." + (str(datos_carta.nivel_actual) if datos_carta.nivel_actual < datos_carta.nivel_max else "Max")
+		var description_values = []
+		match datos_carta.nombre:
+			"CARD_SWORD":
+				description_values = ["#ff0000", datos_carta.damage_amount(), tr(datos_carta.tipo_danio)]
+			"CARD_MAGIC":
+				description_values = ["#ffff00", datos_carta.damage_amount(), tr(datos_carta.tipo_danio)]
+			"CARD_SHIELD":
+				description_values = ["#0000ff", datos_carta.block_amount()]
+			"CARD_MIRROR":
+				description_values = []
+			"CARD_POTION":
+				description_values = ["#00ff00", datos_carta.heal_amount()]
+		current_tooltip.get_node("VBox/InfoText").text = tr(datos_carta.description) % description_values
+		current_tooltip.global_position = get_global_mouse_position() + Vector2(0, 0)
+	else:
+		if current_tooltip:
+			current_tooltip.queue_free()
+			current_tooltip = null
 
 
 func _aplicar_datos():
@@ -67,9 +106,9 @@ func dar_borde():
 	if has_node("Borde"):
 		var nodo_borde = get_node("Borde")
 		match datos_carta.tipo:
-			"Ofensivo":
+			"CARD_OFFENSIVE":
 				nodo_borde.self_modulate = COLOR_OFENSIVO
-			"Defensivo":
+			"CARD_DEFENSIVE":
 				nodo_borde.self_modulate = COLOR_DEFENSIVO
 
 func quitar_borde():
@@ -89,10 +128,13 @@ func update_level_display():
 		level_label.label_settings = gold_style
 
 func _on_area_2d_mouse_entered():
-	if self.own_by_player and self.card_front.visible:
-		get_node("Borde").self_modulate *= 1.5
+	if self.card_front.visible:
+		if self.own_by_player:
+			get_node("Borde").self_modulate *= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_grande)
+		if show_tooltip:
+			show_tooltip_info(true)
 
 
 func _on_area_2d_mouse_exited():
@@ -100,6 +142,8 @@ func _on_area_2d_mouse_exited():
 		get_node("Borde").self_modulate /= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_normal)
+		if current_tooltip:
+			show_tooltip_info(false)
 
 func apply_scale_tween(target_scale: Vector2):
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bemuew7rrnehv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1i6l"]
+bg_color = Color(0, 0, 0, 0.5019608)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_top = 4.0
+expand_margin_right = 8.0
+expand_margin_bottom = 4.0
+
+[node name="CardInfoTooltip" type="PanelContainer" unique_id=936405202]
+z_index = 1
+offset_right = 3.0
+offset_bottom = 35.0
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_h1i6l")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=785434007]
+layout_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="VBox" unique_id=275228997]
+layout_mode = 2
+
+[node name="TypeLabel" type="Label" parent="VBox/HBox" unique_id=206401641]
+layout_mode = 2
+size_flags_horizontal = 2
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="VBox/HBox" unique_id=518753253]
+layout_mode = 2
+size_flags_horizontal = 10
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBox" unique_id=5419257]
+layout_mode = 2
+
+[node name="InfoText" type="RichTextLabel" parent="VBox" unique_id=1959886063]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true

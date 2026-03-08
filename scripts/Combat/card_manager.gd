@@ -58,9 +58,10 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if card_being_dragged:
+		show_cards_tooltip(false)
+		card_being_dragged.show_tooltip_info(false)
 		card_being_dragged.position = get_global_mouse_position()
-	var debe_resaltar = card_being_dragged and \
-	card_being_dragged.position.distance_to(player_slot_pos) < 120
+	var debe_resaltar = card_being_dragged and card_being_dragged.position.distance_to(player_slot_pos) < 120
 	var target_color = highlight_color if debe_resaltar else normal_color
 	var target_scale = slot_scale * 1.2 if debe_resaltar else slot_scale
 	if player_card_slot.modulate != target_color:
@@ -80,8 +81,10 @@ func _input(event: InputEvent) -> void:
 		else:
 			if card_being_dragged:
 				check_drop_card()
+				show_cards_tooltip(true)
+				card_being_dragged.show_tooltip_info(true)
 				card_being_dragged = null
-
+				
 
 func crear_mazo(mazo: Array, mazo_pos: Vector2, player: bool):
 	var mazo_seleccionado = player_deck if player else cpu_deck
@@ -166,6 +169,11 @@ func check_card_click() -> Node2D:
 	return null
 
 
+func show_cards_tooltip(si: bool):
+	for card in cartas_mano_player:
+		card.show_tooltip = si
+
+
 func flip_card(carta):
 	var flip_tween = get_tree().create_tween()
 	flip_tween.tween_property(carta, "scale:x", 0.0, 0.5).set_ease(Tween.EASE_IN)
@@ -181,7 +189,7 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 
 	var cpu_sword_prio = (cpu_card.nombre == "CARD_SWORD" and player_card.nombre == "CARD_MAGIC")
 
-	if (cpu_card.tipo == "Ofensivo" and player_card.tipo != "Ofensivo") or cpu_sword_prio:
+	if (cpu_card.tipo == "CARD_OFFENSIVE" and player_card.tipo != "CARD_OFFENSIVE") or cpu_sword_prio:
 		primera = cpu_card
 		segunda = player_card
 		player_va_primero = false
@@ -190,9 +198,9 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 		segunda = cpu_card
 		player_va_primero = true
 
-	var invalid_potion = primera.tipo == "Ofensivo" and segunda.nombre == "CARD_POTION"
-	var invalid_mirror = primera.tipo_danio == "Fisico" and segunda.nombre == "CARD_MIRROR"
-	var invalid_shield = primera.tipo_danio == "Magico" and segunda.nombre == "CARD_SHIELD"
+	var invalid_potion = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_POTION"
+	var invalid_mirror = primera.tipo_danio == "CARD_PHYSICAL" and segunda.nombre == "CARD_MIRROR"
+	var invalid_shield = primera.tipo_danio == "CARD_MAGICAL" and segunda.nombre == "CARD_SHIELD"
 	var invalid_magic = primera.nombre == "CARD_SWORD" and segunda.nombre == "CARD_MAGIC"
 	var invalid_second = invalid_potion or invalid_mirror or invalid_shield or invalid_magic
 
@@ -209,22 +217,19 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 func play_card(card: BaseCard, es_jugador: bool):
 	match card.nombre:
 		"CARD_SWORD":
-			var dmg_lvl_mult = 10
-			var damage = 10 + dmg_lvl_mult * card.nivel_actual
+			var damage = card.damage_amount()
 			if es_jugador:
 				GlobalData.cpu_damage_to_recieve += damage
 			else:
 				GlobalData.player_damage_to_recieve += damage
 		"CARD_MAGIC":
-			var dmg_lvl_mult = 5
-			var damage = 10 + dmg_lvl_mult * card.nivel_actual
+			var damage = card.damage_amount()
 			if es_jugador:
 				GlobalData.cpu_damage_to_recieve += damage
 			else:
 				GlobalData.player_damage_to_recieve += damage
 		"CARD_SHIELD":
-			var dmg_lvl_mult = 10
-			var damage = 10 + dmg_lvl_mult * card.nivel_actual
+			var damage = card.block_amount()
 			if es_jugador:
 				GlobalData.player_damage_to_recieve = max(0, GlobalData.player_damage_to_recieve - damage)
 			else:
@@ -237,8 +242,7 @@ func play_card(card: BaseCard, es_jugador: bool):
 				GlobalData.player_damage_to_recieve += GlobalData.cpu_damage_to_recieve
 				GlobalData.cpu_damage_to_recieve = 0
 		"CARD_POTION":
-			var heal_lvl_mult = 20
-			var healing = 10 + heal_lvl_mult * card.nivel_actual
+			var healing = card.heal_amount()
 			if es_jugador:
 				GlobalData.player_damage_to_recieve -= healing
 			else:
@@ -258,6 +262,8 @@ func _on_fight_pressed() -> void:
 		await animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
 		await get_tree().create_timer(1.5).timeout
 		await combat(card_in_slot.datos_carta, cpu_choice.datos_carta)
+		card_in_slot.show_tooltip_info(false)
+		cpu_choice.show_tooltip_info(false)
 		cartas_mano_player.erase(card_in_slot)
 		cartas_mano_cpu.erase(cpu_choice)
 		card_in_slot.queue_free()
