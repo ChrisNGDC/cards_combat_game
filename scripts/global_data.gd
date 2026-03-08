@@ -13,7 +13,7 @@ var cpu_hp: int = 100:
 		cpu_hp = clamp(val, 0, 100)
 		hp_changed.emit(cpu_hp, false)
 var cpu_damage_to_recieve: int = 0
-var player_deck: BaseDeck = null
+var player_deck: BaseDeck = FighterDeck.new()
 var cpu_deck: BaseDeck = null
 var turns = 0
 

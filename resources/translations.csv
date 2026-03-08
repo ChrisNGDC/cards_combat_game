@@ -12,6 +12,7 @@ CARD_MAGIC,Magic,Magia
 CARD_MIRROR,Mirror,Espejo
 CARD_POTION,Potion,Poción
 STORE_NAME,Store,Tienda
+STORE_GUIDE,"Select a card to add, remove or upgrade.","Selecciona una carta para añadir, remover o mejorar."
 STORE_ADD,Card Added,Carta Añadida
 STORE_REMOVE,Card Removed,Carta Removida
 STORE_UPGRADE,Card Upgraded,Carta Mejorada
