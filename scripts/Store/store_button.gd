@@ -34,7 +34,7 @@ func _on_pressed():
 		"STORE_ADD":
 			if selected_data:
 				var player_new_card = GlobalData.create_card(selected_data.nombre, [0, selected_data.nivel_max])
-				var cpu_card = GlobalData.cpu_deck.pick_random()
+				var cpu_card = GlobalData.cpu_deck.cartas.pick_random()
 				var cpu_new_card = GlobalData.create_card(cpu_card.nombre, [0, cpu_card.nivel_max])
 				GlobalData.player_deck.cartas.append(player_new_card)
 				GlobalData.cpu_deck.cartas.append(cpu_new_card)

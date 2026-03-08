@@ -8,6 +8,10 @@
 [ext_resource type="Script" uid="uid://c3aku1x6osrty" path="res://scripts/Combat/health_manager.gd" id="5_gh8tw"]
 [ext_resource type="Texture2D" uid="uid://da00pqxr43212" path="res://images/health_bar.png" id="6_ai0oo"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6u1da"]
+bg_color = Color(1, 1, 1, 0.5019608)
+border_blend = true
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gh8tw"]
 bg_color = Color(0, 0, 0, 0.4745098)
 
@@ -17,6 +21,10 @@ expand_margin_left = 2.0
 expand_margin_top = 2.0
 expand_margin_right = 2.0
 expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7qh8"]
+bg_color = Color(1, 1, 1, 0.43529412)
+border_blend = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d7qh8"]
 atlas = ExtResource("6_ai0oo")
@@ -41,6 +49,17 @@ centered = false
 
 [node name="CardManager" type="Node2D" parent="." unique_id=1954557925]
 script = ExtResource("3_atiws")
+
+[node name="RoundLabel" type="Label" parent="CardManager" unique_id=2080885203]
+offset_left = 50.0
+offset_top = 300.0
+offset_right = 350.0
+offset_bottom = 420.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_6u1da")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PlayerSlot" type="Sprite2D" parent="CardManager" unique_id=1420705759]
 modulate = Color(1, 1, 1, 0.5019608)
@@ -72,6 +91,31 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_gh8tw")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ai0oo")
 autowrap_trim_flags = 192
 icon_alignment = 1
+
+[node name="EndRound" type="Button" parent="CardManager/Control" unique_id=1505548495]
+visible = false
+layout_mode = 0
+offset_left = 944.0
+offset_top = 285.0
+offset_right = 1224.0
+offset_bottom = 375.0
+theme_override_font_sizes/font_size = 32
+text = "COMBAT_NEXT_ROUND"
+clip_text = true
+
+[node name="WarningEndLabel" type="Label" parent="CardManager/Control" unique_id=1867724754]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 945.0
+offset_top = 385.0
+offset_right = 1225.0
+offset_bottom = 415.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7qh8")
+text = "COMBAT_ROUND_WARNING"
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="UserHand" type="Node2D" parent="CardManager" unique_id=501328040]
 
@@ -108,3 +152,4 @@ texture_over = SubResource("AtlasTexture_6u1da")
 texture_progress = SubResource("AtlasTexture_vj04y")
 
 [connection signal="pressed" from="CardManager/Control/Fight" to="CardManager" method="_on_fight_pressed"]
+[connection signal="pressed" from="CardManager/Control/EndRound" to="CardManager" method="_on_end_round_pressed"]

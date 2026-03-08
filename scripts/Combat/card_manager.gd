@@ -25,6 +25,9 @@ var fighting: bool
 
 @onready var player_card_slot = $PlayerSlot
 @onready var cpu_card_slot = $CPUSlot
+@onready var round_label = $RoundLabel
+@onready var end_round_button = $Control/EndRound
+@onready var end_round_warning = $Control/WarningEndLabel
 
 
 # Called when the node enters the scene tree for the first time.
@@ -37,6 +40,7 @@ func _ready() -> void:
 	cpu_card_slot.modulate = normal_color
 	slot_scale = player_card_slot.scale
 	fighting = false
+	round_label.text = tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds)
 	if GlobalData.player_deck != null:
 		player_mazo_pos = Vector2(160, screen_size.y - 100)
 		cpu_mazo_pos = Vector2(screen_size.x - 160, 100)
@@ -69,7 +73,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var card = check_card_click()
-			if card and card.own_by_player and card.card_front.visible and card != card_in_slot:
+			if card and card.own_by_player and card.card_front.visible and (card != card_in_slot or not fighting):
 				card_being_dragged = card
 				card_original_pos = card.position
 				card_being_dragged.move_to_front()
@@ -87,32 +91,35 @@ func crear_mazo(mazo: Array, mazo_pos: Vector2, player: bool):
 		var nueva_carta = card_scene.instantiate()
 		add_child(nueva_carta)
 		nueva_carta.setup(mazo_seleccionado[i], player)
-		if anchor_rel % 4 == 0:
-			anchor_rel = 0
+		nueva_carta.anchor_pos = Vector2(0, 0)
 		var offset_mazo
 		if player:
-			nueva_carta.anchor_pos = Vector2(screen_size.x / 3 + (anchor_rel * 160), screen_size.y - 150)
+			if i < 4:
+				nueva_carta.anchor_pos = Vector2(screen_size.x / 3 + (anchor_rel * 160), screen_size.y - 150)
 			offset_mazo = Vector2(i * -2, i * -2)
 		else:
 			nueva_carta.quitar_borde()
-			nueva_carta.anchor_pos = Vector2(screen_size.x * 0.75 - (anchor_rel * 160), 150)
+			if i < 4:
+				nueva_carta.anchor_pos = Vector2(screen_size.x * 0.75 - (anchor_rel * 160), 150)
 			offset_mazo = Vector2(i * +2, i * +2)
 		nueva_carta.position = mazo_pos + offset_mazo
 		mazo.append(nueva_carta)
 		anchor_rel += 1
 
 
-func repartir_carta(mazo, mano, player: bool):
+func repartir_carta(mazo, mano, pos, player: bool):
 	await get_tree().create_timer(0.75).timeout
 	var carta = mazo.pop_front()
 	if carta:
 		mano.append(carta)
+		if carta.anchor_pos == Vector2(0, 0):
+			carta.anchor_pos = pos
 		animar_vuelo_repartida(carta, carta.anchor_pos, player)
 
 
 func repartir_mano(mazo, mano, player: bool):
 	for i in range(min(hand_size, mazo.size())):
-		await repartir_carta(mazo, mano, player)
+		await repartir_carta(mazo, mano, mazo[i].anchor_pos, player)
 
 
 func animar_vuelo_repartida(carta, destino, flip: bool):
@@ -172,7 +179,9 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 	var segunda: BaseCard
 	var player_va_primero: bool
 
-	if cpu_card.tipo == "Ofensivo" and player_card.tipo != "Ofensivo":
+	var cpu_sword_prio = (cpu_card.nombre == "CARD_SWORD" and player_card.nombre == "CARD_MAGIC")
+
+	if (cpu_card.tipo == "Ofensivo" and player_card.tipo != "Ofensivo") or cpu_sword_prio:
 		primera = cpu_card
 		segunda = player_card
 		player_va_primero = false
@@ -184,10 +193,12 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 	var invalid_potion = primera.tipo == "Ofensivo" and segunda.nombre == "CARD_POTION"
 	var invalid_mirror = primera.tipo_danio == "Fisico" and segunda.nombre == "CARD_MIRROR"
 	var invalid_shield = primera.tipo_danio == "Magico" and segunda.nombre == "CARD_SHIELD"
+	var invalid_magic = primera.nombre == "CARD_SWORD" and segunda.nombre == "CARD_MAGIC"
+	var invalid_second = invalid_potion or invalid_mirror or invalid_shield or invalid_magic
 
 	await play_card(primera, player_va_primero)
 
-	if not invalid_potion and not invalid_mirror and not invalid_shield:
+	if not invalid_second:
 		await play_card(segunda, !player_va_primero)
 
 	GlobalData.player_hp -= GlobalData.player_damage_to_recieve
@@ -197,18 +208,27 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 
 func play_card(card: BaseCard, es_jugador: bool):
 	match card.nombre:
-		"CARD_SWORD", "CARD_MAGIC":
-			var d = 10 + 10 * card.nivel_actual
+		"CARD_SWORD":
+			var dmg_lvl_mult = 10
+			var damage = 10 + dmg_lvl_mult * card.nivel_actual
 			if es_jugador:
-				GlobalData.cpu_damage_to_recieve += d
+				GlobalData.cpu_damage_to_recieve += damage
 			else:
-				GlobalData.player_damage_to_recieve += d
+				GlobalData.player_damage_to_recieve += damage
+		"CARD_MAGIC":
+			var dmg_lvl_mult = 5
+			var damage = 10 + dmg_lvl_mult * card.nivel_actual
+			if es_jugador:
+				GlobalData.cpu_damage_to_recieve += damage
+			else:
+				GlobalData.player_damage_to_recieve += damage
 		"CARD_SHIELD":
-			var d = 10 + 10 * card.nivel_actual
+			var dmg_lvl_mult = 10
+			var damage = 10 + dmg_lvl_mult * card.nivel_actual
 			if es_jugador:
-				GlobalData.player_damage_to_recieve = max(0, GlobalData.player_damage_to_recieve - d)
+				GlobalData.player_damage_to_recieve = max(0, GlobalData.player_damage_to_recieve - damage)
 			else:
-				GlobalData.cpu_damage_to_recieve = max(0, GlobalData.cpu_damage_to_recieve - d)
+				GlobalData.cpu_damage_to_recieve = max(0, GlobalData.cpu_damage_to_recieve - damage)
 		"CARD_MIRROR":
 			if es_jugador:
 				GlobalData.cpu_damage_to_recieve += GlobalData.player_damage_to_recieve
@@ -217,33 +237,46 @@ func play_card(card: BaseCard, es_jugador: bool):
 				GlobalData.player_damage_to_recieve += GlobalData.cpu_damage_to_recieve
 				GlobalData.cpu_damage_to_recieve = 0
 		"CARD_POTION":
-			var c = 10 + 20 * card.nivel_actual
+			var heal_lvl_mult = 20
+			var healing = 10 + heal_lvl_mult * card.nivel_actual
 			if es_jugador:
-				GlobalData.player_damage_to_recieve -= c
+				GlobalData.player_damage_to_recieve -= healing
 			else:
-				GlobalData.cpu_damage_to_recieve -= c
-	await get_tree().create_timer(0.8).timeout
+				GlobalData.cpu_damage_to_recieve -= healing
+	await get_tree().create_timer(0.5).timeout
 
 
 func _on_fight_pressed() -> void:
 	fighting = true
-	cartas_mano_player.erase(card_in_slot)
 	if is_instance_valid(card_in_slot):
+		if cartas_mazo_player.size() == 0 and cartas_mano_player.size() == hand_size:
+			end_round_button.visible = false
+			end_round_warning.visible = false
 		var cpu_choice = cartas_mano_cpu.pick_random()
-		cartas_mano_cpu.erase(cpu_choice)
-		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
-		await get_tree().create_timer(3.0).timeout
+		var cpu_card_pos = cpu_choice.anchor_pos
+		var player_card_pos = card_in_slot.anchor_pos
+		await animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
+		await get_tree().create_timer(1.5).timeout
 		await combat(card_in_slot.datos_carta, cpu_choice.datos_carta)
+		cartas_mano_player.erase(card_in_slot)
+		cartas_mano_cpu.erase(cpu_choice)
 		card_in_slot.queue_free()
 		cpu_choice.queue_free()
-	GlobalData.turns += 1
+		if cartas_mazo_player.size() == 1 and cartas_mano_player.size() == 3:
+			end_round_button.visible = true
+			end_round_warning.visible = true
+		if cartas_mano_player.size() < hand_size and cartas_mazo_player.size() > 0:
+			repartir_carta(cartas_mazo_player, cartas_mano_player, player_card_pos, true)
+		if cartas_mano_cpu.size() < hand_size and cartas_mazo_cpu.size() > 0:
+			repartir_carta(cartas_mazo_cpu, cartas_mano_cpu, cpu_card_pos, false)
 	if not check_game_over():
 		if cartas_mano_player.size() == 0:
 			if cartas_mazo_player.size() > 0:
 				repartir_mano(cartas_mazo_player, cartas_mano_player, true)
 				repartir_mano(cartas_mazo_cpu, cartas_mano_cpu, false)
 			else:
-				await get_tree().create_timer(.75).timeout
+				GlobalData.rounds += 1
+				await get_tree().create_timer(.5).timeout
 				get_tree().change_scene_to_file("res://escenes/store.tscn")
 	fighting = false
 
@@ -274,3 +307,8 @@ func cards_to_save(deck: Array[BaseCard]) -> Array:
 			"datos": [card.nivel_actual, card.nivel_max]
 		})
 	return deck_cards
+
+
+func _on_end_round_pressed() -> void:
+	GlobalData.rounds += 1
+	get_tree().change_scene_to_file("res://escenes/store.tscn")
