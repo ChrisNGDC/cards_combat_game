@@ -42,7 +42,7 @@ vertical_alignment = 1
 
 [node name="CardFrontIcon" type="Sprite2D" parent="." unique_id=447606339]
 visible = false
-z_index = 2
+z_index = 1
 position = Vector2(3.0000029, 35.000008)
 scale = Vector2(1.7125001, 1.7125001)
 
