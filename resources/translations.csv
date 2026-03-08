@@ -11,6 +11,9 @@ CARD_SHIELD,Shield,Escudo
 CARD_MAGIC,Magic,Magia
 CARD_MIRROR,Mirror,Espejo
 CARD_POTION,Potion,Poción
+COMBAT_ROUND,Round,Ronda
+COMBAT_NEXT_ROUND,Next Round,Siguiente Ronda
+COMBAT_ROUND_WARNING,This can only be pressed with an empty deck and full hand.,Esto solo se puede presionar con el mazo vacío y la mano llena.
 STORE_NAME,Store,Tienda
 STORE_GUIDE,"Select a card to add, remove or upgrade.","Selecciona una carta para añadir, remover o mejorar."
 STORE_ADD,Card Added,Carta Añadida
