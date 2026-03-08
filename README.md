@@ -6,9 +6,11 @@
 
 - ✔️ Ataque físico rompe magia
 - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel
-- ❌ Saber que hace le carta al estar encima con el mouse o al hacer click
+- ✔️ Saber que hace le carta al estar encima con el mouse o al hacer click
 - ✔️ Que el agarre de cartas sea cada vez que jugas una carta y no cuando terminas la de la mano
 - ✔️ Cuando no podes robar carta dar opción de finalizar round o seguir hasta no tener mano
+
+### Agregar cosas referentes a esto de arriba (cambios a hacer o dudas)
 
 # Espacio para bugs y errores
 
