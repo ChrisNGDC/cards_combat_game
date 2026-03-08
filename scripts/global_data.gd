@@ -13,9 +13,9 @@ var cpu_hp: int = 100:
 		cpu_hp = clamp(val, 0, 100)
 		hp_changed.emit(cpu_hp, false)
 var cpu_damage_to_recieve: int = 0
-var player_deck: BaseDeck = FighterDeck.new()
+var player_deck: BaseDeck = null
 var cpu_deck: BaseDeck = null
-var turns = 0
+var rounds = 1
 
 var cards_classes = {
 	"CARD_SWORD": SwordCard,
@@ -48,7 +48,7 @@ func reset_damages():
 func reset_game():
 	player_hp = 100
 	cpu_hp = 100
-	turns = 0
+	rounds = 0
 	reset_damages()
 	player_deck = null
 	cpu_deck = null
