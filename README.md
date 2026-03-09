@@ -32,8 +32,8 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
   - ❌ no puede hacer daño físico pero su daño mágico aplica efecto $\color{red}{(3)}$
 - ✔️ Luchador
   - ❌ no puede hacer daño magico pero su daño físico es mejor $\color{red}{(4)}$
-- ❌ Tanque
-  - ❌ mayor cantidad de vida y de cartas defensivas
+- ✔️ Tanque
+  - ✔️ mayor cantidad de vida y de cartas defensivas
 
 # Mecanicas
 
