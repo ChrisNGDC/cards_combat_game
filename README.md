@@ -19,7 +19,7 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 - ✔️ Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida)
 
 # Items
-- ❌ Ítems a introducir que afecten al juego externamente?
+- ❌ Ítems a introducir que afecten al juego externamente? $\color{red}{(5)}$
 
 # Dificultad
 
@@ -48,6 +48,7 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 | [Sección](#cartas) | $\color{red}{(1)}$ y $\color{red}{(2)}$ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
 | [Sección](#mazos) | $\color{red}{(3)}$ | ¿Qué efecto podria tener? |
 | [Sección](#mazos) | $\color{red}{(4)}$ | ¿A que se refiere con mejor? |
+| [Sección](#items) | $\color{red}{(5)}$ | ¿Para el jugador o el mazo? |
 
 ## Links de Ayuda
 
