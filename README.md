@@ -1,3 +1,4 @@
+
 # Idea general
 
 La idea es que las partidas sean de una duración de 10/15’ (Buscamos que sea rápido y rejugable)
@@ -10,10 +11,10 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Cartas
 
 - ✔️ Daño físico (espada hace daño en base a la carta)
-  - ✔️ Ataque físico rompe magia [1](#1)
+  - ✔️ Ataque físico rompe magia <a id="1">**(1)**</a>
 - ✔️ Escudo (anula daño físico, no mejorable)
 - ✔️ Daño mágico (ignora escudo, no hace mas daño que la espada,daño depende nivel carta)
-  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel [2](#2)
+  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel <a id="2">**(2)**</a>
 - ✔️ Espejo (rebota el daño mágico, se rompe si recibe daño físico, no mejorable)
 - ✔️ Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida)
 
@@ -28,9 +29,9 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Mazos
 
 - ✔️ Mago
-  - ❌ no puede hacer daño físico pero su daño mágico aplica efecto [3](#3)
+  - ❌ no puede hacer daño físico pero su daño mágico aplica efecto <a id="3">**(3)**</a>
 - ✔️ Luchador
-  - ❌ no puede hacer daño magico pero su daño físico es mejor [4](#4)
+  - ❌ no puede hacer daño magico pero su daño físico es mejor <a id="4">**(4)**</a>
 - ❌ Tanque
   - ❌ mayor cantidad de vida y de cartas defensivas
 
@@ -42,9 +43,9 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 # Espacio para dudas, bugs y errores
 
-- Teniendo en cuenta el punto [2](README.md#2) ¿No deberia de la Magia ganarle a la Espada en vez de como en [1](README.md#1)?
-- ¿Qué efecto podria tener el [3](README.md#3)?
-- ¿A que se refiere con mejor en [4](README.md#4)?
+- Teniendo en cuenta el punto [(2)](#2) ¿No deberia de la Magia ganarle a la Espada en vez de como en [(1)](#1)?
+- ¿Qué efecto podria tener el [(3)](#3)?
+- ¿A que se refiere con mejor en [(4)](#4)?
 
 ## Links de Ayuda
 
