@@ -3,18 +3,20 @@ extends Node
 signal hp_changed(nuevo_hp, es_jugador)
 
 var screen_size: Vector2
-var player_hp: int = 100:
+var player_max_hp: int = 100
+var player_current_hp: int = 100:
 	set(val):
-		player_hp = clamp(val, 0, 100)
-		hp_changed.emit(player_hp, true)
+		player_current_hp = clamp(val, 0, player_max_hp)
+		hp_changed.emit(player_current_hp, true)
 var player_damage_to_recieve: int = 0
-var cpu_hp: int = 100:
+var cpu_max_hp: int = 100
+var cpu_current_hp: int = 100:
 	set(val):
-		cpu_hp = clamp(val, 0, 100)
-		hp_changed.emit(cpu_hp, false)
+		cpu_current_hp = clamp(val, 0, cpu_max_hp)
+		hp_changed.emit(cpu_current_hp, false)
 var cpu_damage_to_recieve: int = 0
-var player_deck: BaseDeck = null
-var cpu_deck: BaseDeck = null
+var player_deck: BaseDeck = FighterDeck.new()
+var cpu_deck: BaseDeck = FighterDeck.new()
 var rounds = 1
 
 var cards_classes = {
@@ -28,8 +30,17 @@ var cards_classes = {
 var decks_classes = {
 	"DECK_FIGHTER": FighterDeck,
 	"DECK_MAGE": MageDeck,
-	"DECK_PALADIN": PaladinDeck
+	"DECK_PALADIN": PaladinDeck,
+	"DECK_DEFENDER": DefenderDeck
 }
+
+func init_hp(es_jugador: bool, cantidad: int):
+	if es_jugador:
+		player_max_hp = cantidad
+		player_current_hp = player_max_hp
+	else:
+		cpu_max_hp = cantidad
+		cpu_current_hp = cpu_max_hp
 
 func create_deck(tipo: String):
 	if decks_classes.has(tipo):
@@ -46,8 +57,8 @@ func reset_damages():
 	cpu_damage_to_recieve = 0
 	
 func reset_game():
-	player_hp = 100
-	cpu_hp = 100
+	player_current_hp = 100
+	cpu_current_hp = 100
 	rounds = 0
 	reset_damages()
 	player_deck = null

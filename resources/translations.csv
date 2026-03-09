@@ -6,6 +6,7 @@ MENU_EXIT,Exit,Salir
 DECK_FIGHTER,Fighter,Luchador
 DECK_MAGE,Mage,Mago
 DECK_PALADIN,Paladin,Paladín
+DECK_DEFENDER,Defender,Defensor
 CARD_SWORD,Sword,Espada
 CARD_SHIELD,Shield,Escudo
 CARD_MAGIC,Magic,Magia

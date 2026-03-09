@@ -35,8 +35,10 @@ func _input(event: InputEvent) -> void:
 		var deck = check_deck_click()
 		if deck:
 			GlobalData.player_deck = GlobalData.create_deck(deck.datos_mazo.nombre)
+			GlobalData.init_hp(true, GlobalData.player_deck.vida)
 			var cpu_deck_name = lista_mazos.pick_random()
 			GlobalData.cpu_deck = GlobalData.create_deck(cpu_deck_name)
+			GlobalData.init_hp(false, GlobalData.cpu_deck.vida)
 			get_tree().change_scene_to_file("res://escenes/combat.tscn")
 		else:
 			dragging = event.pressed

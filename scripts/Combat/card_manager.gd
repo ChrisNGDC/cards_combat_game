@@ -209,8 +209,8 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 	if not invalid_second:
 		await play_card(segunda, !player_va_primero)
 
-	GlobalData.player_hp -= GlobalData.player_damage_to_recieve
-	GlobalData.cpu_hp -= GlobalData.cpu_damage_to_recieve
+	GlobalData.player_current_hp -= GlobalData.player_damage_to_recieve
+	GlobalData.cpu_current_hp -= GlobalData.cpu_damage_to_recieve
 	GlobalData.reset_damages()
 
 
@@ -268,13 +268,14 @@ func _on_fight_pressed() -> void:
 		cartas_mano_cpu.erase(cpu_choice)
 		card_in_slot.queue_free()
 		cpu_choice.queue_free()
-		if cartas_mazo_player.size() == 1 and cartas_mano_player.size() == 3:
-			end_round_button.visible = true
-			end_round_warning.visible = true
 		if cartas_mano_player.size() < hand_size and cartas_mazo_player.size() > 0:
 			repartir_carta(cartas_mazo_player, cartas_mano_player, player_card_pos, true)
 		if cartas_mano_cpu.size() < hand_size and cartas_mazo_cpu.size() > 0:
 			repartir_carta(cartas_mazo_cpu, cartas_mano_cpu, cpu_card_pos, false)
+		if cartas_mazo_player.size() == 1 and cartas_mano_player.size() == 3:
+			end_round_button.visible = true
+			end_round_warning.visible = true
+		
 	if not check_game_over():
 		if cartas_mano_player.size() == 0:
 			if cartas_mazo_player.size() > 0:
@@ -287,9 +288,9 @@ func _on_fight_pressed() -> void:
 	fighting = false
 
 func check_game_over():
-	if GlobalData.player_hp > 0 and GlobalData.cpu_hp > 0:
+	if GlobalData.player_current_hp > 0 and GlobalData.cpu_current_hp > 0:
 		return false
-	var won = (GlobalData.player_hp > 0 and GlobalData.cpu_hp <= 0)
+	var won = (GlobalData.player_current_hp > 0 and GlobalData.cpu_current_hp <= 0)
 	show_game_over_ui(won)
 	return true
 
@@ -299,7 +300,7 @@ func show_game_over_ui(won: bool):
 	instance.setup(won)
 	var run_data = {
 		"date": Time.get_datetime_string_from_system(false, true),
-		"won": (GlobalData.player_hp > 0),
+		"won": (GlobalData.player_current_hp > 0),
 		"player_deck": cards_to_save(GlobalData.player_deck.cartas),
 		"cpu_deck": cards_to_save(GlobalData.cpu_deck.cartas)
 	}
