@@ -11,10 +11,12 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Cartas
 
 - ✔️ Daño físico (espada hace daño en base a la carta)
-  - ✔️ Ataque físico rompe magia <a id="1">**(1)**</a>
+<a id="1"></a>
+  - ✔️ Ataque físico rompe magia **(1)**
 - ✔️ Escudo (anula daño físico, no mejorable)
 - ✔️ Daño mágico (ignora escudo, no hace mas daño que la espada,daño depende nivel carta)
-  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel <a id="2">**(2)**</a>
+<a id="2"></a>
+  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel **(2)**
 - ✔️ Espejo (rebota el daño mágico, se rompe si recibe daño físico, no mejorable)
 - ✔️ Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida)
 
@@ -29,9 +31,11 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Mazos
 
 - ✔️ Mago
-  - ❌ no puede hacer daño físico pero su daño mágico aplica efecto <a id="3">**(3)**</a>
+<a id="3"></a>
+  - ❌ no puede hacer daño físico pero su daño mágico aplica efecto **(3)**
 - ✔️ Luchador
-  - ❌ no puede hacer daño magico pero su daño físico es mejor <a id="4">**(4)**</a>
+<a id="4"></a>
+  - ❌ no puede hacer daño magico pero su daño físico es mejor **(4)**
 - ❌ Tanque
   - ❌ mayor cantidad de vida y de cartas defensivas
 
