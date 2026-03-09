@@ -11,12 +11,10 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Cartas
 
 - ✔️ Daño físico (espada hace daño en base a la carta)
-<a id="1"></a>
-  - ✔️ Ataque físico rompe magia **(1)**
+  - ✔️ Ataque físico rompe magia $\color{red}{(1)}$
 - ✔️ Escudo (anula daño físico, no mejorable)
 - ✔️ Daño mágico (ignora escudo, no hace mas daño que la espada,daño depende nivel carta)
-<a id="2"></a>
-  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel **(2)**
+  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel $\color{red}{(2)}$
 - ✔️ Espejo (rebota el daño mágico, se rompe si recibe daño físico, no mejorable)
 - ✔️ Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida)
 
@@ -31,11 +29,9 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Mazos
 
 - ✔️ Mago
-<a id="3"></a>
-  - ❌ no puede hacer daño físico pero su daño mágico aplica efecto **(3)**
+  - ❌ no puede hacer daño físico pero su daño mágico aplica efecto $\color{red}{(3)}$
 - ✔️ Luchador
-<a id="4"></a>
-  - ❌ no puede hacer daño magico pero su daño físico es mejor **(4)**
+  - ❌ no puede hacer daño magico pero su daño físico es mejor $\color{red}{(4)}$
 - ❌ Tanque
   - ❌ mayor cantidad de vida y de cartas defensivas
 
@@ -47,9 +43,11 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 # Espacio para dudas, bugs y errores
 
-- Teniendo en cuenta el punto [(2)](#2) ¿No deberia de la Magia ganarle a la Espada en vez de como en [(1)](#1)?
-- ¿Qué efecto podria tener el [(3)](#3)?
-- ¿A que se refiere con mejor en [(4)](#4)?
+| Sección | Referencia | Texto | Respuesta |
+| :-----------: | :-----------: | :-----------: |  :-----------: |
+| [Sección](#cartas) | $\color{red}{(1)}$ y $\color{red}{(2)}$ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
+| [Sección](#mazos) | $\color{red}{(3)}$ | ¿Qué efecto podria tener? |
+| [Sección](#mazos) | $\color{red}{(4)}$ | ¿A que se refiere con mejor? |
 
 ## Links de Ayuda
 
