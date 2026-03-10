@@ -10,7 +10,7 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Referencias
 
 - 🔴 No implementado
-- 🟠 Implementado pero con dudas
+- 🟠 Implementado pero con dudas/errores
 - 🟡 Implementado en parte
 - 🟢 Implementado
 - #️⃣ Referencia de dudas/errores
@@ -52,8 +52,8 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 | Sección | Referencia | Texto | Respuesta |
 | :-----------: | :-----------: | :-----------: |  :-----------: |
-| [Sección](#cartas) | 1️⃣ y 2️⃣ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
-| [Sección](#item) | 3️⃣ | ¿Para el jugador o el mazo? |
+| [Cartas](#cartas) | 1️⃣ y 2️⃣ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
+| [Items](#item) | 3️⃣ | ¿Para el jugador o el mazo? |
 
 ## Links de Ayuda
 
