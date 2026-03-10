@@ -49,6 +49,6 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 ## Links de Ayuda
 
-$\color{#4493f8}\text{Guia \space de \space Markdown}$ $\color{#ffffff}{\space ⨠ \space}$  https://www.markdownguide.org/cheat-sheet
+$\color{#4493f8}\text{Guia\ de\ Markdown}$  $\color{#ffffff}{⨠}$   https://www.markdownguide.org/cheat-sheet
 
-$\color{#4493f8}\text{Documentación \space de \space Godot}$ $\color{#ffffff}{\space ⨠ \space}$ https://docs.godotengine.org/en/stable/
+$\color{#4493f8}\text{Documentación\ de\ Godot}$  $\color{#ffffff}{⨠}$  https://docs.godotengine.org/en/stable/
