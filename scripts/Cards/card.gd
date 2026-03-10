@@ -67,7 +67,9 @@ func show_tooltip_info(si: bool) -> void:
 		current_tooltip = tooltip_scene.instantiate()
 		TooltipManager.add_child(current_tooltip)
 		current_tooltip.get_node("VBox/HBox/TypeLabel").text = tr(datos_carta.tipo)
-		current_tooltip.get_node("VBox/HBox/LevelLabel").text = "Lvl." + (str(datos_carta.nivel_actual) if datos_carta.nivel_actual < datos_carta.nivel_max else "Max")
+		var tooltip_level_label: Label = current_tooltip.get_node("VBox/HBox/LevelLabel")
+		tooltip_level_label.text = "Lvl." + (str(datos_carta.nivel_actual) if datos_carta.nivel_actual < datos_carta.nivel_max else "Max")
+		tooltip_level_label.modulate = (gold_style.font_color if datos_carta.nivel_actual == datos_carta.nivel_max else basic_style.font_color)
 		var description_values: Array = []
 		match datos_carta.nombre:
 			"CARD_SWORD":

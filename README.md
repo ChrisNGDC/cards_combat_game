@@ -10,16 +10,17 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 # Cartas
 
-- ✔️ Daño físico (espada hace daño en base a la carta)
-  - ✔️ Ataque físico rompe magia $\color{red}{(1)}$
-- ✔️ Escudo (anula daño físico, no mejorable)
-- ✔️ Daño mágico (ignora escudo, no hace mas daño que la espada,daño depende nivel carta)
-  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel $\color{red}{(2)}$
+- ✔️ Espada (daño fisico en base al nivel)
+  - ✔️ Ataque físico rompe magia $\color{red}\textbf{(1)}$
+- ✔️ Escudo (bloquea daño fisico segun su nivel)
+- ✔️ Magia (ignora escudo, no hace mas daño que la espada,daño depende nivel carta)
+  - ✔️ Magia subida de nivel aumento de daño menor que espada subida de nivel $\color{red}\textbf{(2)}$
 - ✔️ Espejo (rebota el daño mágico, se rompe si recibe daño físico, no mejorable)
 - ✔️ Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida)
 
 # Items
-- ❌ Ítems a introducir que afecten al juego externamente? $\color{red}{(5)}$
+
+- ❌ Ítems a introducir que afecten al juego externamente? $\color{red}\textbf{(3)}$
 
 # Dificultad
 
@@ -28,12 +29,10 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 # Mazos
 
-- ✔️ Mago
-  - ❌ no puede hacer daño físico pero su daño mágico aplica efecto $\color{red}{(3)}$
-- ✔️ Luchador
-  - ❌ no puede hacer daño magico pero su daño físico es mejor $\color{red}{(4)}$
-- ✔️ Tanque
-  - ✔️ mayor cantidad de vida y de cartas defensivas
+- ✔️ Mago (centrado en la magia)
+- ✔️ Luchador (centrado en la espada)
+- ✔️ Tanque (mayor cantidad de vida y de cartas defensivas)
+- ✔️ Paladin (mezcla entre el luchador y el mago)
 
 # Mecanicas
 
@@ -45,13 +44,11 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 | Sección | Referencia | Texto | Respuesta |
 | :-----------: | :-----------: | :-----------: |  :-----------: |
-| [Sección](#cartas) | $\color{red}{(1)}$ y $\color{red}{(2)}$ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
-| [Sección](#mazos) | $\color{red}{(3)}$ | ¿Qué efecto podria tener? |
-| [Sección](#mazos) | $\color{red}{(4)}$ | ¿A que se refiere con mejor? |
-| [Sección](#items) | $\color{red}{(5)}$ | ¿Para el jugador o el mazo? |
+| [Sección](#cartas) | $\color{red}\textbf{(1)}$ y $\color{red}\textbf{(2)}$ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
+| [Sección](#items) | $\color{red}\textbf{(3)}$ | ¿Para el jugador o el mazo? |
 
 ## Links de Ayuda
 
-> **[Guia de Markdown](https://www.markdownguide.org/cheat-sheet)**
->
-> **[Documentacion de Godot](https://docs.godotengine.org/en/stable/)**
+$\color{#4493f8}\text{Guia \space de \space Markdown}$ $\color{#ffffff}{\space ⨠ \space}$  https://www.markdownguide.org/cheat-sheet
+
+$\color{#4493f8}\text{Documentación \space de \space Godot}$ $\color{#ffffff}{\space ⨠ \space}$ https://docs.godotengine.org/en/stable/
