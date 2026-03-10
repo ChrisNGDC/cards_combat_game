@@ -7,6 +7,13 @@ después de una ronda de combate una ronda de tienda, así hasta que la vida de 
 para comprar en la tienda hacer solo 1 acción (de momento sin monedas u otro sistema) obtener carta, quitar carta, mejorar carta
 Vida de jugador a ver para coordinar con la duración del juego y el daño de cartas
 
+# Referencias
+
+- 🔴 No implementado
+- 🟠 Implementado pero con dudas
+- 🟡 Implementado en parte
+- 🟢 Implementado
+- #️⃣ Referencia de dudas/errores
 
 # Cartas
 
