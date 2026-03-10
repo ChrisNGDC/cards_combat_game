@@ -11,16 +11,16 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 # Cartas
 
 - 🟢 Espada (daño fisico en base al nivel)
-  - 🟡 Ataque físico rompe magia $\color{red}\textbf{(1)}$
+  - 🟠 Ataque físico rompe magia 1️⃣
 - 🟢 Escudo (bloquea daño fisico segun su nivel)
 - 🟢 Magia (ignora escudo, no hace mas daño que la espada,daño depende nivel carta)
-  - 🟡 Magia subida de nivel aumento de daño menor que espada subida de nivel $\color{red}\textbf{(2)}$
+  - 🟠 Magia subida de nivel aumento de daño menor que espada subida de nivel 2️⃣
 - 🟢 Espejo (rebota el daño mágico, se rompe si recibe daño físico, no mejorable)
 - 🟢 Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida)
 
 # Items
 
-- 🔴 Ítems a introducir que afecten al juego externamente? $\color{red}\textbf{(3)}$
+- 🔴 Ítems a introducir que afecten al juego externamente? 3️⃣
 
 # Dificultad
 
@@ -45,11 +45,11 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 | Sección | Referencia | Texto | Respuesta |
 | :-----------: | :-----------: | :-----------: |  :-----------: |
-| [Sección](#cartas) | $\color{red}\textbf{(1)}$ y $\color{red}\textbf{(2)}$ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
-| [Sección](#items) | $\color{red}\textbf{(3)}$ | ¿Para el jugador o el mazo? |
+| [Sección](#cartas) | 1️⃣ y 2️⃣ | Si la Espada escala mejor que la Magia <br> ¿No deberia de la Magia ganarle a la Espada? |
+| [Sección](#item) | 3️⃣ | ¿Para el jugador o el mazo? |
 
 ## Links de Ayuda
 
-$\color{#4493f8}\text{Guia\ de\ Markdown}$  $\color{#ffffff}{⨠}$   https://www.markdownguide.org/cheat-sheet
+[Guia de Markdown](https://www.markdownguide.org/cheatsheet)
 
-$\color{#4493f8}\text{Documentación\ de\ Godot}$  $\color{#ffffff}{⨠}$  https://docs.godotengine.org/en/stable/
+[Documentación de Godot](https://docs.godotengine.org/en/stable/)
