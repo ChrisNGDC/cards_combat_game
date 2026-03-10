@@ -7,42 +7,42 @@ extends Button
 @export var footer_node: Control
 @export var next_button: Button
 
-@onready var shelf = get_tree().get_root().find_child("ItemShelf", true, false)
+@onready var shelf: Control = get_tree().get_root().find_child("ItemShelf", true, false)
 
-func _ready():
+func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	pressed.connect(_on_pressed)
 	pivot_offset = size / 2
 
-func _on_mouse_entered():
+func _on_mouse_entered() -> void:
 	create_tween().tween_property(self , "scale", Vector2(1.1, 1.1), 0.1)
 	if description_label:
 		description_label.text = hover_text
 
-func _on_mouse_exited():
+func _on_mouse_exited() -> void:
 	create_tween().tween_property(self , "scale", Vector2(1.0, 1.0), 0.1)
 	if description_label:
 		description_label.text = ""
 		description_label.add_theme_color_override("font_color", Color.BLACK)
 
-func _on_pressed():
-	var selected_data = shelf.selected_card_data
-	var selected_index = shelf.selected_card_index
-	var action_success = false
+func _on_pressed() -> void:
+	var selected_data: BaseCard = shelf.selected_card_data
+	var selected_index: int = shelf.selected_card_index
+	var action_success: bool = false
 	match mode:
 		"STORE_ADD":
 			if selected_data:
-				var player_new_card = GlobalData.create_card(selected_data.nombre, [0, selected_data.nivel_max])
-				var cpu_card = GlobalData.cpu_deck.cartas.pick_random()
-				var cpu_new_card = GlobalData.create_card(cpu_card.nombre, [0, cpu_card.nivel_max])
+				var player_new_card: BaseCard = GlobalData.create_card(selected_data.nombre, [0, selected_data.nivel_max])
+				var cpu_card: BaseCard = GlobalData.cpu_deck.cartas.pick_random()
+				var cpu_new_card: BaseCard = GlobalData.create_card(cpu_card.nombre, [0, cpu_card.nivel_max])
 				GlobalData.player_deck.cartas.append(player_new_card)
 				GlobalData.cpu_deck.cartas.append(cpu_new_card)
 				action_success = true
 		"STORE_REMOVE":
 			if selected_index != -1:
 				GlobalData.player_deck.cartas.remove_at(selected_index)
-				var cpu_card_pos = randi() % GlobalData.cpu_deck.cartas.size()
+				var cpu_card_pos: int = randi() % GlobalData.cpu_deck.cartas.size()
 				GlobalData.cpu_deck.cartas.remove_at(cpu_card_pos)
 				shelf.selected_card_index = -1
 				shelf.selected_card_data = null
@@ -50,7 +50,7 @@ func _on_pressed():
 		"STORE_UPGRADE":
 			if selected_index != -1 and selected_data and selected_data.upgradeable():
 				GlobalData.player_deck.cartas[selected_index].upgrade()
-				var cpu_card_pos = randi() % GlobalData.cpu_deck.cartas.size()
+				var cpu_card_pos: int = randi() % GlobalData.cpu_deck.cartas.size()
 				while not GlobalData.cpu_deck.cartas[cpu_card_pos].upgradeable():
 					cpu_card_pos = randi() % GlobalData.cpu_deck.cartas.size()
 				GlobalData.cpu_deck.cartas[cpu_card_pos].upgrade()
@@ -58,7 +58,7 @@ func _on_pressed():
 			else:
 				description_label.text = tr("STORE_INVALID_UPGRADE")
 				description_label.add_theme_color_override("font_color", Color.RED)
-				var tween = create_tween()
+				var tween: Tween = create_tween()
 				tween.tween_property(description_label, "position:x", description_label.position.x + 10, 0.075)
 				tween.tween_property(description_label, "position:x", description_label.position.x - 10, 0.075)
 				tween.set_loops(2)
@@ -66,7 +66,7 @@ func _on_pressed():
 	if action_success:
 		finalize_transaction()
 
-func finalize_transaction():
+func finalize_transaction() -> void:
 	if footer_node:
 		footer_node.visible = false
 	if next_button:

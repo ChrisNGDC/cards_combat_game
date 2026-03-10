@@ -9,7 +9,7 @@ class_name BaseCard
 @export_enum("Fisico", "Magico", "Ninguno") var tipo_danio: String
 @export var description: String
 
-func _init(_nombre, _ruta_imagen, _tipo, _nivel_actual, _nivel_max, _tipo_danio, _description):
+func _init(_nombre: String, _ruta_imagen: String, _tipo: String, _nivel_actual: int, _nivel_max: int, _tipo_danio: String, _description: String) -> void:
 	self.nombre = _nombre
 	self.ruta_imagen = _ruta_imagen
 	self.tipo = _tipo
@@ -18,8 +18,8 @@ func _init(_nombre, _ruta_imagen, _tipo, _nivel_actual, _nivel_max, _tipo_danio,
 	self.tipo_danio = _tipo_danio
 	self.description = _description
 
-func upgradeable():
+func upgradeable() -> bool:
 	return nivel_actual < nivel_max
 
-func upgrade():
+func upgrade() -> void:
 	nivel_actual += 1

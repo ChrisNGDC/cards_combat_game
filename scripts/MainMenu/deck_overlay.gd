@@ -1,17 +1,17 @@
 extends CanvasLayer
 
-@onready var shelf = $ItemShelf
+@onready var shelf: HFlowContainer = $ItemShelf
 
-func display_deck(deck_data: Array):
-	for child in shelf.get_children():
+func display_deck(deck_data: Array) -> void:
+	for child: Control in shelf.get_children():
 		child.queue_free()
 	
-	var mazo = []
-	for card_info in deck_data:
-		var nueva_carta = GlobalData.create_card(card_info.tipo, card_info.datos)
+	var mazo: Array = []
+	for card_info: Dictionary in deck_data:
+		var nueva_carta: BaseCard = GlobalData.create_card(card_info.tipo, card_info.datos)
 		mazo.append(nueva_carta)
 		
 	shelf.mostrar_cartas(mazo)
 
-func _on_close_button_pressed():
+func _on_close_button_pressed() -> void:
 	queue_free()

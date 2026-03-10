@@ -1,8 +1,8 @@
 extends Control
 
-@onready var res_button = $ResolutionButton
-@onready var lang_button = $LanguageButton
-@onready var fullscreen_button = $FullscreenButton
+@onready var res_button: Button = $ResolutionButton
+@onready var lang_button: Button = $LanguageButton
+@onready var fullscreen_button: Button = $FullscreenButton
 
 
 var resolutions: Dictionary = {
@@ -15,10 +15,10 @@ var resolutions: Dictionary = {
 }
 
 
-func _ready():
+func _ready() -> void:
 	_fill_resolution_options()
-	var is_full = (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
-	var current_locale = TranslationServer.get_locale()
+	var is_full: bool = (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
+	var current_locale: String = TranslationServer.get_locale()
 	
 	if current_locale.begins_with("es"):
 		lang_button.selected = 1
@@ -33,32 +33,32 @@ func _ready():
 	fullscreen_button.toggled.connect(_on_fullscreen_toggled)
 
 
-func _fill_resolution_options():
+func _fill_resolution_options() -> void:
 	res_button.clear()
-	for res_text in resolutions.keys():
+	for res_text: String in resolutions.keys():
 		res_button.add_item(res_text)
 
-	var current_res = ConfigManager.load_resolution()
-	for i in res_button.item_count:
+	var current_res: Vector2i = ConfigManager.load_resolution()
+	for i: int in res_button.item_count:
 		if resolutions.values()[i] == current_res:
 			res_button.selected = i
 			set_resolution(current_res)
 			break
 
 
-func _on_resolution_selected(index: int):
-	var selected_res_text = res_button.get_item_text(index)
-	var target_size = resolutions[selected_res_text]
+func _on_resolution_selected(index: int) -> void:
+	var selected_res_text: String = res_button.get_item_text(index)
+	var target_size: Vector2i = resolutions[selected_res_text]
 
 	set_resolution(target_size)
 
-func set_resolution(resolution: Vector2i):
+func set_resolution(resolution: Vector2i) -> void:
 	DisplayServer.window_set_size(resolution)
-	var screen_center = DisplayServer.screen_get_position() + Vector2i(DisplayServer.screen_get_size() / 2.0)
+	var screen_center: Vector2i = DisplayServer.screen_get_position() + Vector2i(DisplayServer.screen_get_size() / 2.0)
 	DisplayServer.window_set_position(screen_center - Vector2i(resolution / 2.0))
 	ConfigManager.save_resolution(resolution.x, resolution.y)
 
-func _on_fullscreen_toggled(is_pressed: bool):
+func _on_fullscreen_toggled(is_pressed: bool) -> void:
 	ConfigManager.save_fullscreen(is_pressed)
 	res_button.disabled = is_pressed
 	
@@ -79,7 +79,7 @@ func _on_history_pressed() -> void:
 	get_tree().change_scene_to_file("res://escenes/history_menu.tscn")
 
 
-func _on_language_selected(index: int):
+func _on_language_selected(index: int) -> void:
 	match index:
 		0:
 			ConfigManager.save_language("en")

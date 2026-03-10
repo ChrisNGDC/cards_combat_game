@@ -1,33 +1,34 @@
 extends Node2D
 
-var screen_size
-var card_being_dragged
+var screen_size: Vector2
+var card_being_dragged: Node2D
 var card_original_pos: Vector2
-var card_scene = preload("res://escenes/card.tscn")
-var game_over_scene = preload("res://escenes/game_over_ui.tscn")
+var card_scene: PackedScene = preload("res://escenes/card.tscn")
+var game_over_scene: PackedScene = preload("res://escenes/game_over_ui.tscn")
 var player_slot_pos: Vector2
 var cpu_slot_pos: Vector2
 var slot_scale: Vector2
-var highlight_color = Color(1.5, 1.5, 1.5, 0.6)
-var normal_color = Color(1, 1, 1, 0.4)
-var card_in_slot
+var highlight_color: Color = Color(1.5, 1.5, 1.5, 0.6)
+var normal_color: Color = Color(1, 1, 1, 0.4)
+var card_in_slot: Node2D
 var player_deck: Array[BaseCard]
 var cpu_deck: Array[BaseCard]
-var player_mazo_pos
-var cpu_mazo_pos
-var hand_size = 4
-var cartas_mazo_player = []
-var cartas_mano_player = []
-var cartas_mazo_cpu = []
-var cartas_mano_cpu = []
-var last_hand_pos = 0
+var player_mazo_pos: Vector2
+var cpu_mazo_pos: Vector2
+var hand_size: int = 4
+var cartas_mazo_player: Array[Node2D] = []
+var cartas_mano_player: Array[Node2D] = []
+var cartas_mazo_cpu: Array[Node2D] = []
+var cartas_mano_cpu: Array[Node2D] = []
+var last_hand_pos: int = 0
 var fighting: bool
+var dealing_hand: bool
 
-@onready var player_card_slot = $PlayerSlot
-@onready var cpu_card_slot = $CPUSlot
-@onready var round_label = $RoundLabel
-@onready var end_round_button = $Control/EndRound
-@onready var end_round_warning = $Control/WarningEndLabel
+@onready var player_card_slot: Sprite2D = $PlayerSlot
+@onready var cpu_card_slot: Sprite2D = $CPUSlot
+@onready var round_label: Label = $RoundLabel
+@onready var end_round_button: Button = $Control/EndRound
+@onready var end_round_warning: Label = $Control/WarningEndLabel
 
 
 # Called when the node enters the scene tree for the first time.
@@ -61,11 +62,11 @@ func _process(_delta: float) -> void:
 		show_cards_tooltip(false)
 		card_being_dragged.show_tooltip_info(false)
 		card_being_dragged.position = get_global_mouse_position()
-	var debe_resaltar = card_being_dragged and card_being_dragged.position.distance_to(player_slot_pos) < 120
-	var target_color = highlight_color if debe_resaltar else normal_color
-	var target_scale = slot_scale * 1.2 if debe_resaltar else slot_scale
+	var debe_resaltar: bool = card_being_dragged and card_being_dragged.position.distance_to(player_slot_pos) < 120
+	var target_color: Color = highlight_color if debe_resaltar else normal_color
+	var target_scale: Vector2 = slot_scale * 1.2 if debe_resaltar else slot_scale
 	if player_card_slot.modulate != target_color:
-		var tween = get_tree().create_tween()
+		var tween: Tween = get_tree().create_tween()
 		player_card_slot.modulate = target_color
 		tween.tween_property(player_card_slot, "scale", target_scale, 0.1)
 
@@ -73,7 +74,7 @@ func _process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			var card = check_card_click()
+			var card: Node2D = check_card_click()
 			if card and card.own_by_player and card.card_front.visible and (card != card_in_slot or not fighting):
 				card_being_dragged = card
 				card_original_pos = card.position
@@ -86,16 +87,16 @@ func _input(event: InputEvent) -> void:
 				card_being_dragged = null
 				
 
-func crear_mazo(mazo: Array, mazo_pos: Vector2, player: bool):
-	var mazo_seleccionado = player_deck if player else cpu_deck
-	var cards_amount = mazo_seleccionado.size()
-	var anchor_rel = 0
-	for i in range(cards_amount):
-		var nueva_carta = card_scene.instantiate()
+func crear_mazo(mazo: Array[Node2D], mazo_pos: Vector2, player: bool) -> void:
+	var mazo_seleccionado: Array[BaseCard] = player_deck if player else cpu_deck
+	var cards_amount: int = mazo_seleccionado.size()
+	var anchor_rel: int = 0
+	for i: int in range(cards_amount):
+		var nueva_carta: Node2D = card_scene.instantiate()
 		add_child(nueva_carta)
 		nueva_carta.setup(mazo_seleccionado[i], player)
 		nueva_carta.anchor_pos = Vector2(0, 0)
-		var offset_mazo
+		var offset_mazo: Vector2
 		if player:
 			if i < 4:
 				nueva_carta.anchor_pos = Vector2(screen_size.x / 3 + (anchor_rel * 160), screen_size.y - 150)
@@ -110,9 +111,8 @@ func crear_mazo(mazo: Array, mazo_pos: Vector2, player: bool):
 		anchor_rel += 1
 
 
-func repartir_carta(mazo, mano, pos, player: bool):
-	await get_tree().create_timer(0.75).timeout
-	var carta = mazo.pop_front()
+func repartir_carta(mazo: Array[Node2D], mano: Array[Node2D], pos: Vector2, player: bool) -> void:
+	var carta: Node2D = mazo.pop_front()
 	if carta:
 		mano.append(carta)
 		if carta.anchor_pos == Vector2(0, 0):
@@ -120,13 +120,16 @@ func repartir_carta(mazo, mano, pos, player: bool):
 		animar_vuelo_repartida(carta, carta.anchor_pos, player)
 
 
-func repartir_mano(mazo, mano, player: bool):
-	for i in range(min(hand_size, mazo.size())):
-		await repartir_carta(mazo, mano, mazo[i].anchor_pos, player)
+func repartir_mano(mazo: Array[Node2D], mano: Array[Node2D], player: bool) -> void:
+	dealing_hand = true
+	for i: int in range(min(hand_size, mazo.size())):
+		repartir_carta(mazo, mano, mazo[i].anchor_pos, player)
+		await get_tree().create_timer(0.75).timeout
+	dealing_hand = false
 
 
-func animar_vuelo_repartida(carta, destino, flip: bool):
-	var tween = get_tree().create_tween().set_parallel(true)
+func animar_vuelo_repartida(carta: Node2D, destino: Vector2, flip: bool) -> void:
+	var tween: Tween = get_tree().create_tween().set_parallel(true)
 	carta.z_index = 100
 	carta.show_card(false)
 	carta.scale = carta.escala_normal
@@ -135,13 +138,13 @@ func animar_vuelo_repartida(carta, destino, flip: bool):
 	tween.tween_property(carta, "rotation", 0, 1.0)
 	if flip:
 		flip_card(carta)
-	tween.chain().tween_callback(func(): carta.z_index = 2)
+	tween.chain().tween_callback(func() -> void: carta.z_index = 2)
 
 
-func check_drop_card():
-	var distancia = card_being_dragged.position.distance_to(player_slot_pos)
-	if distancia < 120 and not fighting:
-		var tween = get_tree().create_tween()
+func check_drop_card() -> void:
+	var distancia: float = card_being_dragged.position.distance_to(player_slot_pos)
+	if distancia < 120 and not fighting and not dealing_hand:
+		var tween: Tween = get_tree().create_tween()
 		tween.tween_property(card_being_dragged, "position", player_slot_pos, 0.1)
 		if !card_in_slot:
 			card_in_slot = card_being_dragged
@@ -150,7 +153,7 @@ func check_drop_card():
 			card_in_slot.z_index = 2
 			card_in_slot = card_being_dragged
 	else:
-		var tween = get_tree().create_tween()
+		var tween: Tween = get_tree().create_tween()
 		tween.tween_property(card_being_dragged, "position", card_being_dragged.anchor_pos, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		card_being_dragged.z_index = 2
 		if card_in_slot == card_being_dragged:
@@ -158,36 +161,36 @@ func check_drop_card():
 
 
 func check_card_click() -> Node2D:
-	var space_state = get_world_2d().direct_space_state
-	var parameters = PhysicsPointQueryParameters2D.new()
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var parameters: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()
 	parameters.position = get_global_mouse_position()
 	parameters.collide_with_areas = true
 	parameters.collision_mask = 1
-	var result = space_state.intersect_point(parameters)
+	var result: Array[Dictionary] = space_state.intersect_point(parameters)
 	if result.size() > 0:
 		return result[0].collider.get_parent()
 	return null
 
 
-func show_cards_tooltip(si: bool):
-	for card in cartas_mano_player:
+func show_cards_tooltip(si: bool) -> void:
+	for card: Node2D in cartas_mano_player:
 		card.show_tooltip = si
 
 
-func flip_card(carta):
-	var flip_tween = get_tree().create_tween()
+func flip_card(carta: Node2D) -> void:
+	var flip_tween: Tween = get_tree().create_tween()
 	flip_tween.tween_property(carta, "scale:x", 0.0, 0.5).set_ease(Tween.EASE_IN)
 	carta.dar_borde()
-	flip_tween.tween_callback(func(): carta.show_card(true))
+	flip_tween.tween_callback(func() -> void: carta.show_card(true))
 	flip_tween.tween_property(carta, "scale:x", carta.escala_normal.x, 0.5).set_ease(Tween.EASE_OUT)
 
 
-func combat(player_card: BaseCard, cpu_card: BaseCard):
+func combat(player_card: BaseCard, cpu_card: BaseCard) -> void:
 	var primera: BaseCard
 	var segunda: BaseCard
 	var player_va_primero: bool
 
-	var cpu_sword_prio = (cpu_card.nombre == "CARD_SWORD" and player_card.nombre == "CARD_MAGIC")
+	var cpu_sword_prio: bool = (cpu_card.nombre == "CARD_SWORD" and player_card.nombre == "CARD_MAGIC")
 
 	if (cpu_card.tipo == "CARD_OFFENSIVE" and player_card.tipo != "CARD_OFFENSIVE") or cpu_sword_prio:
 		primera = cpu_card
@@ -198,11 +201,11 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 		segunda = cpu_card
 		player_va_primero = true
 
-	var invalid_potion = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_POTION"
-	var invalid_mirror = primera.tipo_danio == "CARD_PHYSICAL" and segunda.nombre == "CARD_MIRROR"
-	var invalid_shield = primera.tipo_danio == "CARD_MAGICAL" and segunda.nombre == "CARD_SHIELD"
-	var invalid_magic = primera.nombre == "CARD_SWORD" and segunda.nombre == "CARD_MAGIC"
-	var invalid_second = invalid_potion or invalid_mirror or invalid_shield or invalid_magic
+	var invalid_potion: bool = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_POTION"
+	var invalid_mirror: bool = primera.tipo_danio == "CARD_PHYSICAL" and segunda.nombre == "CARD_MIRROR"
+	var invalid_shield: bool = primera.tipo_danio == "CARD_MAGICAL" and segunda.nombre == "CARD_SHIELD"
+	var invalid_magic: bool = primera.nombre == "CARD_SWORD" and segunda.nombre == "CARD_MAGIC"
+	var invalid_second: bool = invalid_potion or invalid_mirror or invalid_shield or invalid_magic
 
 	await play_card(primera, player_va_primero)
 
@@ -214,22 +217,22 @@ func combat(player_card: BaseCard, cpu_card: BaseCard):
 	GlobalData.reset_damages()
 
 
-func play_card(card: BaseCard, es_jugador: bool):
+func play_card(card: BaseCard, es_jugador: bool) -> void:
 	match card.nombre:
 		"CARD_SWORD":
-			var damage = card.damage_amount()
+			var damage: int = card.damage_amount()
 			if es_jugador:
 				GlobalData.cpu_damage_to_recieve += damage
 			else:
 				GlobalData.player_damage_to_recieve += damage
 		"CARD_MAGIC":
-			var damage = card.damage_amount()
+			var damage: int = card.damage_amount()
 			if es_jugador:
 				GlobalData.cpu_damage_to_recieve += damage
 			else:
 				GlobalData.player_damage_to_recieve += damage
 		"CARD_SHIELD":
-			var damage = card.block_amount()
+			var damage: int = card.block_amount()
 			if es_jugador:
 				GlobalData.player_damage_to_recieve = max(0, GlobalData.player_damage_to_recieve - damage)
 			else:
@@ -242,7 +245,7 @@ func play_card(card: BaseCard, es_jugador: bool):
 				GlobalData.player_damage_to_recieve += GlobalData.cpu_damage_to_recieve
 				GlobalData.cpu_damage_to_recieve = 0
 		"CARD_POTION":
-			var healing = card.heal_amount()
+			var healing: int = card.heal_amount()
 			if es_jugador:
 				GlobalData.player_damage_to_recieve -= healing
 			else:
@@ -256,10 +259,10 @@ func _on_fight_pressed() -> void:
 		if cartas_mazo_player.size() == 0 and cartas_mano_player.size() == hand_size:
 			end_round_button.visible = false
 			end_round_warning.visible = false
-		var cpu_choice = cartas_mano_cpu.pick_random()
-		var cpu_card_pos = cpu_choice.anchor_pos
-		var player_card_pos = card_in_slot.anchor_pos
-		await animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
+		var cpu_choice: Node2D = cartas_mano_cpu.pick_random()
+		var cpu_card_pos: Vector2 = cpu_choice.anchor_pos
+		var player_card_pos: Vector2 = card_in_slot.anchor_pos
+		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
 		await get_tree().create_timer(1.5).timeout
 		await combat(card_in_slot.datos_carta, cpu_choice.datos_carta)
 		card_in_slot.show_tooltip_info(false)
@@ -287,18 +290,18 @@ func _on_fight_pressed() -> void:
 				get_tree().change_scene_to_file("res://escenes/store.tscn")
 	fighting = false
 
-func check_game_over():
+func check_game_over() -> bool:
 	if GlobalData.player_current_hp > 0 and GlobalData.cpu_current_hp > 0:
 		return false
-	var won = (GlobalData.player_current_hp > 0 and GlobalData.cpu_current_hp <= 0)
+	var won: bool = (GlobalData.player_current_hp > 0 and GlobalData.cpu_current_hp <= 0)
 	show_game_over_ui(won)
 	return true
 
-func show_game_over_ui(won: bool):
-	var instance = game_over_scene.instantiate()
+func show_game_over_ui(won: bool) -> void:
+	var instance: CanvasLayer = game_over_scene.instantiate()
 	add_child(instance)
 	instance.setup(won)
-	var run_data = {
+	var run_data: Dictionary = {
 		"date": Time.get_datetime_string_from_system(false, true),
 		"won": (GlobalData.player_current_hp > 0),
 		"player_deck": cards_to_save(GlobalData.player_deck.cartas),
@@ -307,8 +310,8 @@ func show_game_over_ui(won: bool):
 	SaveManager.save_run(run_data)
 	
 func cards_to_save(deck: Array[BaseCard]) -> Array:
-	var deck_cards = []
-	for card in deck:
+	var deck_cards: Array = []
+	for card: BaseCard in deck:
 		deck_cards.append({
 			"tipo": card.nombre,
 			"datos": [card.nivel_actual, card.nivel_max]

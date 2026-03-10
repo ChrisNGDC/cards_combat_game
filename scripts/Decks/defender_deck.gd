@@ -7,7 +7,7 @@ func _init() -> void:
 	vida = 150
 	crear_cartas()
 	
-func crear_cartas():
+func crear_cartas() -> void:
 	cartas.append(SwordCard.new(0, 3))
 	cartas.append(SwordCard.new(0, 3))
 	cartas.append(ShieldCard.new(0, 3))

@@ -6,7 +6,7 @@ func _init() -> void:
 	ruta_imagen = "res://images/dorso.jpg"
 	crear_cartas()
 	
-func crear_cartas():
+func crear_cartas() -> void:
 	cartas.append(MagicCard.new(0, 3))
 	cartas.append(MagicCard.new(0, 3))
 	cartas.append(MagicCard.new(0, 3))
