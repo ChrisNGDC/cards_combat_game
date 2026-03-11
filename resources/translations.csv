@@ -3,10 +3,13 @@ GAME_NAME,Coliseum,Coliseo
 MENU_PLAY,Play,Jugar
 MENU_HISTORY,History,Historial
 MENU_EXIT,Exit,Salir
+CLOSE,Close,Cerrar
 DECK_FIGHTER,Fighter,Luchador
 DECK_MAGE,Mage,Mago
 DECK_PALADIN,Paladin,Paladín
 DECK_DEFENDER,Defender,Defensor
+DECK_SELECT,Select Deck,Seleccionar Mazo
+DECK_VIEW,View Deck,Ver Mazo
 CARD_SWORD,Sword,Espada
 CARD_SHIELD,Shield,Escudo
 CARD_MAGIC,Magic,Magia
