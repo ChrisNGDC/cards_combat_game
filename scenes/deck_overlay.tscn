@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dma0kfkxtq4pi"]
 
-[ext_resource type="Script" uid="uid://daprw7wlelbff" path="res://scripts/Utils/deck_overlay.gd" id="1_lskk3"]
-[ext_resource type="Script" uid="uid://bg4hhu4xbx5mf" path="res://scripts/Utils/item_shelf.gd" id="2_lskk3"]
+[ext_resource type="Script" uid="uid://daprw7wlelbff" path="res://scripts/utils/deck_overlay.gd" id="1_lskk3"]
+[ext_resource type="Script" uid="uid://bg4hhu4xbx5mf" path="res://scripts/utils/item_shelf.gd" id="2_lskk3"]
 
 [node name="DeckOverlay" type="CanvasLayer" unique_id=1022579553]
 script = ExtResource("1_lskk3")

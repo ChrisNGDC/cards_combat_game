@@ -11,7 +11,11 @@ func setup(data: Dictionary) -> void:
 	$ResultLabel.add_theme_color_override("font_color", Color.GREEN if data["won"] else Color.RED)
 
 func _on_player_deck_button_pressed() -> void:
-	show_deck_requested.emit(run_data["player_deck"])
+	var deck_data: Array[Dictionary] = []
+	deck_data.assign(run_data["player_deck"])
+	show_deck_requested.emit(deck_data)
 
 func _on_cpu_deck_button_pressed() -> void:
-	show_deck_requested.emit(run_data["cpu_deck"])
+	var deck_data: Array[Dictionary] = []
+	deck_data.assign(run_data["cpu_deck"])
+	show_deck_requested.emit(deck_data)

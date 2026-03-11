@@ -77,4 +77,4 @@ func finalize_transaction() -> void:
 
 
 func _on_next_round_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://escenes/combat.tscn")
+	SceneLoader.load_scene("res://scenes/combat.tscn")

@@ -3,8 +3,8 @@ extends Node2D
 var screen_size: Vector2
 var card_being_dragged: Node2D
 var card_original_pos: Vector2
-var card_scene: PackedScene = preload("res://escenes/card.tscn")
-var game_over_scene: PackedScene = preload("res://escenes/game_over_ui.tscn")
+var card_scene: PackedScene = preload("res://scenes/card.tscn")
+var game_over_scene: PackedScene = preload("res://scenes/game_over_ui.tscn")
 var player_slot_pos: Vector2
 var cpu_slot_pos: Vector2
 var slot_scale: Vector2
@@ -287,7 +287,7 @@ func _on_fight_pressed() -> void:
 			else:
 				GlobalData.rounds += 1
 				await get_tree().create_timer(.5).timeout
-				get_tree().change_scene_to_file("res://escenes/store.tscn")
+				SceneLoader.load_scene("res://scenes/store.tscn")
 	fighting = false
 
 func check_game_over() -> bool:
@@ -321,4 +321,4 @@ func cards_to_save(deck: Array[BaseCard]) -> Array:
 
 func _on_end_round_pressed() -> void:
 	GlobalData.rounds += 1
-	get_tree().change_scene_to_file("res://escenes/store.tscn")
+	SceneLoader.load_scene("res://scenes/store.tscn")

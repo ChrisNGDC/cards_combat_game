@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://26rgetsr743"]
 
-[ext_resource type="Script" uid="uid://cplbvbqkimxwo" path="res://scripts/Decks/deck.gd" id="1_506qi"]
+[ext_resource type="Script" uid="uid://cplbvbqkimxwo" path="res://scripts/decks/deck.gd" id="1_506qi"]
 [ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="1_pwmxt"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="3_506qi"]
 

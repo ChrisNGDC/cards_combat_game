@@ -9,8 +9,8 @@ extends CanvasLayer
 
 var dragging: bool = false
 var last_mouse_pos: Vector2 = Vector2()
-var deck_scene: PackedScene = preload("res://escenes/deck.tscn")
-var overlay_scene: PackedScene = preload("res://escenes/deck_overlay.tscn")
+var deck_scene: PackedScene = preload("res://scenes/deck.tscn")
+var overlay_scene: PackedScene = preload("res://scenes/deck_overlay.tscn")
 var lista_mazos: Array = GlobalData.decks_classes.keys()
 var selected_deck: Node2D = null
 var escala_normal: Vector2 = Vector2(0.25, 0.25)
@@ -63,7 +63,7 @@ func _on_select_deck_button_pressed() -> void:
 		var cpu_deck_name: String = lista_mazos.pick_random()
 		GlobalData.cpu_deck = GlobalData.create_deck(cpu_deck_name)
 		GlobalData.init_hp(false, GlobalData.cpu_deck.vida)
-		get_tree().change_scene_to_file("res://escenes/combat.tscn")
+		SceneLoader.load_scene("res://scenes/combat.tscn")
 
 func _on_view_deck_button_pressed() -> void:
 	viewing_deck = true

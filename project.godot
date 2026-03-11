@@ -22,6 +22,7 @@ GlobalData="*uid://d36hbym4lvg2a"
 SaveManager="*uid://wsmh8wpfeill"
 ConfigManager="*uid://dq4fpa7w2jdbu"
 TooltipManager="*uid://dwougphpc3plb"
+SceneLoader="*uid://drxxra1qcv8qt"
 
 [debug]
 
@@ -34,7 +35,6 @@ gdscript/warnings/narrowing_conversion=0
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/resizable=false
-window/size/borderless=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

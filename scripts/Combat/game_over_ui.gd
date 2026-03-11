@@ -17,4 +17,4 @@ func setup(won: bool) -> void:
 
 func _on_restart_button_pressed() -> void:
 	GlobalData.reset_game()
-	get_tree().change_scene_to_file("res://escenes/main_menu.tscn")
+	SceneLoader.load_scene("res://scenes/main_menu.tscn")

@@ -1,6 +1,6 @@
 extends HFlowContainer
 
-var card_scene: PackedScene = preload("res://escenes/card.tscn")
+var card_scene: PackedScene = preload("res://scenes/card.tscn")
 var mazo: Array
 var selected_card_data: BaseCard = null
 var current_selected_wrapper: Control = null

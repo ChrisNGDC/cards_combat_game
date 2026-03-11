@@ -72,11 +72,11 @@ func _on_exit_pressed() -> void:
 
 
 func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://escenes/decks.tscn")
+	SceneLoader.load_scene("res://scenes/decks.tscn")
 
 
 func _on_history_pressed() -> void:
-	get_tree().change_scene_to_file("res://escenes/history_menu.tscn")
+	SceneLoader.load_scene("res://scenes/history_menu.tscn")
 
 
 func _on_language_selected(index: int) -> void:

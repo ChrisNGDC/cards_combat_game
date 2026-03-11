@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://0eeovm5hr3tt"]
 
-[ext_resource type="Script" uid="uid://boiox2thyg2pb" path="res://scripts/Combat/game_over_ui.gd" id="1_bakr2"]
+[ext_resource type="Script" uid="uid://boiox2thyg2pb" path="res://scripts/combat/game_over_ui.gd" id="1_bakr2"]
 
 [node name="GameOverUI" type="CanvasLayer" unique_id=2064153920]
 layer = 10

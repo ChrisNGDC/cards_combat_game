@@ -7,7 +7,7 @@ func display_history_deck(deck_data: Array[Dictionary]) -> void:
 	for child: Control in shelf.get_children():
 		child.queue_free()
 	
-	var mazo: Array = []
+	var mazo: Array[BaseCard] = []
 	for card_info: Dictionary in deck_data:
 		var nueva_carta: BaseCard = GlobalData.create_card(card_info.tipo, card_info.datos)
 		mazo.append(nueva_carta)

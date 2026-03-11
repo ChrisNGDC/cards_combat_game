@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://bkry5313ehu6e"]
 
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_m851b"]
-[ext_resource type="Script" uid="uid://j1j6edb0kclb" path="res://scripts/Store/item_shelf.gd" id="2_eoh0j"]
+[ext_resource type="Script" uid="uid://j1j6edb0kclb" path="res://scripts/store/item_shelf.gd" id="2_eoh0j"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_suv53"]
 [ext_resource type="Texture2D" uid="uid://bw2iw1qjdrq8f" path="res://images/plus-minus.png" id="3_plgn8"]
 [ext_resource type="Texture2D" uid="uid://c5y0y7rc78nqg" path="res://images/up-down-arrow.png" id="4_4cg75"]
-[ext_resource type="Script" uid="uid://bgswurevd2bgj" path="res://scripts/Store/store_button.gd" id="4_suv53"]
+[ext_resource type="Script" uid="uid://bgswurevd2bgj" path="res://scripts/store/store_button.gd" id="4_suv53"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgjx4"]
 content_margin_left = 15.0

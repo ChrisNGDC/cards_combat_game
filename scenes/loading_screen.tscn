@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://dhrxgjrcg65uj"]
+
+[ext_resource type="Script" uid="uid://ce116un2xkhyj" path="res://scripts/utils/loading_screen.gd" id="1_ly3u2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7xxo2"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_7xxo2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ly3u2"]
+resource_name = "transition"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ee6ww"]
+_data = {
+&"RESET": SubResource("Animation_7xxo2"),
+&"transition": SubResource("Animation_ly3u2")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hprjd"]
+bg_color = Color(1, 1, 1, 0.078431375)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ep5rh"]
+bg_color = Color(0.23542303, 0.62150884, 0, 1)
+
+[node name="LoadingScreen" type="CanvasLayer" unique_id=1706761180 node_paths=PackedStringArray("animation_player", "progress_bar")]
+layer = 50
+script = ExtResource("1_ly3u2")
+animation_player = NodePath("AnimationPlayer")
+progress_bar = NodePath("MarginContainer/ProgressBar")
+
+[node name="Panel" type="Panel" parent="." unique_id=2013761036]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7xxo2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=438755997]
+libraries/ = SubResource("AnimationLibrary_ee6ww")
+autoplay = &"transition"
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1905331701]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_right = 300
+theme_override_constants/margin_bottom = 100
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer" unique_id=893358624]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 50
+theme_override_styles/background = SubResource("StyleBoxFlat_hprjd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ep5rh")
+max_value = 1.0
