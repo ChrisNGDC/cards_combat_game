@@ -1,8 +1,9 @@
 extends CanvasLayer
 
-@onready var shelf: HFlowContainer = $ItemShelf
+@onready var shelf: HFlowContainer = $MarginContainer/VBoxContainer/ItemShelf
+signal closing
 
-func display_deck(deck_data: Array) -> void:
+func display_history_deck(deck_data: Array[Dictionary]) -> void:
 	for child: Control in shelf.get_children():
 		child.queue_free()
 	
@@ -13,5 +14,13 @@ func display_deck(deck_data: Array) -> void:
 		
 	shelf.mostrar_cartas(mazo)
 
+func display_deck(deck_data: Array[BaseCard]) -> void:
+	for child: Control in shelf.get_children():
+		child.queue_free()
+		
+	shelf.mostrar_cartas(deck_data)
+
+
 func _on_close_button_pressed() -> void:
+	closing.emit()
 	queue_free()
