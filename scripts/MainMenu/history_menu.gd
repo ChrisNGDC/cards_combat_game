@@ -21,7 +21,7 @@ func display_history() -> void:
 func _on_show_deck_requested(deck_data: Array) -> void:
 	var overlay: CanvasLayer = overlay_scene.instantiate()
 	add_child(overlay)
-	overlay.display_deck(deck_data)
+	overlay.display_history_deck(deck_data)
 
 func _on_back_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://escenes/main_menu.tscn")
