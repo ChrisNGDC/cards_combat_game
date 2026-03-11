@@ -30,6 +30,7 @@ var current_tooltip: PanelContainer = null
 func _ready() -> void:
 	_aplicar_datos()
 	self.scale = escala_normal
+	connect("tree_exited", Callable(self , "_on_tree_exited"))
 
 
 func _process(_delta: float) -> void:
@@ -140,8 +141,9 @@ func _on_area_2d_mouse_entered() -> void:
 
 
 func _on_area_2d_mouse_exited() -> void:
-	if self.own_by_player and self.card_front.visible:
-		get_node("Borde").self_modulate /= 1.5
+	if self.card_front.visible:
+		if self.own_by_player:
+			get_node("Borde").self_modulate /= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_normal)
 		if current_tooltip:
@@ -150,3 +152,8 @@ func _on_area_2d_mouse_exited() -> void:
 func apply_scale_tween(target_scale: Vector2) -> void:
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(self , "scale", target_scale, 0.2)
+
+
+func _on_tree_exited() -> void:
+	if current_tooltip:
+		current_tooltip.queue_free()
