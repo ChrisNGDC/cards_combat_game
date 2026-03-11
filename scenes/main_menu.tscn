@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://c0nc6qaehdj66" path="res://scripts/mainMenu/menu_options.gd" id="2_ofhy1"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_qernj"]
 [ext_resource type="Texture2D" uid="uid://cspyd2gh0wc4l" path="res://images/fullscreen.png" id="4_jpqaq"]
-[ext_resource type="Script" uid="uid://bspe2up2dyhnv" path="res://scripts/version.gd" id="5_7yixx"]
+[ext_resource type="Script" uid="uid://c4rue6t3rvr82" path="res://scripts/utils/version.gd" id="5_8ln24"]
 
 [sub_resource type="FontFile" id="FontFile_06t4h"]
 cache/0/variation_coordinates = {}
@@ -319,7 +319,7 @@ toggle_mode = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="Version" type="Label" parent="." unique_id=597389288]
+[node name="VersionLabel" type="Label" parent="." unique_id=597389288]
 offset_left = 430.0
 offset_top = 310.0
 offset_right = 630.0
@@ -328,7 +328,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 2
 vertical_alignment = 2
-script = ExtResource("5_7yixx")
+script = ExtResource("5_8ln24")
 
 [connection signal="pressed" from="MenuOptions/Play" to="MenuOptions" method="_on_play_pressed"]
 [connection signal="pressed" from="MenuOptions/Exit" to="MenuOptions" method="_on_exit_pressed"]
