@@ -51,7 +51,7 @@ jobs:
 
       - name: Rename and Prepare Artifacts
         run: |
-          cd {{ steps.export.outputs.archive_directory }}
+          cd ${{ steps.export.outputs.archive_directory }}
           mv Windows.zip Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip || true
           mv Web.zip Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip || true
 
@@ -61,7 +61,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: v${{ steps.versioning.outputs.NEW_V }}
           name: "Release v${{ steps.versioning.outputs.NEW_V }}"
-          artifacts: ${{ github.workspace }}/Game-Windows-*.zip
+          artifacts: ${{ steps.export.outputs.archive_directory }}//Game-Windows-*.zip
           generateReleaseNotes: true
           allowUpdates: true
 
@@ -72,7 +72,7 @@ jobs:
           CHANNEL: web
           ITCH_GAME: cards-coliseum
           ITCH_USER: cryoszs
-          PACKAGE: ${{ github.workspace }}/Game-Web-*.zip
+          PACKAGE: ${{ steps.export.outputs.archive_directory }}//Game-Web-*.zip
           VERSION: ${{ steps.versioning.outputs.NEW_V }}
 
       - name: Commit and Push Changes
