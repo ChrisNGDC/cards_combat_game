@@ -68,13 +68,14 @@ jobs:
           allowUpdates: true
 
       - name: Deploy Web to Itch.io
-        uses: manleyjster/butler-publish@v1.0.3
-        with:
-          target: "cryoszs/cards-coliseum:web"
-          args: "--version ${{ steps.versioning.outputs.NEW_V }}"
-          path: "${{ steps.export.outputs.archive_directory }}/Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip"
+        uses: yeslayla/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: web
+          ITCH_GAME: cards-coliseum
+          ITCH_USER: cryoszs
+          PACKAGE: ${{ steps.export.outputs.archive_directory }}/Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip
+          VERSION: ${{ steps.versioning.outputs.NEW_V }}
 
       - name: Commit and Push Changes
         run: |
