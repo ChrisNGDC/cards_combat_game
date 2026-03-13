@@ -3,6 +3,7 @@ name: Build and Release Godot Game
 on:
   push:
     branches: [ main ]
+
 jobs:
   export_game:
     if: startsWith(github.event.head_commit.message, 'build')
@@ -36,7 +37,6 @@ jobs:
           sed -i "s/^config\/version=.*/config\/version=\"$NEW_VERSION\"/" project.godot
           
           echo "NEW_V=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "Updated project.godot to $NEW_VERSION"
 
       - name: Export Game
         id: export
@@ -48,11 +48,12 @@ jobs:
           archive_output: true
           presets_to_export: 'Windows,Web'
 
-      - name: Rename and Prepare Artifacts
+      - name: Rename and Move Artifacts to Workspace
         run: |
-          cd ${{ steps.export.outputs.archive_directory }}
-          mv Windows.zip Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip || true
-          mv Web.zip Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip || true
+          # The firebelley action uses a hidden path. We move them to the visible workspace.
+          # We rename them during the move.
+          mv "${{ steps.export.outputs.archive_directory }}/Windows.zip" "${{ github.workspace }}/Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip"
+          mv "${{ steps.export.outputs.archive_directory }}/Web.zip" "${{ github.workspace }}/Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip"
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1.20.0
@@ -60,18 +61,20 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: v${{ steps.versioning.outputs.NEW_V }}
           name: "Release v${{ steps.versioning.outputs.NEW_V }}"
-          artifacts: ${{ steps.export.outputs.archive_directory }}/Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip
+          # Look in the root workspace
+          artifacts: "${{ github.workspace }}/Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip"
           generateReleaseNotes: true
           allowUpdates: true
 
       - name: Deploy Web to Itch.io
-        uses: XanatosX/butler-publish-itchio-action@master
+        uses: yeslayla/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: html5
           ITCH_GAME: cards-coliseum
           ITCH_USER: cryoszs
-          PACKAGE: ${{ steps.export.outputs.archive_directory }}/Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip
+          # The Docker container can see this path because it starts with /github/workspace
+          PACKAGE: "Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip"
           VERSION: ${{ steps.versioning.outputs.NEW_V }}
 
       - name: Commit and Push Changes
