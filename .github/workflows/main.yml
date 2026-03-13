@@ -3,7 +3,6 @@ name: Build and Release Godot Game
 on:
   push:
     branches: [ main ]
-
 jobs:
   export_game:
     if: startsWith(github.event.head_commit.message, 'build')
@@ -66,10 +65,10 @@ jobs:
           allowUpdates: true
 
       - name: Deploy Web to Itch.io
-        uses: yeslayla/butler-publish-itchio-action@master
+        uses: yeslayla/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: web
+          CHANNEL: html5
           ITCH_GAME: cards-coliseum
           ITCH_USER: cryoszs
           PACKAGE: ${{ steps.export.outputs.archive_directory }}/Game-Web-*.zip
