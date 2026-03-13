@@ -51,11 +51,9 @@ jobs:
 
       - name: Rename and Prepare Artifacts
         run: |
-          cd ${{ steps.export.outputs.archive_directory }}
-          # Rename based on specific preset names to avoid collisions
-          # Assuming your presets are named "Windows" and "Web"
-          mv "Windows.zip" "Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip" || true
-          mv "Web.zip" "Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip" || true
+          cd ${{ github.workspace }}/${{ steps.export.outputs.archive_directory }}
+          mv Windows/Windows.zip ../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip || true
+          mv Web/Web.zip ../Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip || true
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1.20.0
@@ -63,7 +61,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: v${{ steps.versioning.outputs.NEW_V }}
           name: "Release v${{ steps.versioning.outputs.NEW_V }}"
-          artifacts: ${{ steps.export.outputs.archive_directory }}/Game-Windows-*.zip
+          artifacts: ${{ github.workspace }}/Game-Windows-*.zip
           generateReleaseNotes: true
           allowUpdates: true
 
@@ -74,7 +72,7 @@ jobs:
           CHANNEL: web
           ITCH_GAME: cards-coliseum
           ITCH_USER: cryoszs
-          PACKAGE: ${{ steps.export.outputs.archive_directory }}
+          PACKAGE: ${{ github.workspace }}/Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip
           VERSION: ${{ steps.versioning.outputs.NEW_V }}
 
       - name: Commit and Push Changes
