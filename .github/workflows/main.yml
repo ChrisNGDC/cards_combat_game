@@ -52,8 +52,14 @@ jobs:
       - name: Rename and Prepare Artifacts
         run: |
           cd ${{ github.workspace }}/${{ steps.export.outputs.archive_directory }}
-          mv Windows/Windows.zip ../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip || true
-          mv Web/Web.zip ../Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip || true
+          if [ -d "Windows" ]; then
+            cd Windows && zip -r ../../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip . && cd ..
+          elif [ -f "Windows.zip" ]; then
+            mv Windows.zip ../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip
+          fi
+          cd Web
+          zip -r ../../Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip .
+          cd ..
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1.20.0
