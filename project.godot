@@ -38,10 +38,6 @@ window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/GDQuest_GDScript_formatter/plugin.cfg")
-
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true

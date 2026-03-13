@@ -51,7 +51,7 @@ jobs:
 
       - name: Rename and Prepare Artifacts
         run: |
-          cd ${{ github.workspace }}/${{ steps.export.outputs.archive_directory }}
+          cd ${{ github.workspace }}${{ steps.export.outputs.archive_directory }}
           mv Windows/Windows.zip ../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip || true
           mv Web/Web.zip ../Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip || true
 
