@@ -16,7 +16,11 @@ var resolutions: Dictionary = {
 
 
 func _ready() -> void:
-	_fill_resolution_options()
+	if OS.has_feature("web"):
+		res_button.hide()
+	else:
+		_fill_resolution_options()
+
 	var is_full: bool = (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
 	var current_locale: String = TranslationServer.get_locale()
 	

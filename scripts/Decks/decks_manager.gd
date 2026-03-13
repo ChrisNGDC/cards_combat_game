@@ -58,11 +58,11 @@ func _input(event: InputEvent) -> void:
 
 func _on_select_deck_button_pressed() -> void:
 	if selected_deck:
-		GlobalData.player_deck = GlobalData.create_deck(selected_deck.datos_mazo.nombre)
-		GlobalData.init_hp(true, GlobalData.player_deck.vida)
+		GlobalData.player.deck = GlobalData.create_deck(selected_deck.datos_mazo.nombre)
+		GlobalData.player.set_initial_hp()
 		var cpu_deck_name: String = lista_mazos.pick_random()
-		GlobalData.cpu_deck = GlobalData.create_deck(cpu_deck_name)
-		GlobalData.init_hp(false, GlobalData.cpu_deck.vida)
+		GlobalData.cpu.deck = GlobalData.create_deck(cpu_deck_name)
+		GlobalData.cpu.set_initial_hp()
 		SceneLoader.load_scene("res://scenes/combat.tscn")
 
 func _on_view_deck_button_pressed() -> void:

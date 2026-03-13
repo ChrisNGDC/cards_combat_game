@@ -281,11 +281,14 @@ centered = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -29.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset_ratio = Vector2(0.5, 0.5)
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource("2_suv53")
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1136447454]
 layout_mode = 2
@@ -303,7 +306,7 @@ uppercase = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 20
 text = "STORE_GUIDE"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -317,7 +320,7 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
+theme_override_constants/v_separation = 5
 alignment = 1
 last_wrap_alignment = 1
 script = ExtResource("2_eoh0j")
@@ -330,7 +333,7 @@ theme_override_constants/separation = 50
 
 [node name="Add" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=402484906 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_mgjx4")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_p64wd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_plgn8")
@@ -349,7 +352,7 @@ next_button = NodePath("../../NextRoundButton")
 
 [node name="Remove" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=1448282381 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_mcdm5")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ajhae")
 theme_override_styles/hover = SubResource("StyleBoxFlat_d4pyq")
@@ -368,7 +371,7 @@ next_button = NodePath("../../NextRoundButton")
 
 [node name="Upgrade" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=315696457 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_qy7a4")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_2n4ms")
 theme_override_styles/hover = SubResource("StyleBoxFlat_f6214")

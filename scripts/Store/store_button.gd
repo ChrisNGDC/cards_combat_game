@@ -27,33 +27,26 @@ func _on_mouse_exited() -> void:
 		description_label.add_theme_color_override("font_color", Color.BLACK)
 
 func _on_pressed() -> void:
-	var selected_data: BaseCard = shelf.selected_card_data
+	var selected_card: BaseCard = shelf.selected_card_data
 	var selected_index: int = shelf.selected_card_index
 	var action_success: bool = false
 	match mode:
 		"STORE_ADD":
-			if selected_data:
-				var player_new_card: BaseCard = GlobalData.create_card(selected_data.nombre, [0, selected_data.nivel_max])
-				var cpu_card: BaseCard = GlobalData.cpu_deck.cartas.pick_random()
-				var cpu_new_card: BaseCard = GlobalData.create_card(cpu_card.nombre, [0, cpu_card.nivel_max])
-				GlobalData.player_deck.cartas.append(player_new_card)
-				GlobalData.cpu_deck.cartas.append(cpu_new_card)
+			if selected_card:
+				GlobalData.player.add_card_to_deck(selected_card)
+				GlobalData.cpu.add_card_to_deck()
 				action_success = true
 		"STORE_REMOVE":
 			if selected_index != -1:
-				GlobalData.player_deck.cartas.remove_at(selected_index)
-				var cpu_card_pos: int = randi() % GlobalData.cpu_deck.cartas.size()
-				GlobalData.cpu_deck.cartas.remove_at(cpu_card_pos)
+				GlobalData.player.remove_card_from_deck(selected_index)
+				GlobalData.cpu.remove_card_from_deck()
 				shelf.selected_card_index = -1
 				shelf.selected_card_data = null
 				action_success = true
 		"STORE_UPGRADE":
-			if selected_index != -1 and selected_data and selected_data.upgradeable():
-				GlobalData.player_deck.cartas[selected_index].upgrade()
-				var cpu_card_pos: int = randi() % GlobalData.cpu_deck.cartas.size()
-				while not GlobalData.cpu_deck.cartas[cpu_card_pos].upgradeable():
-					cpu_card_pos = randi() % GlobalData.cpu_deck.cartas.size()
-				GlobalData.cpu_deck.cartas[cpu_card_pos].upgrade()
+			if selected_index != -1 and selected_card and selected_card.upgradeable():
+				GlobalData.player.upgrade_card_in_deck(selected_index)
+				GlobalData.cpu.upgrade_card_in_deck()
 				action_success = true
 			else:
 				description_label.text = tr("STORE_INVALID_UPGRADE")
