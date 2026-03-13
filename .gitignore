@@ -9,6 +9,7 @@
 build/
 bin/
 dist/
+exports/
 
 # --- OS Specific ---
 .DS_Store

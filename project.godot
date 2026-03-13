@@ -37,7 +37,6 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/resizable=false
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [editor_plugins]
 
@@ -46,6 +45,7 @@ enabled=PackedStringArray("res://addons/GDQuest_GDScript_formatter/plugin.cfg")
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true
+theme/custom_font="uid://bkmp6cbx1sym3"
 
 [internationalization]
 
