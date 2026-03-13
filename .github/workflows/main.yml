@@ -23,7 +23,6 @@ jobs:
         run: |
           VERSION=$(grep '^config/version=' project.godot | cut -d'"' -f2)
           MSG="${{ github.event.head_commit.message }}"
-
           IFS='.' read -r V_MAJOR V_MINOR V_PATCH <<< "$VERSION"
           
           if [[ "$MSG" == *"build-major"* ]]; then
@@ -35,11 +34,10 @@ jobs:
           fi
           
           NEW_VERSION="$V_MAJOR.$V_MINOR.$V_PATCH"
-          
           sed -i "s/^config\/version=.*/config\/version=\"$NEW_VERSION\"/" project.godot
           
           echo "NEW_V=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "Updated project.godot from $VERSION to $NEW_VERSION"
+          echo "Updated project.godot to $NEW_VERSION"
 
       - name: Export Game
         id: export
@@ -49,27 +47,39 @@ jobs:
           godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.6.1&flavor=stable&slug=export_templates.tpz&platform=templates
           relative_project_path: ./
           archive_output: true
-          presets_to_export: 'Windows'
+          presets_to_export: 'Windows,Web'
 
       - name: Rename and Prepare Artifacts
         run: |
           cd ${{ steps.export.outputs.archive_directory }}
-          mv *.zip "Game-v${{ steps.versioning.outputs.NEW_V }}.zip"
+          # Rename based on specific preset names to avoid collisions
+          # Assuming your presets are named "Windows" and "Web"
+          mv "Windows.zip" "Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip" || true
+          mv "Web.zip" "Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip" || true
 
-      - name: Create Release
+      - name: Create GitHub Release
         uses: ncipollo/release-action@v1.20.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: v${{ steps.versioning.outputs.NEW_V }}
           name: "Release v${{ steps.versioning.outputs.NEW_V }}"
-          artifacts: ${{ steps.export.outputs.archive_directory }}/Game-*.zip
+          artifacts: ${{ steps.export.outputs.archive_directory }}/Game-Windows-*.zip
           generateReleaseNotes: true
           allowUpdates: true
+
+      - name: Deploy Web to Itch.io
+        uses: manleyjster/butler-publish@v1.0.3
+        with:
+          target: "cryoszs/cards-coliseum:web"
+          args: "--version ${{ steps.versioning.outputs.NEW_V }}"
+          path: "${{ steps.export.outputs.archive_directory }}/Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip"
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add project.godot
-          git commit -m "update version to ${{ steps.versioning.outputs.NEW_V }} [skip actions]"
+          git commit -m "chore: update version to ${{ steps.versioning.outputs.NEW_V }} [skip actions]"
           git push
