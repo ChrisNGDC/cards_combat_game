@@ -52,14 +52,8 @@ jobs:
       - name: Rename and Prepare Artifacts
         run: |
           cd ${{ github.workspace }}/${{ steps.export.outputs.archive_directory }}
-          if [ -d "Windows" ]; then
-            cd Windows && zip -r ../../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip . && cd ..
-          elif [ -f "Windows.zip" ]; then
-            mv Windows.zip ../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip
-          fi
-          cd Web
-          zip -r ../../Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip .
-          cd ..
+          mv Windows/Windows.zip ../Game-Windows-v${{ steps.versioning.outputs.NEW_V }}.zip || true
+          mv Web/Web.zip ../Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip || true
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1.20.0
@@ -78,7 +72,7 @@ jobs:
           CHANNEL: web
           ITCH_GAME: cards-coliseum
           ITCH_USER: cryoszs
-          PACKAGE: ${{ github.workspace }}/Game-Web-v${{ steps.versioning.outputs.NEW_V }}.zip
+          PACKAGE: ${{ github.workspace }}/Game-Web-*.zip
           VERSION: ${{ steps.versioning.outputs.NEW_V }}
 
       - name: Commit and Push Changes
