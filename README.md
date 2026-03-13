@@ -31,9 +31,9 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 # Dificultad
 
-- 🔴 Poder elegir una dificultas (Facil - Normal - Dificil)
-- 🟡 Enemigo ataque al azar dificultad fácil
-- 🔴 Enemigo que juega en base a las cartas que tienes dificultad normal
+- 🟡 Dificultad facil elige una carta de manera aleatoria
+- 🟡 Dificultad normal toma en cuenta las cartas del  mazo del jugador
+- 🟡 Dificultad dificil toma en cuenta las cartas de la mano del jugador
 
 # Mazos
 
