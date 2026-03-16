@@ -19,11 +19,14 @@ config/icon="uid://dpe8ixn4tq0o0"
 
 [autoload]
 
-GlobalData="*uid://d36hbym4lvg2a"
 SaveManager="*uid://wsmh8wpfeill"
 ConfigManager="*uid://dq4fpa7w2jdbu"
-TooltipManager="*uid://dwougphpc3plb"
 SceneLoader="*uid://drxxra1qcv8qt"
+CardManager="*uid://csmlamigc885c"
+DeckManager="*uid://b15f2f2s26mpw"
+TooltipManager="*uid://dwougphpc3plb"
+GlobalData="*uid://ds4saa4w4n7yk"
+DebugOverlay="*uid://kwt4as8vekix"
 
 [debug]
 

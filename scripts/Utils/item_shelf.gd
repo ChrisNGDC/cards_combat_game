@@ -6,7 +6,7 @@ func mostrar_cartas(mazo: Array) -> void:
 	for child: Node in get_children():
 		child.queue_free()
 	
-	for carta: BaseCard in mazo:
+	for carta: CardData in mazo:
 		var wrapper: Control = Control.new()
 		wrapper.custom_minimum_size = Vector2(150, 200)
 		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS

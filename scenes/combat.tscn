@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cxjctpo57vj0p"]
 
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_cpw5v"]
-[ext_resource type="Script" uid="uid://dk0gg0w5qgw67" path="res://scripts/combat/card_manager.gd" id="3_atiws"]
+[ext_resource type="Script" uid="uid://dk0gg0w5qgw67" path="res://scripts/combat/combat.gd" id="3_atiws"]
 [ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="3_mlxek"]
 [ext_resource type="Texture2D" uid="uid://bbqmvfd7wxs5s" path="res://images/sword.png" id="4_atiws"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="4_d7qh8"]

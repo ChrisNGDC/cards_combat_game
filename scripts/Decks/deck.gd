@@ -1,8 +1,8 @@
 extends Node2D
 
-var datos_mazo: BaseDeck = null
+var datos_mazo: DeckData = null
 
-func setup(datos: BaseDeck) -> void:
+func setup(datos: DeckData) -> void:
 	datos_mazo = datos
 	if is_inside_tree():
 		_aplicar_datos()

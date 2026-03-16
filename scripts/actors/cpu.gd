@@ -9,7 +9,7 @@ var current_hp: int = 100:
 		current_hp = clamp(val, 0, max_hp)
 		hp_changed.emit(current_hp, false)
 var damage_to_receive: int = 0
-var deck: BaseDeck = FighterDeck.new()
+var deck: DeckData = DeckManager.create_deck("DECK_FIGHTER")
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 @export_enum("EASY_DIFFICULTY", "NORMAL_DIFFICULTY", "HARD_DIFFICULTY") var difficulty: String = "EASY_DIFFICULTY"
@@ -60,12 +60,12 @@ func reset() -> void:
 	visual_hand.clear()
 
 func add_card_to_deck() -> void:
-	var card: BaseCard = deck.cartas.pick_random()
-	var new_card: BaseCard = GlobalData.create_card(card.nombre, [0, card.nivel_max])
+	var card: CardData = deck.cartas.pick_random()
+	var new_card: CardData = CardManager.create_card(card.nombre, {"actual": 0, "max": card.nivel_max})
 	deck.cartas.append(new_card)
 
 func remove_card_from_deck() -> void:
-	var index: int = randi() % GlobalData.cpu.deck.cartas.size()
+	var index: int = randi() % deck.cartas.size()
 	deck.cartas.remove_at(index)
 
 func choose_card_to_upgrade() -> int:
@@ -75,5 +75,5 @@ func choose_card_to_upgrade() -> int:
 	return card_pos
 
 func upgrade_card_in_deck() -> void:
-	var index: int = GlobalData.cpu.choose_card_to_upgrade()
+	var index: int = choose_card_to_upgrade()
 	deck.cartas[index].upgrade()

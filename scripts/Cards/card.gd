@@ -20,7 +20,7 @@ var nivel_max: int
 var tipo_danio: String
 var escala_normal: Vector2 = Vector2(0.3, 0.3)
 var escala_grande: Vector2 = Vector2(0.325, 0.325)
-var datos_carta: BaseCard = null
+var datos_carta: CardData = null
 var anchor_pos: Vector2
 var own_by_player: bool
 var selected: bool = false
@@ -47,9 +47,10 @@ func _process(_delta: float) -> void:
 		current_tooltip.global_position = mouse_pos + offset
 
 
-func setup(datos: BaseCard, player: bool) -> void:
+func setup(datos: CardData, player: bool) -> void:
 	datos_carta = datos
 	own_by_player = player
+	create_tooltip()
 	show_card(false)
 	if is_inside_tree():
 		_aplicar_datos()
@@ -63,32 +64,34 @@ func show_card(si: bool) -> void:
 	card_back.visible = !si
 
 
+func create_tooltip() -> void:
+	current_tooltip = tooltip_scene.instantiate()
+	TooltipManager.add_child(current_tooltip)
+	current_tooltip.get_node("VBox/HBox/TypeLabel").text = tr(datos_carta.tipo)
+	var tooltip_level_label: Label = current_tooltip.get_node("VBox/HBox/LevelLabel")
+	tooltip_level_label.text = "Lvl." + (str(datos_carta.nivel_actual) if datos_carta.nivel_actual < datos_carta.nivel_max else "Max")
+	tooltip_level_label.modulate = (gold_style.font_color if datos_carta.nivel_actual == datos_carta.nivel_max else basic_style.font_color)
+	var description_values: Array = []
+	match datos_carta.nombre:
+		"CARD_SWORD":
+			description_values = ["#ff0000", datos_carta.efecto.call(datos_carta.nivel_actual), tr(datos_carta.tipo_danio)]
+		"CARD_MAGIC":
+			description_values = ["#ffff00", datos_carta.efecto.call(datos_carta.nivel_actual), tr(datos_carta.tipo_danio)]
+		"CARD_SHIELD":
+			description_values = ["#0000ff", datos_carta.efecto.call(datos_carta.nivel_actual)]
+		"CARD_MIRROR":
+			description_values = []
+		"CARD_POTION":
+			description_values = ["#00ff00", datos_carta.efecto.call(datos_carta.nivel_actual)]
+	current_tooltip.get_node("VBox/InfoText").text = tr(datos_carta.description) % description_values
+	current_tooltip.hide()
+
+
 func show_tooltip_info(si: bool) -> void:
 	if si:
-		current_tooltip = tooltip_scene.instantiate()
-		TooltipManager.add_child(current_tooltip)
-		current_tooltip.get_node("VBox/HBox/TypeLabel").text = tr(datos_carta.tipo)
-		var tooltip_level_label: Label = current_tooltip.get_node("VBox/HBox/LevelLabel")
-		tooltip_level_label.text = "Lvl." + (str(datos_carta.nivel_actual) if datos_carta.nivel_actual < datos_carta.nivel_max else "Max")
-		tooltip_level_label.modulate = (gold_style.font_color if datos_carta.nivel_actual == datos_carta.nivel_max else basic_style.font_color)
-		var description_values: Array = []
-		match datos_carta.nombre:
-			"CARD_SWORD":
-				description_values = ["#ff0000", datos_carta.damage_amount(), tr(datos_carta.tipo_danio)]
-			"CARD_MAGIC":
-				description_values = ["#ffff00", datos_carta.damage_amount(), tr(datos_carta.tipo_danio)]
-			"CARD_SHIELD":
-				description_values = ["#0000ff", datos_carta.block_amount()]
-			"CARD_MIRROR":
-				description_values = []
-			"CARD_POTION":
-				description_values = ["#00ff00", datos_carta.heal_amount()]
-		current_tooltip.get_node("VBox/InfoText").text = tr(datos_carta.description) % description_values
-		current_tooltip.global_position = get_global_mouse_position() + Vector2(0, 0)
+		current_tooltip.show()
 	else:
-		if current_tooltip:
-			current_tooltip.queue_free()
-			current_tooltip = null
+		current_tooltip.hide()
 
 
 func _aplicar_datos() -> void:
@@ -103,7 +106,7 @@ func _aplicar_datos() -> void:
 	nivel_actual = datos_carta.nivel_actual
 	nivel_max = datos_carta.nivel_max
 	tipo_danio = datos_carta.tipo_danio
-	self.update_level_display()
+	update_level_display()
 
 func dar_borde() -> void:
 	if has_node("Borde"):
@@ -146,8 +149,7 @@ func _on_area_2d_mouse_exited() -> void:
 			get_node("Borde").self_modulate /= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_normal)
-		if current_tooltip:
-			show_tooltip_info(false)
+		show_tooltip_info(false)
 
 func apply_scale_tween(target_scale: Vector2) -> void:
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

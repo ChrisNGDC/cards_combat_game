@@ -9,7 +9,7 @@ var current_hp: int = 100:
 		current_hp = clamp(val, 0, max_hp)
 		hp_changed.emit(current_hp, true)
 var damage_to_receive: int = 0
-var deck: BaseDeck = FighterDeck.new()
+var deck: DeckData = DeckManager.create_deck("DECK_FIGHTER")
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 
@@ -27,8 +27,8 @@ func reset() -> void:
 	visual_deck.clear()
 	visual_hand.clear()
 
-func add_card_to_deck(card: BaseCard) -> void:
-	var new_card: BaseCard = GlobalData.create_card(card.nombre, [0, card.nivel_max])
+func add_card_to_deck(card: CardData) -> void:
+	var new_card: CardData = CardManager.create_card(card.nombre, {"actual": 0, "max": card.nivel_max})
 	deck.cartas.append(new_card)
 
 func remove_card_from_deck(index: int) -> void:

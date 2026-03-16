@@ -2,7 +2,7 @@ extends HFlowContainer
 
 var card_scene: PackedScene = preload("res://scenes/card.tscn")
 var mazo: Array
-var selected_card_data: BaseCard = null
+var selected_card_data: CardData = null
 var current_selected_wrapper: Control = null
 var selected_card_index: int = -1
 
@@ -40,7 +40,7 @@ func mostrar_cartas() -> void:
 		wrapper.gui_input.connect(_on_slot_gui_input.bind(wrapper, nueva_carta, mazo[i], i))
 
 
-func seleccionar_carta(slot: Control, card_node: Node2D, data: BaseCard, index: int) -> void:
+func seleccionar_carta(slot: Control, card_node: Node2D, data: CardData, index: int) -> void:
 	if current_selected_wrapper and current_selected_wrapper != slot:
 		deseleccionar(current_selected_wrapper)
 
@@ -61,6 +61,6 @@ func deseleccionar(slot: Control) -> void:
 	card.apply_scale_tween(card.escala_normal)
 
 
-func _on_slot_gui_input(event: InputEvent, slot: Control, card_node: Node2D, data: BaseCard, index: int) -> void:
+func _on_slot_gui_input(event: InputEvent, slot: Control, card_node: Node2D, data: CardData, index: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		seleccionar_carta(slot, card_node, data, index)

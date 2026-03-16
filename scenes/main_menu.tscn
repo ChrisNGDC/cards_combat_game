@@ -35,9 +35,9 @@ metadata/_edit_use_anchors_ = true
 [node name="Title" type="Label" parent="MenuOptions" unique_id=258757631]
 layout_mode = 0
 offset_left = -421.0
-offset_top = -360.0
+offset_top = -320.0
 offset_right = 408.0
-offset_bottom = -210.0
+offset_bottom = -170.0
 theme = ExtResource("2_qernj")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)

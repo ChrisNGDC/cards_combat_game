@@ -11,7 +11,7 @@ var dragging: bool = false
 var last_mouse_pos: Vector2 = Vector2()
 var deck_scene: PackedScene = preload("res://scenes/deck.tscn")
 var overlay_scene: PackedScene = preload("res://scenes/deck_overlay.tscn")
-var lista_mazos: Array = GlobalData.decks_classes.keys()
+var lista_mazos: Array = DeckManager.decks_classes.keys()
 var selected_deck: Node2D = null
 var escala_normal: Vector2 = Vector2(0.25, 0.25)
 var escala_grande: Vector2 = Vector2(0.3, 0.3)
@@ -38,7 +38,7 @@ func crear_mazos_en_pantalla() -> void:
 		var nuevo_mazo: Node2D = deck_scene.instantiate()
 		wrapper.add_child(nuevo_mazo)
 		nuevo_mazo.position = wrapper.custom_minimum_size / 2
-		nuevo_mazo.setup(GlobalData.create_deck(nombre))
+		nuevo_mazo.setup(DeckManager.create_deck(nombre))
 		nuevo_mazo.scale = escala_normal
 
 		wrapper.gui_input.connect(_on_deck_wrapper_input.bind(nuevo_mazo))
@@ -58,10 +58,10 @@ func _input(event: InputEvent) -> void:
 
 func _on_select_deck_button_pressed() -> void:
 	if selected_deck:
-		GlobalData.player.deck = GlobalData.create_deck(selected_deck.datos_mazo.nombre)
+		GlobalData.player.deck = DeckManager.create_deck(selected_deck.datos_mazo.nombre)
 		GlobalData.player.set_initial_hp()
 		var cpu_deck_name: String = lista_mazos.pick_random()
-		GlobalData.cpu.deck = GlobalData.create_deck(cpu_deck_name)
+		GlobalData.cpu.deck = DeckManager.create_deck(cpu_deck_name)
 		GlobalData.cpu.set_initial_hp()
 		SceneLoader.load_scene("res://scenes/combat.tscn")
 

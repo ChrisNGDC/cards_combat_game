@@ -9,6 +9,9 @@ extends Button
 
 @onready var shelf: Control = get_tree().get_root().find_child("ItemShelf", true, false)
 
+var player: GamePlayer = GlobalData.player
+var cpu: GameCPU = GlobalData.cpu
+
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
@@ -27,26 +30,26 @@ func _on_mouse_exited() -> void:
 		description_label.add_theme_color_override("font_color", Color.BLACK)
 
 func _on_pressed() -> void:
-	var selected_card: BaseCard = shelf.selected_card_data
+	var selected_card: CardData = shelf.selected_card_data
 	var selected_index: int = shelf.selected_card_index
 	var action_success: bool = false
 	match mode:
 		"STORE_ADD":
 			if selected_card:
-				GlobalData.player.add_card_to_deck(selected_card)
-				GlobalData.cpu.add_card_to_deck()
+				player.add_card_to_deck(selected_card)
+				cpu.add_card_to_deck()
 				action_success = true
 		"STORE_REMOVE":
 			if selected_index != -1:
-				GlobalData.player.remove_card_from_deck(selected_index)
-				GlobalData.cpu.remove_card_from_deck()
+				player.remove_card_from_deck(selected_index)
+				cpu.remove_card_from_deck()
 				shelf.selected_card_index = -1
 				shelf.selected_card_data = null
 				action_success = true
 		"STORE_UPGRADE":
 			if selected_index != -1 and selected_card and selected_card.upgradeable():
-				GlobalData.player.upgrade_card_in_deck(selected_index)
-				GlobalData.cpu.upgrade_card_in_deck()
+				player.upgrade_card_in_deck(selected_index)
+				cpu.upgrade_card_in_deck()
 				action_success = true
 			else:
 				description_label.text = tr("STORE_INVALID_UPGRADE")
