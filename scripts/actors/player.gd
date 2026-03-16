@@ -3,13 +3,13 @@ class_name GamePlayer
 
 signal hp_changed(nuevo_hp: int, es_jugador: bool)
 
-var max_hp: int = 100
-var current_hp: int = 100:
+var max_hp: int
+var current_hp: int:
 	set(val):
 		current_hp = clamp(val, 0, max_hp)
 		hp_changed.emit(current_hp, true)
 var damage_to_receive: int = 0
-var deck: DeckData = DeckManager.create_deck("DECK_FIGHTER")
+var deck: DeckData = DeckManager.create_deck("DECK_MAGE")
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 
@@ -18,8 +18,14 @@ func set_initial_hp() -> void:
 	current_hp = max_hp
 
 func take_damage() -> void:
+	print("Player hp: ", current_hp)
 	current_hp -= damage_to_receive
 	damage_to_receive = 0
+
+func reset_round() -> void:
+	visual_deck.clear()
+	visual_hand.clear()
+
 
 func reset() -> void:
 	damage_to_receive = 0

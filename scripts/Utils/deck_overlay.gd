@@ -9,7 +9,7 @@ func display_history_deck(deck_data: Array[Dictionary]) -> void:
 	
 	var mazo: Array[CardData] = []
 	for card_info: Dictionary in deck_data:
-		var nueva_carta: CardData = DeckManager.create_card(card_info.tipo, card_info.niveles)
+		var nueva_carta: CardData = CardManager.create_card(card_info.tipo, card_info.niveles)
 		mazo.append(nueva_carta)
 		
 	shelf.mostrar_cartas(mazo)

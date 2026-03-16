@@ -20,9 +20,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 50
+theme_override_constants/margin_left = 200
 theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
+theme_override_constants/margin_right = 200
 theme_override_constants/margin_bottom = 50
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1694145835]
@@ -33,15 +33,16 @@ alignment = 1
 z_index = 5
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_constants/h_separation = 10
+theme_override_constants/h_separation = 50
 theme_override_constants/v_separation = 10
 alignment = 1
 last_wrap_alignment = 1
 script = ExtResource("2_lskk3")
 
 [node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1318211013]
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 50
 text = "CLOSE"

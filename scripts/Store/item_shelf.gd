@@ -18,7 +18,7 @@ func mostrar_cartas() -> void:
 
 	for i: int in range(mazo.size()):
 		var wrapper: Control = Control.new()
-		wrapper.custom_minimum_size = Vector2(150, 200)
+		wrapper.custom_minimum_size = Vector2(135, 185)
 		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
 		add_child(wrapper)
 

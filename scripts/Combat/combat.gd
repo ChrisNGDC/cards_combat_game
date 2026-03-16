@@ -21,9 +21,9 @@ var dealing_hand: bool
 var card_size: Vector2
 var anchor_rect: Rect2
 var return_tween: Tween
+var player: GamePlayer = GlobalData.player
+var cpu: GameCPU = GlobalData.cpu
 
-@onready var player: GamePlayer = GlobalData.player
-@onready var cpu: GameCPU = GlobalData.cpu
 @onready var player_card_slot: Sprite2D = $PlayerSlot
 @onready var cpu_card_slot: Sprite2D = $CPUSlot
 @onready var round_label: Label = $RoundLabel
@@ -130,8 +130,11 @@ func repartir_carta(mazo: Array[Node2D], mano: Array[Node2D], pos: Vector2, es_j
 
 func repartir_mano(mazo: Array[Node2D], mano: Array[Node2D], es_jugador: bool) -> void:
 	dealing_hand = true
+	print("Player: ", es_jugador)
+	print("Deck size: ", mazo.size())
 	for i: int in range(min(hand_size, mazo.size())):
-		repartir_carta(mazo, mano, mazo[i].anchor_pos, es_jugador)
+		print("Dealing card: ", i)
+		repartir_carta(mazo, mano, Vector2(0, 0), es_jugador)
 		await get_tree().create_timer(0.75).timeout
 	dealing_hand = false
 
@@ -265,10 +268,8 @@ func play_card(card: CardData, es_jugador: bool) -> void:
 
 
 func _on_fight_pressed() -> void:
-	print("is fighting: ", fighting, " dealing hand: ", dealing_hand)
 	if is_instance_valid(card_in_slot) and not fighting and not dealing_hand:
 		fighting = true
-		print("inside fighting: ", fighting, "inside dealing hand: ", dealing_hand)
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
 			end_round_button.hide()
 			end_round_warning.hide()
@@ -299,10 +300,8 @@ func _on_fight_pressed() -> void:
 				repartir_mano(player.visual_deck, player.visual_hand, true)
 				repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
 			else:
-				GlobalData.rounds += 1
-				await get_tree().create_timer(.5).timeout
-				SceneLoader.load_scene("res://scenes/store.tscn")
-	
+				_on_end_round_pressed()
+
 
 func check_game_over() -> bool:
 	if player.current_hp > 0 and cpu.current_hp > 0:
@@ -318,7 +317,7 @@ func show_game_over_ui(won: bool) -> void:
 	var run_data: Dictionary = {
 		"date": Time.get_datetime_string_from_system(false, true),
 		"won": (player.current_hp > 0),
-		"player_deck": cards_to_save(GlobalData.player_deck.cartas),
+		"player_deck": cards_to_save(player.deck.cartas),
 		"cpu_deck": cards_to_save(cpu.deck.cartas)
 	}
 	SaveManager.save_run(run_data)
@@ -337,5 +336,8 @@ func cards_to_save(deck: Array[CardData]) -> Array:
 
 
 func _on_end_round_pressed() -> void:
+	GlobalData.player.reset_round()
+	GlobalData.cpu.reset_round()
 	GlobalData.rounds += 1
+	await get_tree().create_timer(.5).timeout
 	SceneLoader.load_scene("res://scenes/store.tscn")

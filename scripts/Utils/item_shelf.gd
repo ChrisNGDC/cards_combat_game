@@ -8,7 +8,7 @@ func mostrar_cartas(mazo: Array) -> void:
 	
 	for carta: CardData in mazo:
 		var wrapper: Control = Control.new()
-		wrapper.custom_minimum_size = Vector2(150, 200)
+		wrapper.custom_minimum_size = Vector2(104, 154)
 		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
 		add_child(wrapper)
 		
