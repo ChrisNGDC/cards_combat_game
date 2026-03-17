@@ -31,7 +31,7 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 
 # Dificultad
 
-- 🟡 Dificultad facil elige una carta de manera aleatoria
+- 🟢 Dificultad facil elige una carta de manera aleatoria
 - 🟡 Dificultad normal toma en cuenta las cartas del  mazo del jugador
 - 🟡 Dificultad dificil toma en cuenta las cartas de la mano del jugador
 
