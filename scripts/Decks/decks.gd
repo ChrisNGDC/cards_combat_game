@@ -1,11 +1,15 @@
 extends CanvasLayer
 
-@onready var scroll_container: ScrollContainer = $MarginContainer/VBoxContainer/HBoxDecks/ScrollContainer
-@onready var deck_list: HBoxContainer = $MarginContainer/VBoxContainer/HBoxDecks/ScrollContainer/MarginContainer/DeckList
-@onready var select_deck_button: Button = $MarginContainer/VBoxContainer/HBoxButtons/SelectDeckButton
-@onready var view_deck_button: Button = $MarginContainer/VBoxContainer/HBoxButtons/ViewDeckButton
-@onready var left_arrow: TextureRect = $MarginContainer/VBoxContainer/HBoxDecks/LeftArrow
-@onready var right_arrow: TextureRect = $MarginContainer/VBoxContainer/HBoxDecks/RightArrow
+@onready var scroll_container: ScrollContainer = $MarginContainer/SelectionUI/HBoxDecks/ScrollContainer
+@onready var deck_list: HBoxContainer = $MarginContainer/SelectionUI/HBoxDecks/ScrollContainer/MarginContainer/DeckList
+@onready var select_deck_button: Button = $MarginContainer/SelectionUI/HBoxButtons/SelectDeckButton
+@onready var view_deck_button: Button = $MarginContainer/SelectionUI/HBoxButtons/ViewDeckButton
+@onready var left_arrow: TextureRect = $MarginContainer/SelectionUI/HBoxDecks/LeftArrow
+@onready var right_arrow: TextureRect = $MarginContainer/SelectionUI/HBoxDecks/RightArrow
+@onready var selection_ui: Control = $MarginContainer/SelectionUI
+@onready var difficulty_ui: Control = $MarginContainer/DifficultyUI
+@onready var difficulty_selection: Button = $MarginContainer/DifficultyUI/HBoxContainer/DifficultySelection
+@onready var blank_selected_deck: Node2D = $MarginContainer/DifficultyUI/HBoxContainer/Control/Deck
 
 var dragging: bool = false
 var last_mouse_pos: Vector2 = Vector2()
@@ -16,6 +20,8 @@ var selected_deck: Node2D = null
 var escala_normal: Vector2 = Vector2(0.25, 0.25)
 var escala_grande: Vector2 = Vector2(0.3, 0.3)
 var viewing_deck: bool = false
+var difficulty: String
+
 
 func _ready() -> void:
 	select_deck_button.pressed.connect(_on_select_deck_button_pressed)
@@ -58,12 +64,22 @@ func _input(event: InputEvent) -> void:
 
 func _on_select_deck_button_pressed() -> void:
 	if selected_deck:
+		blank_selected_deck.setup(selected_deck.datos_mazo)
+		difficulty_selection.selected = 0
+		selection_ui.hide()
+		difficulty_ui.show()
+
+
+func _on_fight_pressed() -> void:
+	if difficulty_selection.selected != 0:
 		GlobalData.player.deck = DeckManager.create_deck(selected_deck.datos_mazo.nombre)
 		GlobalData.player.set_initial_hp()
 		var cpu_deck_name: String = lista_mazos.pick_random()
 		GlobalData.cpu.deck = DeckManager.create_deck(cpu_deck_name)
 		GlobalData.cpu.set_initial_hp()
+		GlobalData.cpu.difficulty = difficulty
 		SceneLoader.load_scene("res://scenes/combat.tscn")
+
 
 func _on_view_deck_button_pressed() -> void:
 	viewing_deck = true
@@ -98,3 +114,7 @@ func _process(_delta: float) -> void:
 	var target_right: float = 1.0 if scroll_container.scroll_horizontal < max_scroll else 0.0
 	left_arrow.modulate.a = lerp(left_arrow.modulate.a, target_left, 0.1)
 	right_arrow.modulate.a = lerp(right_arrow.modulate.a, target_right, 0.1)
+
+
+func _on_option_button_item_selected(index: int) -> void:
+	difficulty = difficulty_selection.get_item_text(index)

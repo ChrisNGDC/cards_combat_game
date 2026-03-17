@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_mhx0s"]
 [ext_resource type="Script" uid="uid://bk4uvjmuv3in0" path="res://scripts/decks/decks.gd" id="2_ds01j"]
 [ext_resource type="Texture2D" uid="uid://gplao7l4lnjg" path="res://images/arrows.png" id="3_a66q8"]
+[ext_resource type="PackedScene" uid="uid://26rgetsr743" path="res://scenes/deck.tscn" id="4_tvqf6"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="5_5qcsl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ds01j"]
 atlas = ExtResource("3_a66q8")
@@ -11,6 +13,19 @@ region = Rect2(143, 102, 238, 413)
 [sub_resource type="AtlasTexture" id="AtlasTexture_a66q8"]
 atlas = ExtResource("3_a66q8")
 region = Rect2(143, 102, 238, 413)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qcsl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvnak"]
+
+[sub_resource type="Theme" id="Theme_5qcsl"]
+OptionButton/font_sizes/font_size = 50
+PopupMenu/constants/item_start_padding = 2
+PopupMenu/font_sizes/font_separator_size = 50
+PopupMenu/font_sizes/font_size = 50
+PopupMenu/font_sizes/title_font_size = 50
+PopupMenu/icons/radio_checked = SubResource("AtlasTexture_5qcsl")
+PopupMenu/icons/radio_unchecked = SubResource("AtlasTexture_bvnak")
 
 [node name="Decks" type="Node2D" unique_id=791792099]
 
@@ -29,21 +44,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DecksManager/MarginContainer" unique_id=170908727]
+[node name="SelectionUI" type="VBoxContainer" parent="DecksManager/MarginContainer" unique_id=170908727]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxDecks" type="HBoxContainer" parent="DecksManager/MarginContainer/VBoxContainer" unique_id=1549368282]
+[node name="HBoxDecks" type="HBoxContainer" parent="DecksManager/MarginContainer/SelectionUI" unique_id=1549368282]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="LeftArrow" type="TextureRect" parent="DecksManager/MarginContainer/VBoxContainer/HBoxDecks" unique_id=1047683974]
+[node name="LeftArrow" type="TextureRect" parent="DecksManager/MarginContainer/SelectionUI/HBoxDecks" unique_id=1047683974]
 self_modulate = Color(0, 0, 0, 1)
 z_index = 2
 custom_minimum_size = Vector2(32, 48)
@@ -55,14 +70,14 @@ expand_mode = 1
 stretch_mode = 5
 flip_h = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="DecksManager/MarginContainer/VBoxContainer/HBoxDecks" unique_id=218799872]
+[node name="ScrollContainer" type="ScrollContainer" parent="DecksManager/MarginContainer/SelectionUI/HBoxDecks" unique_id=218799872]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="DecksManager/MarginContainer/VBoxContainer/HBoxDecks/ScrollContainer" unique_id=1720061803]
+[node name="MarginContainer" type="MarginContainer" parent="DecksManager/MarginContainer/SelectionUI/HBoxDecks/ScrollContainer" unique_id=1720061803]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -71,14 +86,14 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="DeckList" type="HBoxContainer" parent="DecksManager/MarginContainer/VBoxContainer/HBoxDecks/ScrollContainer/MarginContainer" unique_id=1392500945]
+[node name="DeckList" type="HBoxContainer" parent="DecksManager/MarginContainer/SelectionUI/HBoxDecks/ScrollContainer/MarginContainer" unique_id=1392500945]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 80
 alignment = 1
 
-[node name="RightArrow" type="TextureRect" parent="DecksManager/MarginContainer/VBoxContainer/HBoxDecks" unique_id=1606049899]
+[node name="RightArrow" type="TextureRect" parent="DecksManager/MarginContainer/SelectionUI/HBoxDecks" unique_id=1606049899]
 self_modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(32, 48)
 layout_mode = 2
@@ -88,18 +103,68 @@ texture = SubResource("AtlasTexture_a66q8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HBoxButtons" type="HFlowContainer" parent="DecksManager/MarginContainer/VBoxContainer" unique_id=1247259665]
+[node name="HBoxButtons" type="HFlowContainer" parent="DecksManager/MarginContainer/SelectionUI" unique_id=1247259665]
 layout_mode = 2
 theme_override_constants/h_separation = 50
 alignment = 1
 
-[node name="ViewDeckButton" type="Button" parent="DecksManager/MarginContainer/VBoxContainer/HBoxButtons" unique_id=1695470902]
+[node name="ViewDeckButton" type="Button" parent="DecksManager/MarginContainer/SelectionUI/HBoxButtons" unique_id=1695470902]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "DECK_VIEW"
 
-[node name="SelectDeckButton" type="Button" parent="DecksManager/MarginContainer/VBoxContainer/HBoxButtons" unique_id=548063174]
+[node name="SelectDeckButton" type="Button" parent="DecksManager/MarginContainer/SelectionUI/HBoxButtons" unique_id=548063174]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 50
 text = "DECK_SELECT"
+
+[node name="DifficultyUI" type="VBoxContainer" parent="DecksManager/MarginContainer" unique_id=233230680]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DecksManager/MarginContainer/DifficultyUI" unique_id=333752216]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Control" type="Control" parent="DecksManager/MarginContainer/DifficultyUI/HBoxContainer" unique_id=960074997]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="Deck" parent="DecksManager/MarginContainer/DifficultyUI/HBoxContainer/Control" unique_id=1785670977 instance=ExtResource("4_tvqf6")]
+scale = Vector2(0.3, 0.3)
+
+[node name="DifficultySelection" type="OptionButton" parent="DecksManager/MarginContainer/DifficultyUI/HBoxContainer" unique_id=2027264331]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+theme = SubResource("Theme_5qcsl")
+theme_override_font_sizes/font_size = 62
+alignment = 1
+icon_alignment = 2
+expand_icon = true
+item_count = 4
+popup/item_0/text = "SELECT_DIFFICULTY"
+popup/item_0/id = 0
+popup/item_0/separator = true
+popup/item_1/text = "EASY_DIFFICULTY"
+popup/item_1/id = 1
+popup/item_2/text = "NORMAL_DIFFICULTY"
+popup/item_2/id = 2
+popup/item_3/text = "HARD_DIFFICULTY"
+popup/item_3/id = 3
+
+[node name="Fight" type="Button" parent="DecksManager/MarginContainer/DifficultyUI" unique_id=524883698]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = ExtResource("5_5qcsl")
+theme_override_font_sizes/font_size = 50
+text = "FIGHT"
+
+[connection signal="item_selected" from="DecksManager/MarginContainer/DifficultyUI/HBoxContainer/DifficultySelection" to="DecksManager" method="_on_option_button_item_selected"]
+[connection signal="pressed" from="DecksManager/MarginContainer/DifficultyUI/Fight" to="DecksManager" method="_on_fight_pressed"]

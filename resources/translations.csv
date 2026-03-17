@@ -10,6 +10,11 @@ DECK_PALADIN,Paladin,Paladín
 DECK_DEFENDER,Defender,Defensor
 DECK_SELECT,Select Deck,Seleccionar Mazo
 DECK_VIEW,View Deck,Ver Mazo
+EASY_DIFFICULTY,Easy,Fácil
+NORMAL_DIFFICULTY,Normal,Normal
+HARD_DIFFICULTY,Hard,Difícil
+FIGHT,Fight,Pelear
+SELECT_DIFFICULTY,Select Difficulty,Seleccionar Dificultad
 CARD_SWORD,Sword,Espada
 CARD_SHIELD,Shield,Escudo
 CARD_MAGIC,Magic,Magia

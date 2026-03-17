@@ -18,6 +18,7 @@ var resolutions: Dictionary = {
 func _ready() -> void:
 	if OS.has_feature("web"):
 		res_button.hide()
+		$Exit.hide()
 	else:
 		_fill_resolution_options()
 
