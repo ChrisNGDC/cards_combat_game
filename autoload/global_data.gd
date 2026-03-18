@@ -5,7 +5,6 @@ var cpu: GameCPU
 var player: GamePlayer
 
 func _init() -> void:
-	print("Creating actors")
 	cpu = GameCPU.new()
 	player = GamePlayer.new()
 

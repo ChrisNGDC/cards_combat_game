@@ -76,8 +76,8 @@ func _on_fight_pressed() -> void:
 		GlobalData.player.set_initial_hp()
 		var cpu_deck_name: String = lista_mazos.pick_random()
 		GlobalData.cpu.deck = DeckManager.create_deck(cpu_deck_name)
-		GlobalData.cpu.set_initial_hp()
 		GlobalData.cpu.difficulty = difficulty
+		GlobalData.cpu._setup()
 		SceneLoader.load_scene("res://scenes/combat.tscn")
 
 

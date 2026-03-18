@@ -18,7 +18,6 @@ func set_initial_hp() -> void:
 	current_hp = max_hp
 
 func take_damage() -> void:
-	print("Player hp: ", current_hp)
 	current_hp -= damage_to_receive
 	damage_to_receive = 0
 

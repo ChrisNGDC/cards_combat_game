@@ -130,10 +130,7 @@ func repartir_carta(mazo: Array[Node2D], mano: Array[Node2D], pos: Vector2, es_j
 
 func repartir_mano(mazo: Array[Node2D], mano: Array[Node2D], es_jugador: bool) -> void:
 	dealing_hand = true
-	print("Player: ", es_jugador)
-	print("Deck size: ", mazo.size())
 	for i: int in range(min(hand_size, mazo.size())):
-		print("Dealing card: ", i)
 		repartir_carta(mazo, mano, Vector2(0, 0), es_jugador)
 		await get_tree().create_timer(0.75).timeout
 	dealing_hand = false

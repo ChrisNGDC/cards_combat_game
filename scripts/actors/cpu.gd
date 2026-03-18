@@ -13,13 +13,19 @@ var deck: DeckData
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 @export_enum("EASY_DIFFICULTY", "NORMAL_DIFFICULTY", "HARD_DIFFICULTY") var difficulty: String = "EASY_DIFFICULTY"
+var pick_card_logic: PickCardLogic = PickCardLogic.new()
+
+func _setup() -> void:
+	set_initial_hp()
+	if difficulty == "NORMAL_DIFFICULTY":
+		pick_card_logic.get_cards_by_power(GlobalData.player.deck.cartas)
+
 
 func set_initial_hp() -> void:
 	max_hp = deck.vida
 	current_hp = max_hp
 
 func take_damage() -> void:
-	print("CPU hp: ", current_hp)
 	current_hp -= damage_to_receive
 	damage_to_receive = 0
 
@@ -30,31 +36,31 @@ func reset_round() -> void:
 func pick_card() -> Node2D:
 	match difficulty:
 		"HARD_DIFFICULTY":
-			return pick_hard_card()
+			# Take into account the player's hand
+			var hand: Array[CardData] = pick_card_logic.convert_hand(GlobalData.player.visual_hand)
+			pick_card_logic.get_cards_by_power(hand)
+			return pick_complex_card()
 		"NORMAL_DIFFICULTY":
-			return pick_medium_card()
+			# Take into account the player's deck composition
+			return pick_complex_card()
 		"EASY_DIFFICULTY", _:
+			# Pick a random card from the hand
 			return pick_easy_card()
 		
 
-# Pick a random card
 func pick_easy_card() -> Node2D:
 	var card_index: int = randi() % visual_hand.size()
 	return visual_hand[card_index]
 
-# Take into account the player's deck composition
-func pick_medium_card() -> Node2D:
-	if GlobalData.player.deck.cartas.size() == 0:
-		print("Player deck is empty, picking random card")
-	var card_index: int = randi() % visual_hand.size()
-	return visual_hand[card_index]
 
-# Take into account the amount of each card in the player's hand
-func pick_hard_card() -> Node2D:
-	if GlobalData.player.visual_hand.size() == 0:
-		print("Player hand is empty, picking random card")
-	var card_index: int = randi() % visual_hand.size()
-	return visual_hand[card_index]
+func pick_complex_card() -> Node2D:
+	var card_index: int
+	for card_name: String in pick_card_logic.cards_to_play:
+		for card: Node2D in visual_hand:
+			if card.datos_carta.nombre == card_name:
+				card_index = visual_hand.find(card)
+				return visual_hand[card_index]
+	return pick_easy_card()
 
 
 func reset() -> void:
