@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://byy0gnvcl33js" path="res://scripts/cards/card.gd" id="1_axbyx"]
 [ext_resource type="PackedScene" uid="uid://bemuew7rrnehv" path="res://scenes/card_info_tooltip.tscn" id="2_7o4fp"]
 [ext_resource type="Texture2D" uid="uid://bl7mqkxk72bga" path="res://images/card_border.png" id="2_o6ujv"]
-[ext_resource type="Texture2D" uid="uid://dkcqanw4fnmis" path="res://images/cardback.jpg" id="3_axbyx"]
 [ext_resource type="Texture2D" uid="uid://bysdss4i3428i" path="res://images/blank_card.jpg" id="3_mv2r5"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="5_mv2r5"]
 [ext_resource type="LabelSettings" uid="uid://iy5dh2vhvyv8" path="res://resources/basic_level_label_settings.tres" id="5_uobs4"]
+[ext_resource type="Texture2D" uid="uid://b6wo8vqijg6x3" path="res://images/defender.png" id="7_8w5pg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh8tw"]
 size = Vector2(1344, 2016)
@@ -23,15 +23,16 @@ position = Vector2(1.4543533e-05, -9.536743e-07)
 scale = Vector2(1.81, 1.855)
 texture = ExtResource("2_o6ujv")
 
-[node name="CardFrontImage" type="Sprite2D" parent="." unique_id=630626316]
+[node name="Front" type="Node2D" parent="." unique_id=1516355430]
 visible = false
+
+[node name="CardFront" type="Sprite2D" parent="Front" unique_id=630626316]
 z_index = 1
 position = Vector2(-1.5497208e-06, 9.655952e-06)
 scale = Vector2(1.7684209, 1.8260871)
 texture = ExtResource("3_mv2r5")
 
-[node name="CardLabel" type="Label" parent="." unique_id=700180342]
-visible = false
+[node name="CardLabel" type="Label" parent="Front" unique_id=700180342]
 z_index = 1
 offset_left = -160.0
 offset_top = -196.0
@@ -42,14 +43,7 @@ theme_override_font_sizes/font_size = 72
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CardFrontIcon" type="Sprite2D" parent="." unique_id=447606339]
-visible = false
-z_index = 1
-position = Vector2(3.0000029, 35.000008)
-scale = Vector2(1.7125001, 1.7125001)
-
-[node name="UpgradeLabel" type="Label" parent="." unique_id=34580293]
-visible = false
+[node name="UpgradeLabel" type="Label" parent="Front" unique_id=34580293]
 z_index = 1
 offset_left = 48.0
 offset_top = -245.0
@@ -63,11 +57,23 @@ text = "Max"
 label_settings = ExtResource("5_uobs4")
 horizontal_alignment = 2
 
-[node name="CardBackImage" type="Sprite2D" parent="." unique_id=1822254016]
+[node name="CardFrontImage" type="Sprite2D" parent="Front" unique_id=447606339]
+z_index = 1
+position = Vector2(3.0000029, 35.000008)
+scale = Vector2(1.7125001, 1.7125001)
+
+[node name="Back" type="Node2D" parent="." unique_id=540546052]
+
+[node name="CardBack" type="Sprite2D" parent="Back" unique_id=1822254016]
 z_index = 1
 position = Vector2(-7.6293945e-06, -1.5258789e-05)
 scale = Vector2(1.7684212, 1.8260869)
-texture = ExtResource("3_axbyx")
+texture = ExtResource("3_mv2r5")
+
+[node name="CardBackImage" type="Sprite2D" parent="Back" unique_id=641531271]
+z_index = 1
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("7_8w5pg")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1256997498]
 z_index = 1

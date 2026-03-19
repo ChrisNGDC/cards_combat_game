@@ -5,11 +5,14 @@ const COLOR_DEFENSIVO: Color = Color(0.2, 0.2, 0.8)
 
 @export var tooltip_scene: PackedScene
 
-@onready var level_label: Label = $UpgradeLabel
-@onready var card_front: Sprite2D = $CardFrontImage
-@onready var card_icon: Sprite2D = $CardFrontIcon
-@onready var card_name: Label = $CardLabel
-@onready var card_back: Sprite2D = $CardBackImage
+
+@onready var borde: Sprite2D = $Borde
+@onready var card_front: Node2D = $Front
+@onready var card_name: Label = $Front/CardLabel
+@onready var level_label: Label = $Front/UpgradeLabel
+@onready var card_front_image: Sprite2D = $Front/CardFrontImage
+@onready var card_back: Node2D = $Back
+@onready var card_back_image: Sprite2D = $Back/CardBackImage
 
 var gold_style: LabelSettings = preload("res://resources/max_level_label_settings.tres")
 var basic_style: LabelSettings = preload("res://resources/basic_level_label_settings.tres")
@@ -28,7 +31,6 @@ var show_tooltip: bool = true
 var current_tooltip: PanelContainer = null
 
 func _ready() -> void:
-	_aplicar_datos()
 	self.scale = escala_normal
 	connect("tree_exited", Callable(self , "_on_tree_exited"))
 
@@ -47,20 +49,19 @@ func _process(_delta: float) -> void:
 		current_tooltip.global_position = mouse_pos + offset
 
 
-func setup(datos: CardData, player: bool) -> void:
+func setup(datos: CardData, player: bool, deck_type: String) -> void:
 	datos_carta = datos
 	own_by_player = player
 	create_tooltip()
 	show_card(false)
 	if is_inside_tree():
+		var tex_back: Texture2D = load(deck_type)
+		card_back_image.texture = tex_back
 		_aplicar_datos()
 
 
 func show_card(si: bool) -> void:
 	card_front.visible = si
-	card_icon.visible = si
-	card_name.visible = si
-	level_label.visible = si
 	card_back.visible = !si
 
 
@@ -95,12 +96,8 @@ func show_tooltip_info(si: bool) -> void:
 
 
 func _aplicar_datos() -> void:
-	if datos_carta == null:
-		return
-	if has_node("CardFrontIcon"):
-		var tex: Texture2D = load(datos_carta.ruta_imagen)
-		if tex:
-			get_node("CardFrontIcon").texture = tex
+	var tex_front: Texture2D = load(datos_carta.ruta_imagen)
+	card_front_image.texture = tex_front
 	card_name.text = tr(datos_carta.nombre)
 	tipo = datos_carta.tipo
 	nivel_actual = datos_carta.nivel_actual
@@ -109,18 +106,14 @@ func _aplicar_datos() -> void:
 	update_level_display()
 
 func dar_borde() -> void:
-	if has_node("Borde"):
-		var nodo_borde: Sprite2D = get_node("Borde")
-		match datos_carta.tipo:
-			"CARD_OFFENSIVE":
-				nodo_borde.self_modulate = COLOR_OFENSIVO
-			"CARD_DEFENSIVE":
-				nodo_borde.self_modulate = COLOR_DEFENSIVO
+	match datos_carta.tipo:
+		"CARD_OFFENSIVE":
+			borde.self_modulate = COLOR_OFENSIVO
+		"CARD_DEFENSIVE":
+			borde.self_modulate = COLOR_DEFENSIVO
 
 func quitar_borde() -> void:
-	if has_node("Borde"):
-		var nodo_borde: Sprite2D = get_node("Borde")
-		nodo_borde.self_modulate = Color(1.0, 1.0, 1.0, 0.0)
+	borde.self_modulate = Color(1.0, 1.0, 1.0, 0.0)
 		
 func update_level_display() -> void:
 	if nivel_max > nivel_actual:
@@ -136,7 +129,7 @@ func update_level_display() -> void:
 func _on_area_2d_mouse_entered() -> void:
 	if self.card_front.visible:
 		if self.own_by_player:
-			get_node("Borde").self_modulate *= 1.5
+			borde.self_modulate *= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_grande)
 		if show_tooltip:
@@ -146,7 +139,7 @@ func _on_area_2d_mouse_entered() -> void:
 func _on_area_2d_mouse_exited() -> void:
 	if self.card_front.visible:
 		if self.own_by_player:
-			get_node("Borde").self_modulate /= 1.5
+			borde.self_modulate /= 1.5
 		if not self.selected:
 			apply_scale_tween(self.escala_normal)
 		show_tooltip_info(false)

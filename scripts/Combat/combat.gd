@@ -32,7 +32,6 @@ var cpu: GameCPU = GlobalData.cpu
 @onready var help: TextureRect = $Control/Help
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
 	screen_size = get_viewport_rect().size
@@ -61,7 +60,6 @@ func _ready() -> void:
 		repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if card_being_dragged:
 		card_being_dragged.position = get_global_mouse_position()
@@ -73,6 +71,10 @@ func _process(_delta: float) -> void:
 			var tween: Tween = get_tree().create_tween()
 			player_card_slot.modulate = target_color
 			tween.tween_property(player_card_slot, "scale", target_scale, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	else:
+		var tween: Tween = get_tree().create_tween()
+		player_card_slot.modulate = normal_color
+		tween.tween_property(player_card_slot, "scale", slot_scale, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		
 
 func _input(event: InputEvent) -> void:
@@ -96,13 +98,14 @@ func _input(event: InputEvent) -> void:
 
 				
 func crear_mazo(mazo: Array[Node2D], mazo_pos: Vector2, es_jugador: bool) -> void:
-	var mazo_seleccionado: Array[CardData] = player.deck.cartas if es_jugador else cpu.deck.cartas
-	var cards_amount: int = mazo_seleccionado.size()
+	var mazo_seleccionado: DeckData = player.deck if es_jugador else cpu.deck
+	var cartas_mazo: Array[CardData] = mazo_seleccionado.cartas
+	var cards_amount: int = cartas_mazo.size()
 	var anchor_rel: int = 3
 	for i: int in range(cards_amount):
 		var nueva_carta: Node2D = card_scene.instantiate()
 		add_child(nueva_carta)
-		nueva_carta.setup(mazo_seleccionado[i], es_jugador)
+		nueva_carta.setup(cartas_mazo[i], es_jugador, mazo_seleccionado.ruta_imagen)
 		nueva_carta.anchor_pos = Vector2(0, 0)
 		var offset_mazo: Vector2
 		if es_jugador:
