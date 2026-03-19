@@ -3,8 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_cpw5v"]
 [ext_resource type="Script" uid="uid://dk0gg0w5qgw67" path="res://scripts/combat/combat.gd" id="3_atiws"]
 [ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="3_mlxek"]
+[ext_resource type="FontFile" uid="uid://bwhx1s134etxp" path="res://fonts/Inconsolata-VariableFont_wdth,wght.ttf" id="3_sa5k0"]
 [ext_resource type="Texture2D" uid="uid://bbqmvfd7wxs5s" path="res://images/sword.png" id="4_atiws"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="4_d7qh8"]
+[ext_resource type="Texture2D" uid="uid://bjd0dy7jeka2h" path="res://images/question.png" id="5_4gnb8"]
 [ext_resource type="Script" uid="uid://c3aku1x6osrty" path="res://scripts/combat/health_manager.gd" id="5_gh8tw"]
 [ext_resource type="Texture2D" uid="uid://da00pqxr43212" path="res://images/health_bar.png" id="6_ai0oo"]
 
@@ -50,14 +52,17 @@ centered = false
 [node name="CardManager" type="Node2D" parent="." unique_id=1954557925]
 script = ExtResource("3_atiws")
 
-[node name="RoundLabel" type="Label" parent="CardManager" unique_id=2080885203]
+[node name="RoundLabel" type="RichTextLabel" parent="CardManager" unique_id=1465282883]
 offset_left = 50.0
-offset_top = 300.0
+offset_top = 275.0
 offset_right = 350.0
-offset_bottom = 420.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 64
+offset_bottom = 445.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/mono_font = ExtResource("3_sa5k0")
 theme_override_styles/normal = SubResource("StyleBoxFlat_6u1da")
+bbcode_enabled = true
+scroll_active = false
+autowrap_trim_flags = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -79,6 +84,17 @@ texture = ExtResource("3_mlxek")
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("4_d7qh8")
+
+[node name="Help" type="TextureRect" parent="CardManager/Control" unique_id=1889875454]
+self_modulate = Color(0, 0, 0, 0.75000006)
+layout_mode = 1
+offset_left = 300.0
+offset_top = 395.0
+offset_right = 350.0
+offset_bottom = 445.0
+mouse_filter = 0
+texture = ExtResource("5_4gnb8")
+expand_mode = 1
 
 [node name="Fight" type="Button" parent="CardManager/Control" unique_id=195518851]
 layout_mode = 0
@@ -173,5 +189,7 @@ theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="mouse_entered" from="CardManager/Control/Help" to="CardManager" method="_on_help_mouse_entered"]
+[connection signal="mouse_exited" from="CardManager/Control/Help" to="CardManager" method="_on_help_mouse_exited"]
 [connection signal="pressed" from="CardManager/Control/Fight" to="CardManager" method="_on_fight_pressed"]
 [connection signal="pressed" from="CardManager/Control/EndRound" to="CardManager" method="_on_end_round_pressed"]

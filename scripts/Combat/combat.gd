@@ -26,9 +26,10 @@ var cpu: GameCPU = GlobalData.cpu
 
 @onready var player_card_slot: Sprite2D = $PlayerSlot
 @onready var cpu_card_slot: Sprite2D = $CPUSlot
-@onready var round_label: Label = $RoundLabel
+@onready var round_label: RichTextLabel = $RoundLabel
 @onready var end_round_button: Button = $Control/EndRound
 @onready var end_round_warning: Label = $Control/WarningEndLabel
+@onready var help: TextureRect = $Control/Help
 
 
 # Called when the node enters the scene tree for the first time.
@@ -47,7 +48,7 @@ func _ready() -> void:
 	card_size = card_borde.texture.get_size() * card_borde.scale * card.escala_grande
 	card.queue_free()
 	fighting = false
-	round_label.text = tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds)
+	round_label.text = "[font_size=50]" + tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds) + "[/font_size]"
 	if player.deck != null:
 		player_mazo_pos = Vector2(103.2, screen_size.y - 100)
 		cpu_mazo_pos = Vector2(screen_size.x - 103.2, 100)
@@ -338,3 +339,21 @@ func _on_end_round_pressed() -> void:
 	GlobalData.rounds += 1
 	await get_tree().create_timer(.5).timeout
 	SceneLoader.load_scene("res://scenes/store.tscn")
+
+
+func _on_help_mouse_entered() -> void:
+	var help_text: String = "[code][font_size=15]Gana a ━>
+┏━━━━━> %s ━━━━━━┓
+┃          ┃         ┃
+┃          ˅         ˅
+%s <━ %s ━> %s
+˄          ˄         ┃
+┃          ┃         ┃
+┗━━━━━━━ %s <━━━━━┛[/font_size][/code]" % [tr("CARD_SWORD"), tr("CARD_SHIELD"), tr("CARD_POTION"), tr("CARD_MIRROR"), tr("CARD_MAGIC")]
+	round_label.text = help_text
+	help.self_modulate.a = 0.25
+
+
+func _on_help_mouse_exited() -> void:
+	round_label.text = "[font_size=50]" + tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds) + "[/font_size]"
+	help.self_modulate.a = 0.75
