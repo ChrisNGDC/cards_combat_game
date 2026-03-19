@@ -14,7 +14,7 @@ func _aplicar_datos() -> void:
 	if datos_mazo == null: return
 	if has_node("LineEdit"):
 		get_node("LineEdit").text = tr(datos_mazo.nombre)
-	if has_node("Sprite2D"):
+	if has_node("DeckImage"):
 		var tex: Texture2D = load(datos_mazo.ruta_imagen)
 		if tex:
-			get_node("Sprite2D").texture = tex
+			get_node("DeckImage").texture = tex
