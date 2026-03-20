@@ -49,14 +49,15 @@ func _process(_delta: float) -> void:
 		current_tooltip.global_position = mouse_pos + offset
 
 
-func setup(datos: CardData, player: bool, deck_type: String) -> void:
+func setup(datos: CardData, player: bool, deck_type: String = "") -> void:
 	datos_carta = datos
 	own_by_player = player
 	create_tooltip()
 	show_card(false)
 	if is_inside_tree():
-		var tex_back: Texture2D = load(deck_type)
-		card_back_image.texture = tex_back
+		if deck_type:
+			var tex_back: Texture2D = load(deck_type)
+			card_back_image.texture = tex_back
 		_aplicar_datos()
 
 

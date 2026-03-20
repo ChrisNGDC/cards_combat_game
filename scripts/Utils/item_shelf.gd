@@ -2,7 +2,7 @@ extends HFlowContainer
 
 var card_scene: PackedScene = preload("res://scenes/card.tscn")
 
-func mostrar_cartas(mazo: Array) -> void:
+func mostrar_cartas(mazo: Array[CardData]) -> void:
 	for child: Node in get_children():
 		child.queue_free()
 	

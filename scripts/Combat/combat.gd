@@ -318,8 +318,8 @@ func show_game_over_ui(won: bool) -> void:
 	var run_data: Dictionary = {
 		"date": Time.get_datetime_string_from_system(false, true),
 		"won": (player.current_hp > 0),
-		"player_deck": cards_to_save(player.deck.cartas),
-		"cpu_deck": cards_to_save(cpu.deck.cartas)
+		"player_deck": {"name": player.deck.nombre, "cards": cards_to_save(player.deck.cartas)},
+		"cpu_deck": {"name": cpu.deck.nombre, "cards": cards_to_save(cpu.deck.cartas)}
 	}
 	SaveManager.save_run(run_data)
 	
