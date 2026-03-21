@@ -4,6 +4,12 @@ MENU_PLAY,Play,Jugar
 MENU_HISTORY,History,Historial
 MENU_EXIT,Exit,Salir
 CLOSE,Close,Cerrar
+BACK_TO_MENU,Back to main menu,Volver al menú principal
+VIDEO,Video,Video
+AUDIO,Audio,Audio
+GENERAL,General,General
+LANGUAGE,Language,Idioma
+SETTINGS,Settings,Ajustes
 DECK_FIGHTER,Fighter,Luchador
 DECK_MAGE,Mage,Mago
 DECK_PALADIN,Paladin,Paladín

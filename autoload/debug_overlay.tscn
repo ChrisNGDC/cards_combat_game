@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://kwt4as8vekix"]
 
 [ext_resource type="Script" uid="uid://dxf43u3owkqd0" path="res://autoload/debug_overlay.gd" id="1_g6ve3"]
+[ext_resource type="Texture2D" uid="uid://blo76fmoo440q" path="res://images/settings.png" id="2_qqmdh"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="3_j0rna"]
+[ext_resource type="Texture2D" uid="uid://cspyd2gh0wc4l" path="res://images/fullscreen.png" id="4_a0m3s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6ve3"]
 bg_color = Color(0, 0, 0, 0.29411766)
@@ -9,20 +12,210 @@ border_blend = true
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j0rna"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0, 0, 0, 0.95000005)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31hjj"]
+bg_color = Color(0, 0, 0, 0.5019608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gug4i"]
+bg_color = Color(0.225, 0.225, 0.225, 0.6)
+
 [node name="DebugOverlay" type="CanvasLayer" unique_id=1142192573]
+process_mode = 3
 layer = 200
 script = ExtResource("1_g6ve3")
 
-[node name="FPSLabel" type="Label" parent="." unique_id=342043897]
-custom_minimum_size = Vector2(150, 0)
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 38.0
+[node name="Container" type="HFlowContainer" parent="." unique_id=2135530932]
+anchors_preset = 10
+anchor_right = 1.0
 grow_horizontal = 2
-size_flags_horizontal = 4
+size_flags_vertical = 0
+alignment = 2
+
+[node name="FPSLabel" type="Label" parent="Container" unique_id=342043897]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_g6ve3")
 horizontal_alignment = 1
+
+[node name="SettingsButton" type="TextureButton" parent="Container" unique_id=1302800837]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("2_qqmdh")
+texture_pressed = ExtResource("2_qqmdh")
+texture_hover = ExtResource("2_qqmdh")
+
+[node name="SettingsPanel" type="PanelContainer" parent="." unique_id=2101370814]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_force_pass_scroll_events = false
+theme_override_styles/panel = SubResource("StyleBoxFlat_j0rna")
+
+[node name="CloseButton" type="Button" parent="SettingsPanel" unique_id=1015276243]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "CLOSE"
+
+[node name="SettingsContainer" type="VBoxContainer" parent="SettingsPanel" unique_id=1779999434]
+custom_minimum_size = Vector2(820, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 40
+
+[node name="SettingsLabel" type="Label" parent="SettingsPanel/SettingsContainer" unique_id=1510670416]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="VideoContainer" type="VBoxContainer" parent="SettingsPanel/SettingsContainer" unique_id=1960718534]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="VideoLabel" type="RichTextLabel" parent="SettingsPanel/SettingsContainer/VideoContainer" unique_id=1872570778]
+clip_contents = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResolutionContainer" type="HBoxContainer" parent="SettingsPanel/SettingsContainer/VideoContainer" unique_id=511399706]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ResolutionButton" type="OptionButton" parent="SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer" unique_id=1647084587]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme = ExtResource("3_j0rna")
+theme_override_font_sizes/font_size = 32
+alignment = 1
+expand_icon = true
+
+[node name="FullscreenButton" type="Button" parent="SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer" unique_id=1832581893]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+focus_mode = 0
+theme = ExtResource("3_j0rna")
+theme_override_colors/icon_normal_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_icons/icon = ExtResource("4_a0m3s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_31hjj")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gug4i")
+toggle_mode = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="AudioContainer" type="VBoxContainer" parent="SettingsPanel/SettingsContainer" unique_id=1003696943]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="AudioLabel" type="RichTextLabel" parent="SettingsPanel/SettingsContainer/AudioContainer" unique_id=1767833623]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterContainer" type="HBoxContainer" parent="SettingsPanel/SettingsContainer/AudioContainer" unique_id=782845295]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="MasterLabel" type="Label" parent="SettingsPanel/SettingsContainer/AudioContainer/MasterContainer" unique_id=926136930]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "GENERAL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="SettingsPanel/SettingsContainer/AudioContainer/MasterContainer" unique_id=1643401516]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_constants/center_grabber = 1
+rounded = true
+scrollable = false
+
+[node name="ValueLabel" type="Label" parent="SettingsPanel/SettingsContainer/AudioContainer/MasterContainer" unique_id=104468307]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LanguageContainer" type="VBoxContainer" parent="SettingsPanel/SettingsContainer" unique_id=1786205538]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LanguageLabel" type="RichTextLabel" parent="SettingsPanel/SettingsContainer/LanguageContainer" unique_id=494366339]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LanguageButton" type="OptionButton" parent="SettingsPanel/SettingsContainer/LanguageContainer" unique_id=1834014339]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+alignment = 1
+item_count = 2
+popup/item_0/text = "English"
+popup/item_0/id = 0
+popup/item_1/text = "Español"
+popup/item_1/id = 1
+
+[node name="ExitButton" type="Button" parent="SettingsPanel/SettingsContainer" unique_id=364866667]
+custom_minimum_size = Vector2(350, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "BACK_TO_MENU"
+
+[connection signal="mouse_entered" from="Container/SettingsButton" to="." method="_on_settings_button_mouse_entered"]
+[connection signal="mouse_exited" from="Container/SettingsButton" to="." method="_on_settings_button_mouse_exited"]
+[connection signal="pressed" from="Container/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="SettingsPanel/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="value_changed" from="SettingsPanel/SettingsContainer/AudioContainer/MasterContainer/MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="pressed" from="SettingsPanel/SettingsContainer/ExitButton" to="." method="_on_exit_button_pressed"]

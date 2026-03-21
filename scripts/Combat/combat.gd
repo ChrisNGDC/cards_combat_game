@@ -49,8 +49,8 @@ func _ready() -> void:
 	fighting = false
 	round_label.text = "[font_size=50]" + tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds) + "[/font_size]"
 	if player.deck != null:
-		player_mazo_pos = Vector2(103.2, screen_size.y - 100)
-		cpu_mazo_pos = Vector2(screen_size.x - 103.2, 100)
+		player_mazo_pos = Vector2(200, screen_size.y - 100)
+		cpu_mazo_pos = Vector2(screen_size.x - 200, 100)
 		player.deck.cartas.shuffle()
 		cpu.deck.cartas.shuffle()
 		crear_mazo(player.visual_deck, player_mazo_pos, true)
