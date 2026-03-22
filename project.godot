@@ -23,10 +23,10 @@ CardManager="*uid://csmlamigc885c"
 DeckManager="*uid://b15f2f2s26mpw"
 GlobalData="*uid://ds4saa4w4n7yk"
 SaveManager="*uid://wsmh8wpfeill"
-ConfigManager="*uid://dq4fpa7w2jdbu"
+AudioManager="*uid://c7qnsx15cyyuu"
 SceneLoader="*uid://drxxra1qcv8qt"
 TooltipManager="*uid://dwougphpc3plb"
-AudioManager="*uid://c7qnsx15cyyuu"
+ConfigManager="*uid://dq4fpa7w2jdbu"
 DebugOverlay="*uid://kwt4as8vekix"
 
 [debug]

@@ -4,9 +4,9 @@ const MASTER_BUS_NAME: String = "Master"
 const MUSIC_BUS_NAME: String = "Music"
 const SOUND_EFFECTS_BUS_NAME: String = "SFX"
 
-@onready var master_bus_index: int = AudioServer.get_bus_index(MASTER_BUS_NAME)
-@onready var music_bus_index: int = AudioServer.get_bus_index(MUSIC_BUS_NAME)
-@onready var sfx_bus_index: int = AudioServer.get_bus_index(SOUND_EFFECTS_BUS_NAME)
+var master_bus_index: int = AudioServer.get_bus_index(MASTER_BUS_NAME)
+var music_bus_index: int = AudioServer.get_bus_index(MUSIC_BUS_NAME)
+var sfx_bus_index: int = AudioServer.get_bus_index(SOUND_EFFECTS_BUS_NAME)
 
 var music_player: AudioStreamPlayer = AudioStreamPlayer.new()
 
@@ -35,23 +35,27 @@ func play_sfx(stream: AudioStream) -> void:
 	instance.play()
 	instance.finished.connect(instance.queue_free)
 
+func get_volume(bus_index: int) -> float:
+	return db_to_linear(AudioServer.get_bus_volume_db(bus_index)) * 2.5
+
 func get_master_volume() -> float:
-	return db_to_linear(AudioServer.get_bus_volume_db(master_bus_index))
+	return get_volume(master_bus_index)
 
 func get_music_volume() -> float:
-	return db_to_linear(AudioServer.get_bus_volume_db(music_bus_index))
+	return get_volume(music_bus_index)
 
 func get_sfx_volume() -> float:
-	return db_to_linear(AudioServer.get_bus_volume_db(sfx_bus_index))
+	return get_volume(sfx_bus_index)
+
+func set_volume(bus_index: int, value: float) -> void:
+	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value / 2.5))
+	AudioServer.set_bus_mute(bus_index, value < 0.01)
 
 func set_master_volume(value: float) -> void:
-	AudioServer.set_bus_volume_db(master_bus_index, linear_to_db(value))
-	AudioServer.set_bus_mute(master_bus_index, value < 0.01)
+	set_volume(master_bus_index, value)
 
 func set_music_volume(value: float) -> void:
-	AudioServer.set_bus_volume_db(music_bus_index, linear_to_db(value))
-	AudioServer.set_bus_mute(music_bus_index, value < 0.01)
+	set_volume(music_bus_index, value)
 
 func set_sfx_volume(value: float) -> void:
-	AudioServer.set_bus_volume_db(sfx_bus_index, linear_to_db(value))
-	AudioServer.set_bus_mute(sfx_bus_index, value < 0.01)
+	set_volume(sfx_bus_index, value)

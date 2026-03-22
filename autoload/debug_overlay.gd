@@ -50,10 +50,10 @@ func _ready() -> void:
 	lang_label.bbcode_text = "[b][u]" + tr("LANGUAGE") + "[/u][/b]"
 	audio_label.bbcode_text = "[b][u]" + tr("AUDIO") + "[/u][/b]"
 
-	AudioManager.play_main_theme()
 	master_slider.value = AudioManager.get_master_volume()
 	music_slider.value = AudioManager.get_music_volume()
 	sfx_slider.value = AudioManager.get_sfx_volume()
+	AudioManager.play_main_theme()
 
 	res_button.item_selected.connect(_on_resolution_selected)
 	lang_button.item_selected.connect(_on_language_selected)
@@ -112,6 +112,7 @@ func _on_close_button_pressed() -> void:
 	settings_button.show()
 	settings_panel.hide()
 	get_tree().paused = false
+	ConfigManager.save_audio_volumes()
 
 func _on_language_selected(index: int) -> void:
 	match index:
@@ -131,13 +132,13 @@ func _on_exit_button_pressed() -> void:
 
 func _on_master_slider_value_changed(value: float) -> void:
 	master_slider_value.text = str(int(value * 100)) + "%"
-	AudioManager.set_master_volume(value / 3)
+	AudioManager.set_master_volume(value)
 
 func _on_music_slider_value_changed(value: float) -> void:
 	music_slider_value.text = str(int(value * 100)) + "%"
-	AudioManager.set_music_volume(value / 3)
+	AudioManager.set_music_volume(value)
 
 
 func _on_sfx_slider_value_changed(value: float) -> void:
 	sfx_slider_value.text = str(int(value * 100)) + "%"
-	AudioManager.set_sfx_volume(value / 3)
+	AudioManager.set_sfx_volume(value)

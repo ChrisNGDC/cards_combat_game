@@ -40,6 +40,7 @@ func load_resolution() -> Vector2i:
 func load_settings() -> void:
 	var resolution: Vector2i = load_resolution()
 	DisplayServer.window_set_size(resolution)
+
 	var screen_center: Vector2i = DisplayServer.screen_get_position() + Vector2i(DisplayServer.screen_get_size() / 2.0)
 	DisplayServer.window_set_position(screen_center - Vector2i(resolution / 2.0))
 
@@ -49,8 +50,18 @@ func load_settings() -> void:
 	var lang: String = config.get_value("general", "language", "es")
 	TranslationServer.set_locale(lang)
 
+	AudioManager.set_master_volume(config.get_value("audio", "master", 1.0))
+	AudioManager.set_music_volume(config.get_value("audio", "music", 1.0))
+	AudioManager.set_sfx_volume(config.get_value("audio", "sfx", 1.0))
+
 
 func save_language(locale: String) -> void:
 	config.set_value("general", "language", locale)
 	config.save(SETTINGS_PATH)
 	TranslationServer.set_locale(locale)
+
+func save_audio_volumes() -> void:
+	config.set_value("audio", "master", AudioManager.get_master_volume())
+	config.set_value("audio", "music", AudioManager.get_music_volume())
+	config.set_value("audio", "sfx", AudioManager.get_sfx_volume())
+	config.save(SETTINGS_PATH)
