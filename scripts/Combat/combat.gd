@@ -201,9 +201,9 @@ func flip_card(carta: Node2D) -> void:
 	flip_tween.tween_property(carta, "scale:x", carta.escala_normal.x, 0.5).set_ease(Tween.EASE_OUT)
 
 
-func combat(player_card: CardData, cpu_card: CardData) -> void:
-	var primera: CardData
-	var segunda: CardData
+func combat(player_card: Node2D, cpu_card: Node2D) -> void:
+	var primera: Node2D
+	var segunda: Node2D
 	var player_va_primero: bool
 
 	var cpu_sword_prio: bool = (cpu_card.nombre == "CARD_SWORD" and player_card.nombre == "CARD_MAGIC")
@@ -232,22 +232,23 @@ func combat(player_card: CardData, cpu_card: CardData) -> void:
 	cpu.take_damage()
 
 
-func play_card(card: CardData, es_jugador: bool) -> void:
+func play_card(card: Node2D, es_jugador: bool) -> void:
+	card.play_sound()
 	match card.nombre:
 		"CARD_SWORD":
-			var damage: int = card.efecto.call(card.nivel_actual)
+			var damage: int = card.apply_effect()
 			if es_jugador:
 				cpu.damage_to_receive += damage
 			else:
 				player.damage_to_receive += damage
 		"CARD_MAGIC":
-			var damage: int = card.efecto.call(card.nivel_actual)
+			var damage: int = card.apply_effect()
 			if es_jugador:
 				cpu.damage_to_receive += damage
 			else:
 				player.damage_to_receive += damage
 		"CARD_SHIELD":
-			var damage: int = card.efecto.call(card.nivel_actual)
+			var damage: int = card.apply_effect()
 			if es_jugador:
 				player.damage_to_receive = max(0, player.damage_to_receive - damage)
 			else:
@@ -260,7 +261,7 @@ func play_card(card: CardData, es_jugador: bool) -> void:
 				player.damage_to_receive += cpu.damage_to_receive
 				cpu.damage_to_receive = 0
 		"CARD_POTION":
-			var healing: int = card.efecto.call(card.nivel_actual)
+			var healing: int = card.apply_effect()
 			if es_jugador:
 				player.damage_to_receive -= healing
 			else:
@@ -279,7 +280,7 @@ func _on_fight_pressed() -> void:
 		var player_card_pos: Vector2 = card_in_slot.anchor_pos
 		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
 		await get_tree().create_timer(1.5).timeout
-		await combat(card_in_slot.datos_carta, cpu_choice.datos_carta)
+		await combat(card_in_slot, cpu_choice)
 		card_in_slot.show_tooltip_info(false)
 		cpu_choice.show_tooltip_info(false)
 		player.visual_hand.erase(card_in_slot)

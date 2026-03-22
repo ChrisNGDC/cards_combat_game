@@ -3,12 +3,19 @@ extends CanvasLayer
 @onready var FPS_counter: Label = $Container/FPSLabel
 @onready var settings_button: TextureButton = $Container/SettingsButton
 @onready var settings_panel: PanelContainer = $SettingsPanel
+
 @onready var video_label: RichTextLabel = $SettingsPanel/SettingsContainer/VideoContainer/VideoLabel
 @onready var res_button: Button = $SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer/ResolutionButton
 @onready var fullscreen_button: Button = $SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer/FullscreenButton
+
 @onready var audio_label: RichTextLabel = $SettingsPanel/SettingsContainer/AudioContainer/AudioLabel
 @onready var master_slider: HSlider = $SettingsPanel/SettingsContainer/AudioContainer/MasterContainer/MasterSlider
 @onready var master_slider_value: Label = $SettingsPanel/SettingsContainer/AudioContainer/MasterContainer/ValueLabel
+@onready var music_slider: HSlider = $SettingsPanel/SettingsContainer/AudioContainer/MusicContainer/MusicSlider
+@onready var music_slider_value: Label = $SettingsPanel/SettingsContainer/AudioContainer/MusicContainer/ValueLabel
+@onready var sfx_slider: HSlider = $SettingsPanel/SettingsContainer/AudioContainer/SFXContainer/SFXSlider
+@onready var sfx_slider_value: Label = $SettingsPanel/SettingsContainer/AudioContainer/SFXContainer/ValueLabel
+
 @onready var lang_label: RichTextLabel = $SettingsPanel/SettingsContainer/LanguageContainer/LanguageLabel
 @onready var lang_button: Button = $SettingsPanel/SettingsContainer/LanguageContainer/LanguageButton
 
@@ -43,7 +50,10 @@ func _ready() -> void:
 	lang_label.bbcode_text = "[b][u]" + tr("LANGUAGE") + "[/u][/b]"
 	audio_label.bbcode_text = "[b][u]" + tr("AUDIO") + "[/u][/b]"
 
-	master_slider.value = 100
+	AudioManager.play_main_theme()
+	master_slider.value = AudioManager.get_master_volume()
+	music_slider.value = AudioManager.get_music_volume()
+	sfx_slider.value = AudioManager.get_sfx_volume()
 
 	res_button.item_selected.connect(_on_resolution_selected)
 	lang_button.item_selected.connect(_on_language_selected)
@@ -120,4 +130,14 @@ func _on_exit_button_pressed() -> void:
 
 
 func _on_master_slider_value_changed(value: float) -> void:
-	master_slider_value.text = str(int(value))
+	master_slider_value.text = str(int(value * 100)) + "%"
+	AudioManager.set_master_volume(value / 3)
+
+func _on_music_slider_value_changed(value: float) -> void:
+	music_slider_value.text = str(int(value * 100)) + "%"
+	AudioManager.set_music_volume(value / 3)
+
+
+func _on_sfx_slider_value_changed(value: float) -> void:
+	sfx_slider_value.text = str(int(value * 100)) + "%"
+	AudioManager.set_sfx_volume(value / 3)

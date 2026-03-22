@@ -26,6 +26,7 @@ SaveManager="*uid://wsmh8wpfeill"
 ConfigManager="*uid://dq4fpa7w2jdbu"
 SceneLoader="*uid://drxxra1qcv8qt"
 TooltipManager="*uid://dwougphpc3plb"
+AudioManager="*uid://c7qnsx15cyyuu"
 DebugOverlay="*uid://kwt4as8vekix"
 
 [debug]

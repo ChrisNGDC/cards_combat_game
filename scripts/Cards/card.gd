@@ -16,7 +16,9 @@ const COLOR_DEFENSIVO: Color = Color(0.2, 0.2, 0.8)
 
 var gold_style: LabelSettings = preload("res://resources/max_level_label_settings.tres")
 var basic_style: LabelSettings = preload("res://resources/basic_level_label_settings.tres")
+var sword_hit_sound: Resource = preload("res://sounds/sword_hit.wav")
 
+var nombre: String
 var tipo: String
 var nivel_actual: int
 var nivel_max: int
@@ -30,9 +32,15 @@ var selected: bool = false
 var show_tooltip: bool = true
 var current_tooltip: PanelContainer = null
 
+
 func _ready() -> void:
 	self.scale = escala_normal
 	connect("tree_exited", Callable(self , "_on_tree_exited"))
+
+func play_sound() -> void:
+	match nombre:
+		"CARD_SWORD":
+			AudioManager.play_sfx(sword_hit_sound)
 
 
 func _process(_delta: float) -> void:
@@ -52,13 +60,13 @@ func _process(_delta: float) -> void:
 func setup(datos: CardData, player: bool, deck_type: String = "") -> void:
 	datos_carta = datos
 	own_by_player = player
-	create_tooltip()
 	show_card(false)
 	if is_inside_tree():
 		if deck_type:
 			var tex_back: Texture2D = load(deck_type)
 			card_back_image.texture = tex_back
 		_aplicar_datos()
+		create_tooltip()
 
 
 func show_card(si: bool) -> void:
@@ -69,22 +77,22 @@ func show_card(si: bool) -> void:
 func create_tooltip() -> void:
 	current_tooltip = tooltip_scene.instantiate()
 	TooltipManager.add_child(current_tooltip)
-	current_tooltip.get_node("VBox/HBox/TypeLabel").text = tr(datos_carta.tipo)
+	current_tooltip.get_node("VBox/HBox/TypeLabel").text = tr(tipo)
 	var tooltip_level_label: Label = current_tooltip.get_node("VBox/HBox/LevelLabel")
-	tooltip_level_label.text = "Lvl." + (str(datos_carta.nivel_actual) if datos_carta.nivel_actual < datos_carta.nivel_max else "Max")
-	tooltip_level_label.modulate = (gold_style.font_color if datos_carta.nivel_actual == datos_carta.nivel_max else basic_style.font_color)
-	var description_values: Array = []
-	match datos_carta.nombre:
+	tooltip_level_label.text = "Lvl." + (str(nivel_actual) if nivel_actual < nivel_max else "Max")
+	tooltip_level_label.modulate = (gold_style.font_color if nivel_actual == nivel_max else basic_style.font_color)
+	var description_values: Array
+	match nombre:
 		"CARD_SWORD":
-			description_values = ["#ff0000", datos_carta.efecto.call(datos_carta.nivel_actual), tr(datos_carta.tipo_danio)]
+			description_values = ["#ff0000", apply_effect(), tr(tipo_danio)]
 		"CARD_MAGIC":
-			description_values = ["#ffff00", datos_carta.efecto.call(datos_carta.nivel_actual), tr(datos_carta.tipo_danio)]
+			description_values = ["#ffff00", apply_effect(), tr(tipo_danio)]
 		"CARD_SHIELD":
-			description_values = ["#0000ff", datos_carta.efecto.call(datos_carta.nivel_actual)]
+			description_values = ["#0000ff", apply_effect()]
 		"CARD_MIRROR":
 			description_values = []
 		"CARD_POTION":
-			description_values = ["#00ff00", datos_carta.efecto.call(datos_carta.nivel_actual)]
+			description_values = ["#00ff00", apply_effect()]
 	current_tooltip.get_node("VBox/InfoText").text = tr(datos_carta.description) % description_values
 	current_tooltip.hide()
 
@@ -99,6 +107,7 @@ func show_tooltip_info(si: bool) -> void:
 func _aplicar_datos() -> void:
 	var tex_front: Texture2D = load(datos_carta.ruta_imagen)
 	card_front_image.texture = tex_front
+	nombre = datos_carta.nombre
 	card_name.text = tr(datos_carta.nombre)
 	tipo = datos_carta.tipo
 	nivel_actual = datos_carta.nivel_actual
@@ -107,7 +116,7 @@ func _aplicar_datos() -> void:
 	update_level_display()
 
 func dar_borde() -> void:
-	match datos_carta.tipo:
+	match tipo:
 		"CARD_OFFENSIVE":
 			borde.self_modulate = COLOR_OFENSIVO
 		"CARD_DEFENSIVE":
@@ -148,6 +157,9 @@ func _on_area_2d_mouse_exited() -> void:
 func apply_scale_tween(target_scale: Vector2) -> void:
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(self , "scale", target_scale, 0.2)
+
+func apply_effect() -> int:
+	return datos_carta.efecto.call(nivel_actual)
 
 
 func _on_tree_exited() -> void:
