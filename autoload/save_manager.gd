@@ -1,7 +1,7 @@
 extends Node
 
 const SAVE_PATH: String = "user://run_history.save"
-const VERSION: int = 2 # Update when changing save structure
+const VERSION: int = 2.0 # Update when changing save structure
 
 func save_run(run_data: Dictionary) -> void:
 	var history: Array = load_history()
@@ -20,7 +20,7 @@ func load_history() -> Array:
 	var json: JSON = JSON.new()
 	json.parse(json_string)
 	var data: Array = json.get_data()
-	if data[0] is int and data[0] == VERSION:
+	if data[0] is float and data[0] == VERSION:
 		return data.slice(1)
 	else:
 		file.close()
