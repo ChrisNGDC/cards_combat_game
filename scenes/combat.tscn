@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bjd0dy7jeka2h" path="res://images/question.png" id="5_4gnb8"]
 [ext_resource type="Script" uid="uid://c3aku1x6osrty" path="res://scripts/combat/health_manager.gd" id="5_gh8tw"]
 [ext_resource type="Texture2D" uid="uid://da00pqxr43212" path="res://images/health_bar.png" id="6_ai0oo"]
+[ext_resource type="Texture2D" uid="uid://cmb5e17n3qwii" path="res://images/eye.png" id="8_8we11"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6u1da"]
 bg_color = Color(1, 1, 1, 0.5019608)
@@ -27,6 +28,42 @@ expand_margin_bottom = 2.0
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7qh8"]
 bg_color = Color(1, 1, 1, 0.43529412)
 border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8we11"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.4)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gvie1"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.4)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrcy2"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.4)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 12
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d7qh8"]
 atlas = ExtResource("6_ai0oo")
@@ -133,9 +170,21 @@ text = "COMBAT_ROUND_WARNING"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="UserHand" type="Node2D" parent="CardManager" unique_id=501328040]
-
-[node name="CpuHand" type="Node2D" parent="CardManager" unique_id=1988542456]
+[node name="SeeDeckButton" type="Button" parent="CardManager" unique_id=1615275995]
+offset_left = 40.0
+offset_top = 545.0
+offset_right = 90.0
+offset_bottom = 595.0
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_8we11")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gvie1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hrcy2")
+icon = ExtResource("8_8we11")
+icon_alignment = 1
+expand_icon = true
 
 [node name="HPManager" type="Control" parent="." unique_id=877922947]
 layout_mode = 3
@@ -193,3 +242,4 @@ vertical_alignment = 1
 [connection signal="mouse_exited" from="CardManager/Control/Help" to="CardManager" method="_on_help_mouse_exited"]
 [connection signal="pressed" from="CardManager/Control/Fight" to="CardManager" method="_on_fight_pressed"]
 [connection signal="pressed" from="CardManager/Control/EndRound" to="CardManager" method="_on_end_round_pressed"]
+[connection signal="pressed" from="CardManager/SeeDeckButton" to="CardManager" method="_on_see_deck_button_pressed"]

@@ -5,6 +5,7 @@ var card_being_dragged: Node2D
 var card_original_pos: Vector2
 var card_scene: PackedScene = preload("res://scenes/card.tscn")
 var game_over_scene: PackedScene = preload("res://scenes/game_over_ui.tscn")
+var overlay_scene: PackedScene = preload("res://scenes/deck_overlay.tscn")
 var player_slot_pos: Vector2
 var player_slot_rect: Rect2
 var cpu_slot_pos: Vector2
@@ -23,6 +24,8 @@ var anchor_rect: Rect2
 var return_tween: Tween
 var player: GamePlayer = GlobalData.player
 var cpu: GameCPU = GlobalData.cpu
+var viewing_deck: bool
+
 
 @onready var player_card_slot: Sprite2D = $PlayerSlot
 @onready var cpu_card_slot: Sprite2D = $CPUSlot
@@ -49,8 +52,8 @@ func _ready() -> void:
 	fighting = false
 	round_label.text = "[font_size=50]" + tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds) + "[/font_size]"
 	if player.deck != null:
-		player_mazo_pos = Vector2(200, screen_size.y - 100)
-		cpu_mazo_pos = Vector2(screen_size.x - 200, 100)
+		player_mazo_pos = Vector2(150, screen_size.y - 150)
+		cpu_mazo_pos = Vector2(screen_size.x - 150, 150)
 		player.deck.cartas.shuffle()
 		cpu.deck.cartas.shuffle()
 		crear_mazo(player.visual_deck, player_mazo_pos, true)
@@ -83,7 +86,7 @@ func _input(event: InputEvent) -> void:
 			var card: Node2D = check_card_click()
 			if return_tween and return_tween.is_running():
 				return_tween.kill()
-			if card and card.own_by_player and card.card_front.visible and (card != card_in_slot or not fighting):
+			if card and card.own_by_player and card.card_front.visible and (card != card_in_slot or not fighting) and not viewing_deck:
 				card_being_dragged = card
 				card_original_pos = card.position
 				card_being_dragged.move_to_front()
@@ -270,7 +273,7 @@ func play_card(card: Node2D, es_jugador: bool) -> void:
 
 
 func _on_fight_pressed() -> void:
-	if is_instance_valid(card_in_slot) and not fighting and not dealing_hand:
+	if is_instance_valid(card_in_slot) and not fighting and not dealing_hand and not viewing_deck:
 		fighting = true
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
 			end_round_button.hide()
@@ -361,3 +364,17 @@ func _on_help_mouse_entered() -> void:
 func _on_help_mouse_exited() -> void:
 	round_label.text = "[font_size=50]" + tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds) + "[/font_size]"
 	help.self_modulate.a = 0.75
+
+
+func _on_see_deck_button_pressed() -> void:
+	if not dealing_hand:
+		viewing_deck = true
+		show_cards_tooltip(false)
+		var overlay: CanvasLayer = overlay_scene.instantiate()
+		add_child(overlay)
+		overlay.closing.connect(_on_overlay_closed)
+		overlay.display_deck(player.visual_deck)
+
+func _on_overlay_closed() -> void:
+	viewing_deck = false
+	show_cards_tooltip(true)

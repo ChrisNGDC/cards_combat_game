@@ -20,9 +20,19 @@ func display_history_deck(deck_data: Dictionary) -> void:
 	update_name(deck_data.name)
 	shelf.mostrar_cartas(cartas)
 
-func display_deck(deck_data: Array[CardData]) -> void:
+func display_deck_data(deck_data: Array[CardData]) -> void:
 	for child: Control in shelf.get_children():
 		child.queue_free()
+		
+	shelf.mostrar_cartas(deck_data)
+
+func display_deck(deck: Array[Node2D]) -> void:
+	for child: Control in shelf.get_children():
+		child.queue_free()
+
+	var deck_data: Array[CardData] = []
+	for card: Node2D in deck:
+		deck_data.append(card.datos_carta)
 		
 	shelf.mostrar_cartas(deck_data)
 

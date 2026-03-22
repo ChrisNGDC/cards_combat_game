@@ -86,7 +86,7 @@ func _on_view_deck_button_pressed() -> void:
 	var overlay: CanvasLayer = overlay_scene.instantiate()
 	add_child(overlay)
 	overlay.closing.connect(_on_overlay_closed)
-	overlay.display_deck(selected_deck.datos_mazo.cartas)
+	overlay.display_deck_data(selected_deck.datos_mazo.cartas)
 
 
 func _on_overlay_closed() -> void:
