@@ -33,7 +33,8 @@ func display_deck(deck: Array[Node2D]) -> void:
 	var deck_data: Array[CardData] = []
 	for card: Node2D in deck:
 		deck_data.append(card.datos_carta)
-		
+	deck_data.shuffle()
+
 	shelf.mostrar_cartas(deck_data)
 
 
