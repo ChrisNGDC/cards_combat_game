@@ -207,33 +207,54 @@ func flip_card(carta: Node2D) -> void:
 func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 	var primera: Node2D
 	var segunda: Node2D
-	var player_va_primero: bool
+	var orden: Dictionary = {
+		"primero": null,
+		"segundo": null
+	}
 
 	var cpu_sword_prio: bool = (cpu_card.nombre == "CARD_SWORD" and player_card.nombre == "CARD_MAGIC")
 
 	if (cpu_card.tipo == "CARD_OFFENSIVE" and player_card.tipo != "CARD_OFFENSIVE") or cpu_sword_prio:
 		primera = cpu_card
 		segunda = player_card
-		player_va_primero = false
+		orden["primero"] = cpu
+		orden["segundo"] = player
 	else:
 		primera = player_card
 		segunda = cpu_card
-		player_va_primero = true
+		orden["primero"] = player
+		orden["segundo"] = cpu
+
+	var primero_stunned: bool = orden["primero"].stunned
+	var segundo_stunned: bool = orden["segundo"].stunned
+
+	var player_first: bool = orden["primero"] == player
+
+	var useless_defence: bool = primero_stunned and segunda.nombre in ["CARD_MIRROR", "CARD_SHIELD"] or segundo_stunned and primera.nombre in ["CARD_MIRROR", "CARD_SHIELD"]
 
 	var invalid_potion: bool = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_POTION"
 	var invalid_mirror: bool = primera.tipo_danio != "CARD_MAGICAL" and segunda.nombre == "CARD_MIRROR"
 	var invalid_shield: bool = primera.tipo_danio != "CARD_PHYSICAL" and segunda.nombre == "CARD_SHIELD"
 	var invalid_magic: bool = primera.nombre == "CARD_SWORD" and segunda.nombre == "CARD_MAGIC"
-	var invalid_second: bool = invalid_potion or invalid_mirror or invalid_shield or invalid_magic
+	var invalid_stun: bool = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_STUN"
+	var invalid_second: bool = invalid_potion or invalid_mirror or invalid_shield or invalid_magic or invalid_stun
 
 	var both_shield: bool = primera.nombre == "CARD_SHIELD" and segunda.nombre == "CARD_SHIELD"
 	var both_mirror: bool = primera.nombre == "CARD_MIRROR" and segunda.nombre == "CARD_MIRROR"
 
 	if not both_shield and not both_mirror:
-		await play_card(primera, player_va_primero)
-
-		if not invalid_second:
-			await play_card(segunda, !player_va_primero)
+		if primero_stunned:
+			orden["primero"].stunned = false
+			if segundo_stunned:
+				orden["segundo"].stunned = false
+			elif not useless_defence:
+				await play_card(segunda, !player_first)
+		else:
+			await play_card(primera, player_first)
+			if segundo_stunned:
+				orden["segundo"].stunned = false
+			elif not invalid_second:
+				await play_card(segunda, !player_first)
 
 		player.take_damage()
 		cpu.take_damage()
@@ -275,8 +296,38 @@ func play_card(card: Node2D, es_jugador: bool) -> void:
 				player.damage_to_receive -= healing
 			else:
 				cpu.damage_to_receive -= healing
+		"CARD_STUN":
+			if es_jugador:
+				cpu.stunned = true
+			else:
+				player.stunned = true
 	await get_tree().create_timer(0.5).timeout
 
+
+func cpu_choose_card() -> Node2D:
+	var cpu_choice: Node2D = cpu.pick_card()
+	if cpu_choice:
+		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
+		await get_tree().create_timer(1.5).timeout
+	return cpu_choice
+		
+
+func cpu_use_card(cpu_choice: Node2D) -> void:
+	var cpu_card_pos: Vector2 = cpu_choice.anchor_pos
+	cpu_choice.show_tooltip_info(false)
+	cpu.visual_hand.erase(cpu_choice)
+	cpu_choice.queue_free()
+	if cpu.visual_hand.size() < hand_size and cpu.visual_deck.size() > 0:
+		repartir_carta(cpu.visual_deck, cpu.visual_hand, cpu_card_pos, false)
+
+func player_use_card(player_choice: Node2D) -> void:
+	var player_card_pos: Vector2 = card_in_slot.anchor_pos
+	player_choice.show_tooltip_info(false)
+	player.visual_hand.erase(player_choice)
+	player_choice.queue_free()
+	if player.visual_hand.size() < hand_size and player.visual_deck.size() > 0:
+		repartir_carta(player.visual_deck, player.visual_hand, player_card_pos, true)
+	
 
 func _on_fight_pressed() -> void:
 	if is_instance_valid(card_in_slot) and not fighting and not dealing_hand and not viewing_deck:
@@ -284,34 +335,32 @@ func _on_fight_pressed() -> void:
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
 			end_round_button.hide()
 			end_round_warning.hide()
-		var cpu_choice: Node2D = cpu.pick_card()
-		var cpu_card_pos: Vector2 = cpu_choice.anchor_pos
-		var player_card_pos: Vector2 = card_in_slot.anchor_pos
-		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
-		await get_tree().create_timer(1.5).timeout
-		await combat(card_in_slot, cpu_choice)
-		card_in_slot.show_tooltip_info(false)
-		cpu_choice.show_tooltip_info(false)
-		player.visual_hand.erase(card_in_slot)
-		cpu.visual_hand.erase(cpu_choice)
-		card_in_slot.queue_free()
-		cpu_choice.queue_free()
-		if player.visual_hand.size() < hand_size and player.visual_deck.size() > 0:
-			repartir_carta(player.visual_deck, player.visual_hand, player_card_pos, true)
-		if cpu.visual_hand.size() < hand_size and cpu.visual_deck.size() > 0:
-			repartir_carta(cpu.visual_deck, cpu.visual_hand, cpu_card_pos, false)
+		var cpu_choice: Node2D = await cpu_choose_card()
+		if cpu_choice:
+			await combat(card_in_slot, cpu_choice)
+			cpu_use_card(cpu_choice)
+		else:
+			play_card(card_in_slot, true)
+		player_use_card(card_in_slot)
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
-			end_round_button.show()
-			end_round_warning.show()
+				end_round_button.show()
+				end_round_warning.show()
 		fighting = false
-
+	elif not is_instance_valid(card_in_slot) and player.visual_hand.size() == 0:
+		var cpu_choice: Node2D = await cpu_choose_card()
+		play_card(cpu_choice, false)
+		cpu_use_card(cpu_choice)
+		fighting = false
 	if not check_game_over():
-		if player.visual_hand.size() == 0:
-			if player.visual_deck.size() > 0:
-				repartir_mano(player.visual_deck, player.visual_hand, true)
-				repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
-			else:
-				_on_end_round_pressed()
+		if player.visual_hand.size() == 0 and cpu.visual_hand.size() == 0:
+			_on_end_round_pressed()
+		else:
+			if player.visual_hand.size() == 0:
+				if player.visual_deck.size() > 0:
+					repartir_mano(player.visual_deck, player.visual_hand, true)
+			if cpu.visual_hand.size() == 0:
+				if cpu.visual_deck.size() > 0:
+					repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
 
 
 func check_game_over() -> bool:

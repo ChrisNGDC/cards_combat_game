@@ -12,7 +12,8 @@ var fighter: Dictionary = {
 		{"tipo": "CARD_SHIELD", "niveles": {"actual": 0, "max": 3}},
 		{"tipo": "CARD_SHIELD", "niveles": {"actual": 0, "max": 3}},
 		{"tipo": "CARD_POTION", "niveles": {"actual": 0, "max": 2}},
-		{"tipo": "CARD_POTION", "niveles": {"actual": 0, "max": 2}}
+		{"tipo": "CARD_POTION", "niveles": {"actual": 0, "max": 2}},
+		{"tipo": "CARD_STUN", "niveles": {"actual": 0, "max": 0}}
 	]
 }
 

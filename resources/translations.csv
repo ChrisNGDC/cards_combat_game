@@ -28,6 +28,7 @@ CARD_SHIELD,Shield,Escudo
 CARD_MAGIC,Magic,Magia
 CARD_MIRROR,Mirror,Espejo
 CARD_POTION,Potion,Poción
+CARD_STUN,Stun,Aturdir
 CARD_OFFENSIVE,Offensive,Ofensiva
 CARD_DEFENSIVE,Defensive,Defensiva
 CARD_PHYSICAL,Physical,Físico
@@ -37,6 +38,7 @@ CARD_OFFENSIVE_DESC,Deal [color=%s]%d[/color] %s damage to the enemy.,Inflige [c
 CARD_SHIELD_DESC,Block [color=%s]%d[/color] Physical damage.,Bloquea [color=%s]%d[/color] de daño Físico.
 CARD_MIRROR_DESC,Reflect all Magic damage back to the enemy.,Refleja todo el daño Mágico de vuelta al enemigo.
 CARD_POTION_DESC,Heal [color=%s]%d[/color] HP.,Cura [color=%s]%d[/color] de vida.
+CARD_STUN_DESC,"If not attacked, stun the enemy and cancel it's next card.","Si no eres atacado, aturde al enemigo y cancelar su siguiente carta."
 COMBAT_ROUND,Round,Ronda
 COMBAT_NEXT_ROUND,Next Round,Siguiente Ronda
 COMBAT_ROUND_WARNING,This can only be pressed with an empty deck and full hand.,Esto solo se puede presionar con el mazo vacío y la mano llena.
@@ -55,6 +57,6 @@ HISTORY_PLAYER,Player,Jugador
 HISTORY_ENEMY,Enemy,Enemigo
 GAMEOVER_WIN_TITLE,Victory,Victoria
 GAMEOVER_LOSS_TITLE,Defeat,Derrota
-GAMEOVER_WIN_MSG,You won on %d turns.,Ganaste en %d turnos.
-GAMEOVER_LOSS_MSG,You lost on %d turns.,Perdiste en %d turnos.
+GAMEOVER_WIN_MSG,You won on %d rounds.,Ganaste en %d rondas.
+GAMEOVER_LOSS_MSG,You lost on %d rounds.,Perdiste en %d rondas.
 GAMEOVER_RESTART,Restart,Reiniciar

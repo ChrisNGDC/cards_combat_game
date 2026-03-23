@@ -14,6 +14,7 @@ var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 @export_enum("EASY_DIFFICULTY", "NORMAL_DIFFICULTY", "HARD_DIFFICULTY") var difficulty: String = "EASY_DIFFICULTY"
 var pick_card_logic: PickCardLogic = PickCardLogic.new()
+var stunned: bool = false
 
 func _setup() -> void:
 	set_initial_hp()
@@ -34,6 +35,8 @@ func reset_round() -> void:
 	visual_hand.clear()
 
 func pick_card() -> Node2D:
+	if visual_hand.size() == 0:
+		return null
 	match difficulty:
 		"HARD_DIFFICULTY":
 			# Take into account the player's hand

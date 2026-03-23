@@ -12,6 +12,7 @@ var damage_to_receive: int = 0
 var deck: DeckData = DeckManager.create_deck("DECK_MAGE")
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
+var stunned: bool = false
 
 func set_initial_hp() -> void:
 	max_hp = deck.vida

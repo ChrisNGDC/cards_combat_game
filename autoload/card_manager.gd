@@ -60,13 +60,26 @@ var potion: Dictionary = {
 	"description": "CARD_POTION_DESC",
 	"efecto": func(nivel: int) -> int: return 10 + nivel * 15
 }
+var stun: Dictionary = {
+	"nombre": "CARD_STUN",
+	"ruta_imagen": "res://images/stun.png",
+	"tipo": "CARD_DEFENSIVE",
+	"niveles": {
+		"actual": 0,
+		"max": 0
+	},
+	"tipo_danio": "CARD_NONE",
+	"description": "CARD_STUN_DESC",
+	"efecto": print
+}
 
 var cards_classes: Dictionary = {
 	"CARD_SWORD": sword,
 	"CARD_SHIELD": shield,
 	"CARD_MIRROR": mirror,
 	"CARD_MAGIC": magic,
-	"CARD_POTION": potion
+	"CARD_POTION": potion,
+	"CARD_STUN": stun
 }
 
 func create_card(tipo: String, niveles: Dictionary) -> CardData:

@@ -21,6 +21,7 @@ var shield_sound: Resource = preload("res://sounds/shield.wav")
 var mirror_sound: Resource = preload("res://sounds/mirror.wav")
 var potion_sound: Resource = preload("res://sounds/potion.wav")
 var magic_sound: Resource = preload("res://sounds/magic.wav")
+var stun_sound: Resource = preload("res://sounds/stun.wav")
 
 
 var nombre: String
@@ -54,7 +55,9 @@ func play_sound() -> void:
 			AudioManager.play_sfx(mirror_sound)
 		"CARD_POTION":
 			AudioManager.play_sfx(potion_sound)
-
+		"CARD_STUN":
+			AudioManager.play_sfx(stun_sound)
+	
 
 func _process(_delta: float) -> void:
 	if current_tooltip:
@@ -106,6 +109,8 @@ func create_tooltip() -> void:
 			description_values = []
 		"CARD_POTION":
 			description_values = ["#00ff00", apply_effect()]
+		"CARD_STUN":
+			description_values = []
 	current_tooltip.get_node("VBox/InfoText").text = tr(datos_carta.description) % description_values
 	current_tooltip.hide()
 
