@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://gplao7l4lnjg" path="res://images/arrows.png" id="3_a66q8"]
 [ext_resource type="PackedScene" uid="uid://26rgetsr743" path="res://scenes/deck.tscn" id="4_tvqf6"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="5_5qcsl"]
+[ext_resource type="Theme" uid="uid://bfvgmp14cejgg" path="res://resources/selectors_base.tres" id="5_bvnak"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ds01j"]
 atlas = ExtResource("3_a66q8")
@@ -13,19 +14,6 @@ region = Rect2(143, 102, 238, 413)
 [sub_resource type="AtlasTexture" id="AtlasTexture_a66q8"]
 atlas = ExtResource("3_a66q8")
 region = Rect2(143, 102, 238, 413)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5qcsl"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bvnak"]
-
-[sub_resource type="Theme" id="Theme_5qcsl"]
-OptionButton/font_sizes/font_size = 50
-PopupMenu/constants/item_start_padding = 2
-PopupMenu/font_sizes/font_separator_size = 50
-PopupMenu/font_sizes/font_size = 50
-PopupMenu/font_sizes/title_font_size = 50
-PopupMenu/icons/radio_checked = SubResource("AtlasTexture_5qcsl")
-PopupMenu/icons/radio_unchecked = SubResource("AtlasTexture_bvnak")
 
 [node name="Decks" type="Node2D" unique_id=791792099]
 
@@ -141,7 +129,7 @@ scale = Vector2(0.3, 0.3)
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
-theme = SubResource("Theme_5qcsl")
+theme = ExtResource("5_bvnak")
 theme_override_font_sizes/font_size = 62
 alignment = 1
 icon_alignment = 2

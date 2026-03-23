@@ -221,18 +221,24 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 		player_va_primero = true
 
 	var invalid_potion: bool = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_POTION"
-	var invalid_mirror: bool = primera.tipo_danio == "CARD_PHYSICAL" and segunda.nombre == "CARD_MIRROR"
-	var invalid_shield: bool = primera.tipo_danio == "CARD_MAGICAL" and segunda.nombre == "CARD_SHIELD"
+	var invalid_mirror: bool = primera.tipo_danio != "CARD_MAGICAL" and segunda.nombre == "CARD_MIRROR"
+	var invalid_shield: bool = primera.tipo_danio != "CARD_PHYSICAL" and segunda.nombre == "CARD_SHIELD"
 	var invalid_magic: bool = primera.nombre == "CARD_SWORD" and segunda.nombre == "CARD_MAGIC"
 	var invalid_second: bool = invalid_potion or invalid_mirror or invalid_shield or invalid_magic
 
-	await play_card(primera, player_va_primero)
+	var both_shield: bool = primera.nombre == "CARD_SHIELD" and segunda.nombre == "CARD_SHIELD"
+	var both_mirror: bool = primera.nombre == "CARD_MIRROR" and segunda.nombre == "CARD_MIRROR"
 
-	if not invalid_second:
-		await play_card(segunda, !player_va_primero)
+	if not both_shield and not both_mirror:
+		await play_card(primera, player_va_primero)
 
-	player.take_damage()
-	cpu.take_damage()
+		if not invalid_second:
+			await play_card(segunda, !player_va_primero)
+
+		player.take_damage()
+		cpu.take_damage()
+	else:
+		await get_tree().create_timer(0.5).timeout
 
 
 func play_card(card: Node2D, es_jugador: bool) -> void:

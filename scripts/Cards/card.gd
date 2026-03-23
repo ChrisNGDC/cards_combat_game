@@ -17,6 +17,11 @@ const COLOR_DEFENSIVO: Color = Color(0.2, 0.2, 0.8)
 var gold_style: LabelSettings = preload("res://resources/max_level_label_settings.tres")
 var basic_style: LabelSettings = preload("res://resources/basic_level_label_settings.tres")
 var sword_hit_sound: Resource = preload("res://sounds/sword_hit.wav")
+var shield_sound: Resource = preload("res://sounds/shield.wav")
+var mirror_sound: Resource = preload("res://sounds/mirror.wav")
+var potion_sound: Resource = preload("res://sounds/potion.wav")
+var magic_sound: Resource = preload("res://sounds/magic.wav")
+
 
 var nombre: String
 var tipo: String
@@ -41,6 +46,14 @@ func play_sound() -> void:
 	match nombre:
 		"CARD_SWORD":
 			AudioManager.play_sfx(sword_hit_sound)
+		"CARD_SHIELD":
+			AudioManager.play_sfx(shield_sound)
+		"CARD_MAGIC":
+			AudioManager.play_sfx(magic_sound)
+		"CARD_MIRROR":
+			AudioManager.play_sfx(mirror_sound)
+		"CARD_POTION":
+			AudioManager.play_sfx(potion_sound)
 
 
 func _process(_delta: float) -> void:

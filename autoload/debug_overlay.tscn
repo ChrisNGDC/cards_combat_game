@@ -19,11 +19,33 @@ content_margin_right = 20.0
 content_margin_bottom = 20.0
 bg_color = Color(0, 0, 0, 0.95000005)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qcsl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvnak"]
+
+[sub_resource type="Theme" id="Theme_a0m3s"]
+OptionButton/font_sizes/font_size = 24
+PopupMenu/constants/item_start_padding = 15
+PopupMenu/font_sizes/font_separator_size = 24
+PopupMenu/font_sizes/font_size = 24
+PopupMenu/font_sizes/title_font_size = 24
+PopupMenu/icons/radio_checked = SubResource("AtlasTexture_5qcsl")
+PopupMenu/icons/radio_unchecked = SubResource("AtlasTexture_bvnak")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31hjj"]
 bg_color = Color(0, 0, 0, 0.5019608)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gug4i"]
 bg_color = Color(0.225, 0.225, 0.225, 0.6)
+
+[sub_resource type="Theme" id="Theme_j0rna"]
+OptionButton/font_sizes/font_size = 24
+PopupMenu/constants/item_start_padding = 15
+PopupMenu/font_sizes/font_separator_size = 24
+PopupMenu/font_sizes/font_size = 24
+PopupMenu/font_sizes/title_font_size = 24
+PopupMenu/icons/radio_checked = SubResource("AtlasTexture_5qcsl")
+PopupMenu/icons/radio_unchecked = SubResource("AtlasTexture_bvnak")
 
 [node name="DebugOverlay" type="CanvasLayer" unique_id=1142192573]
 process_mode = 3
@@ -111,7 +133,7 @@ alignment = 1
 [node name="ResolutionButton" type="OptionButton" parent="SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer" unique_id=1647084587]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-theme = ExtResource("3_j0rna")
+theme = SubResource("Theme_a0m3s")
 theme_override_font_sizes/font_size = 32
 alignment = 1
 expand_icon = true
@@ -258,6 +280,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_horizontal = 4
+theme = SubResource("Theme_j0rna")
 theme_override_font_sizes/font_size = 32
 alignment = 1
 item_count = 2

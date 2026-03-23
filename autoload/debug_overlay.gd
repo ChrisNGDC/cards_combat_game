@@ -30,11 +30,6 @@ var resolutions: Dictionary = {
 }
 
 func _ready() -> void:
-	if OS.has_feature("web"):
-		res_button.disabled = true
-	else:
-		_fill_resolution_options()
-
 	var is_full: bool = (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
 	var current_locale: String = TranslationServer.get_locale()
 	
@@ -43,8 +38,13 @@ func _ready() -> void:
 	else:
 		lang_button.selected = 0
 
+	if OS.has_feature("web"):
+		res_button.disabled = true
+	else:
+		_fill_resolution_options()
+		res_button.disabled = is_full
+
 	fullscreen_button.button_pressed = is_full
-	res_button.disabled = is_full
 
 	video_label.bbcode_text = "[b][u]" + tr("VIDEO") + "[/u][/b]"
 	lang_label.bbcode_text = "[b][u]" + tr("LANGUAGE") + "[/u][/b]"
@@ -87,7 +87,8 @@ func set_resolution(resolution: Vector2i) -> void:
 
 func _on_fullscreen_toggled(is_pressed: bool) -> void:
 	ConfigManager.save_fullscreen(is_pressed)
-	res_button.disabled = is_pressed
+	if not OS.has_feature("web"):
+		res_button.disabled = is_pressed
 
 func _process(_delta: float) -> void:
 	FPS_counter.text = "FPS: " + str(Engine.get_frames_per_second())

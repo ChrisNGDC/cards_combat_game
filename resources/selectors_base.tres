@@ -1,0 +1,14 @@
+[gd_resource type="Theme" format=3 uid="uid://bfvgmp14cejgg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qcsl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvnak"]
+
+[resource]
+OptionButton/font_sizes/font_size = 50
+PopupMenu/constants/item_start_padding = 2
+PopupMenu/font_sizes/font_separator_size = 50
+PopupMenu/font_sizes/font_size = 50
+PopupMenu/font_sizes/title_font_size = 50
+PopupMenu/icons/radio_checked = SubResource("AtlasTexture_5qcsl")
+PopupMenu/icons/radio_unchecked = SubResource("AtlasTexture_bvnak")
