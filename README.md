@@ -48,6 +48,8 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 - 🟢 Que el agarre de cartas sea cada vez que jugas una carta y no cuando terminas la de la mano
 - 🟢 Cuando no podes robar carta dar opción de finalizar round o seguir hasta no tener mano
 - 🟢 Permitir ver las cartas pertenecientes a un mazo antes de seleccionarlo
+- 🟢 Poder ver las cartas restantes del mazo (sin orden)
+- 🟢 Agregar sonido y un control de volumenes
 
 # Espacio para dudas, bugs y errores
 
