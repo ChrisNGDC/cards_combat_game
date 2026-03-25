@@ -44,5 +44,3 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 72
 text = "GAMEOVER_RESTART"
-
-[connection signal="pressed" from="CenterContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

@@ -2,7 +2,14 @@ extends HBoxContainer
 
 signal show_deck_requested(deck_data: Dictionary)
 
+@onready var player_deck_button: Button = $PlayerDeckButton
+@onready var cpu_deck_button: Button = $CPUDeckButton
+
 var run_data: Dictionary
+
+func _ready() -> void:
+	player_deck_button.pressed.connect(_on_player_deck_button_pressed)
+	cpu_deck_button.pressed.connect(_on_cpu_deck_button_pressed)
 
 func setup(data: Dictionary) -> void:
 	run_data = data

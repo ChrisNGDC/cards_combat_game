@@ -51,5 +51,3 @@ theme = ExtResource("2_6rn3f")
 theme_override_font_sizes/font_size = 50
 text = "HISTORY_BACK"
 clip_text = true
-
-[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

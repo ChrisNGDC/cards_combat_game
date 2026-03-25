@@ -3,9 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_m851b"]
 [ext_resource type="Script" uid="uid://j1j6edb0kclb" path="res://scripts/store/item_shelf.gd" id="2_eoh0j"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_suv53"]
+[ext_resource type="Script" uid="uid://d0rd2t4ppfus0" path="res://scripts/store/store_actions.gd" id="3_5bups"]
 [ext_resource type="Texture2D" uid="uid://bw2iw1qjdrq8f" path="res://images/plus-minus.png" id="3_plgn8"]
 [ext_resource type="Texture2D" uid="uid://c5y0y7rc78nqg" path="res://images/up-down-arrow.png" id="4_4cg75"]
-[ext_resource type="Script" uid="uid://bgswurevd2bgj" path="res://scripts/store/store_button.gd" id="4_suv53"]
+[ext_resource type="Script" uid="uid://d1ad6yjxi6ca5" path="res://scripts/store/store_button.gd" id="6_vb4ln"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgjx4"]
 content_margin_left = 15.0
@@ -294,6 +295,7 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1136447454]
 layout_mode = 2
 theme_override_constants/separation = 4
+script = ExtResource("3_5bups")
 
 [node name="StoreTitle" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1257675316]
 layout_mode = 2
@@ -334,8 +336,9 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 50
+alignment = 1
 
-[node name="Add" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=402484906 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
+[node name="Add" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=402484906]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_mgjx4")
@@ -347,14 +350,11 @@ text = "           "
 icon = SubResource("AtlasTexture_3vssa")
 icon_alignment = 1
 expand_icon = true
-script = ExtResource("4_suv53")
-description_label = NodePath("../../ActionHoverEffect")
-hover_text = "STORE_ADD_MSG"
+script = ExtResource("6_vb4ln")
 mode = "STORE_ADD"
-footer_node = NodePath("..")
-next_button = NodePath("../../NextRoundButton")
+description = "STORE_ADD_MSG"
 
-[node name="Remove" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=1448282381 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
+[node name="Remove" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=1448282381]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_mcdm5")
@@ -366,14 +366,11 @@ text = "           "
 icon = SubResource("AtlasTexture_mgjx4")
 icon_alignment = 1
 expand_icon = true
-script = ExtResource("4_suv53")
-description_label = NodePath("../../ActionHoverEffect")
-hover_text = "STORE_REMOVE_MSG"
+script = ExtResource("6_vb4ln")
 mode = "STORE_REMOVE"
-footer_node = NodePath("..")
-next_button = NodePath("../../NextRoundButton")
+description = "STORE_REMOVE_MSG"
 
-[node name="Upgrade" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=315696457 node_paths=PackedStringArray("description_label", "footer_node", "next_button")]
+[node name="Upgrade" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=315696457]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_qy7a4")
@@ -385,12 +382,9 @@ text = "           "
 icon = SubResource("AtlasTexture_p64wd")
 icon_alignment = 1
 expand_icon = true
-script = ExtResource("4_suv53")
-description_label = NodePath("../../ActionHoverEffect")
-hover_text = "STORE_UPGRADE_MSG"
+script = ExtResource("6_vb4ln")
 mode = "STORE_UPGRADE"
-footer_node = NodePath("..")
-next_button = NodePath("../../NextRoundButton")
+description = "STORE_UPGRADE_MSG"
 
 [node name="ActionHoverEffect" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1006803085]
 layout_mode = 2
@@ -411,5 +405,3 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_j6plc")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_rry0p")
 theme_override_styles/focus = SubResource("StyleBoxFlat_ubd51")
 text = "STORE_EXIT"
-
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/NextRoundButton" to="CanvasLayer/MarginContainer/VBoxContainer/Footer/Add" method="_on_next_round_button_pressed"]

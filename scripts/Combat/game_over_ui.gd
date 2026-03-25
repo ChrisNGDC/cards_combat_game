@@ -2,6 +2,10 @@ extends CanvasLayer
 
 @onready var result_label: Label = $CenterContainer/VBoxContainer/ResultLabel
 @onready var description_label: Label = $CenterContainer/VBoxContainer/DescriptionLabel
+@onready var restart_button: Button = $CenterContainer/VBoxContainer/RestartButton
+
+func _ready() -> void:
+	restart_button.pressed.connect(_on_restart_button_pressed)
 
 func setup(won: bool) -> void:
 	if won:

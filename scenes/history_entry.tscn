@@ -40,6 +40,3 @@ layout_mode = 2
 theme = ExtResource("2_y7nox")
 theme_override_font_sizes/font_size = 30
 text = "HISTORY_ENEMY"
-
-[connection signal="pressed" from="PlayerDeckButton" to="." method="_on_player_deck_button_pressed"]
-[connection signal="pressed" from="CPUDeckButton" to="." method="_on_cpu_deck_button_pressed"]

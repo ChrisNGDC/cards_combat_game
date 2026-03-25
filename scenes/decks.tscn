@@ -153,6 +153,3 @@ size_flags_vertical = 8
 theme = ExtResource("5_5qcsl")
 theme_override_font_sizes/font_size = 50
 text = "FIGHT"
-
-[connection signal="item_selected" from="DecksManager/MarginContainer/DifficultyUI/HBoxContainer/DifficultySelection" to="DecksManager" method="_on_option_button_item_selected"]
-[connection signal="pressed" from="DecksManager/MarginContainer/DifficultyUI/Fight" to="DecksManager" method="_on_fight_pressed"]

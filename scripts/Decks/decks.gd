@@ -10,6 +10,8 @@ extends CanvasLayer
 @onready var difficulty_ui: Control = $MarginContainer/DifficultyUI
 @onready var difficulty_selection: Button = $MarginContainer/DifficultyUI/HBoxContainer/DifficultySelection
 @onready var blank_selected_deck: Node2D = $MarginContainer/DifficultyUI/HBoxContainer/Control/Deck
+@onready var fight_button: Button = $MarginContainer/DifficultyUI/Fight
+
 
 var dragging: bool = false
 var last_mouse_pos: Vector2 = Vector2()
@@ -26,6 +28,8 @@ var difficulty: String
 func _ready() -> void:
 	select_deck_button.pressed.connect(_on_select_deck_button_pressed)
 	view_deck_button.pressed.connect(_on_view_deck_button_pressed)
+	fight_button.pressed.connect(_on_fight_pressed)
+	difficulty_selection.item_selected.connect(_on_option_button_item_selected)
 	select_deck_button.disabled = true
 	view_deck_button.disabled = true
 	if lista_mazos:

@@ -2,7 +2,13 @@ extends CanvasLayer
 
 @onready var shelf: HFlowContainer = $MarginContainer/VBoxContainer/ItemShelf
 @onready var deck_name: Label = $MarginContainer/VBoxContainer/DeckName
+@onready var close_button: Button = $MarginContainer/VBoxContainer/CloseButton
+
 signal closing
+
+func _ready() -> void:
+	close_button.pressed.connect(_on_close_button_pressed)
+
 
 func update_name(new_name: String) -> void:
 	deck_name.text = new_name

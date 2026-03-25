@@ -11,38 +11,32 @@ size = Vector2(834, 1250)
 [node name="Deck" type="Node2D" unique_id=1785670977]
 script = ExtResource("1_506qi")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1819367106]
+[node name="BackgroundImage" type="Sprite2D" parent="." unique_id=1819367106]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("1_pwmxt")
+
+[node name="Name" type="Label" parent="." unique_id=1800588602]
+offset_left = -417.0
+offset_top = -625.0
+offset_right = 417.0
+offset_bottom = -253.76001
+theme = ExtResource("3_506qi")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 96
+text = "aaaaaaaaa"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CharacterImage" type="Sprite2D" parent="." unique_id=1681253667]
+position = Vector2(0, 75)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("4_er72m")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1599537086]
 z_index = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=464297334]
 shape = SubResource("RectangleShape2D_xi40s")
-
-[node name="LineEdit" type="LineEdit" parent="." unique_id=1573376872]
-offset_left = -417.0
-offset_top = -625.0
-offset_right = 417.0
-offset_bottom = -253.76001
-focus_mode = 0
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-theme = ExtResource("3_506qi")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 96
-text = "aaaaaaaaa"
-alignment = 1
-middle_mouse_paste_enabled = false
-flat = true
-icon_expand_mode = 2
-right_icon_scale = 0.69
-
-[node name="DeckImage" type="Sprite2D" parent="." unique_id=1681253667]
-position = Vector2(0, 75)
-scale = Vector2(0.55, 0.55)
-texture = ExtResource("4_er72m")
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

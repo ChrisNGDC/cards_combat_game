@@ -29,5 +29,5 @@ func upgrade() -> void:
 func actuar() -> int:
 	var resultado: int = 0
 	if efecto.is_valid():
-		resultado = efecto.call()
+		resultado = efecto.call(nivel_actual)
 	return resultado

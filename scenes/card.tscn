@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b6wo8vqijg6x3" path="res://images/defender.png" id="7_8w5pg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh8tw"]
-size = Vector2(1344, 2016)
+size = Vector2(1376, 2048)
 
 [node name="Card" type="Node2D" unique_id=1298467811]
 z_index = 1
@@ -26,13 +26,13 @@ texture = ExtResource("2_o6ujv")
 [node name="Front" type="Node2D" parent="." unique_id=1516355430]
 visible = false
 
-[node name="CardFront" type="Sprite2D" parent="Front" unique_id=630626316]
+[node name="BackgroundImage" type="Sprite2D" parent="Front" unique_id=630626316]
 z_index = 1
 position = Vector2(-1.5497208e-06, 9.655952e-06)
 scale = Vector2(1.7684209, 1.8260871)
 texture = ExtResource("3_mv2r5")
 
-[node name="CardLabel" type="Label" parent="Front" unique_id=700180342]
+[node name="NameLabel" type="Label" parent="Front" unique_id=700180342]
 z_index = 1
 offset_left = -160.0
 offset_top = -196.0
@@ -57,20 +57,20 @@ text = "Max"
 label_settings = ExtResource("5_uobs4")
 horizontal_alignment = 2
 
-[node name="CardFrontImage" type="Sprite2D" parent="Front" unique_id=447606339]
+[node name="Icon" type="Sprite2D" parent="Front" unique_id=447606339]
 z_index = 1
 position = Vector2(3.0000029, 35.000008)
 scale = Vector2(1.7125001, 1.7125001)
 
 [node name="Back" type="Node2D" parent="." unique_id=540546052]
 
-[node name="CardBack" type="Sprite2D" parent="Back" unique_id=1822254016]
+[node name="BackgroundImage" type="Sprite2D" parent="Back" unique_id=1822254016]
 z_index = 1
 position = Vector2(-7.6293945e-06, -1.5258789e-05)
 scale = Vector2(1.7684212, 1.8260869)
 texture = ExtResource("3_mv2r5")
 
-[node name="CardBackImage" type="Sprite2D" parent="Back" unique_id=641531271]
+[node name="CharacterImage" type="Sprite2D" parent="Back" unique_id=641531271]
 z_index = 1
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("7_8w5pg")
@@ -81,6 +81,3 @@ z_index = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=383029384]
 scale = Vector2(0.25, 0.25)
 shape = SubResource("RectangleShape2D_gh8tw")
-
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

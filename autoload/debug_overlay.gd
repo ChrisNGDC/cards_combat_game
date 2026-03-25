@@ -19,6 +19,9 @@ extends CanvasLayer
 @onready var lang_label: RichTextLabel = $SettingsPanel/SettingsContainer/LanguageContainer/LanguageLabel
 @onready var lang_button: Button = $SettingsPanel/SettingsContainer/LanguageContainer/LanguageButton
 
+@onready var close_button: Button = $SettingsPanel/CloseButton
+@onready var exit_button: Button = $SettingsPanel/SettingsContainer/ExitButton
+
 
 var resolutions: Dictionary = {
 	"1152x648": Vector2i(1152, 648),
@@ -54,10 +57,21 @@ func _ready() -> void:
 	music_slider.value = AudioManager.get_music_volume()
 	sfx_slider.value = AudioManager.get_sfx_volume()
 	AudioManager.play_main_theme()
-
+	connect_signals()
+	
+	
+func connect_signals() -> void:
 	res_button.item_selected.connect(_on_resolution_selected)
 	lang_button.item_selected.connect(_on_language_selected)
 	fullscreen_button.toggled.connect(_on_fullscreen_toggled)
+	close_button.pressed.connect(_on_close_button_pressed)
+	exit_button.pressed.connect(_on_exit_button_pressed)
+	settings_button.pressed.connect(_on_settings_button_pressed)
+	settings_button.mouse_entered.connect(_on_settings_button_mouse_entered)
+	settings_button.mouse_exited.connect(_on_settings_button_mouse_exited)
+	master_slider.value_changed.connect(_on_master_slider_value_changed)
+	music_slider.value_changed.connect(_on_music_slider_value_changed)
+	sfx_slider.value_changed.connect(_on_sfx_slider_value_changed)
 
 
 func _fill_resolution_options() -> void:

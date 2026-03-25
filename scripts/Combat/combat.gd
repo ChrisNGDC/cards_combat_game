@@ -29,11 +29,10 @@ var viewing_deck: bool
 
 @onready var player_card_slot: Sprite2D = $PlayerSlot
 @onready var cpu_card_slot: Sprite2D = $CPUSlot
-@onready var round_label: RichTextLabel = $RoundLabel
 @onready var end_round_button: Button = $Control/EndRound
 @onready var end_round_warning: Label = $Control/WarningEndLabel
-@onready var help: TextureRect = $Control/Help
-
+@onready var see_deck_button: Button = $SeeDeckButton
+@onready var fight_button: Button = $Control/Fight
 
 func _ready() -> void:
 	randomize()
@@ -50,7 +49,6 @@ func _ready() -> void:
 	card_size = card_borde.texture.get_size() * card_borde.scale * card.escala_grande
 	card.queue_free()
 	fighting = false
-	round_label.text = "[font_size=50]" + tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds) + "[/font_size]"
 	if player.deck != null:
 		player_mazo_pos = Vector2(150, screen_size.y - 150)
 		cpu_mazo_pos = Vector2(screen_size.x - 150, 150)
@@ -61,8 +59,11 @@ func _ready() -> void:
 		await get_tree().create_timer(1.0).timeout
 		repartir_mano(player.visual_deck, player.visual_hand, true)
 		repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
-
-
+	see_deck_button.pressed.connect(_on_see_deck_button_pressed)
+	end_round_button.pressed.connect(_on_end_round_pressed)
+	fight_button.pressed.connect(_on_fight_pressed)
+	
+	
 func _process(_delta: float) -> void:
 	if card_being_dragged:
 		card_being_dragged.position = get_global_mouse_position()
@@ -256,11 +257,13 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 			elif not invalid_second:
 				await play_card(segunda, !player_first)
 
-		player.take_damage()
-		cpu.take_damage()
+		update_health()
 	else:
 		await get_tree().create_timer(0.5).timeout
 
+func update_health() -> void:
+	player.take_damage()
+	cpu.take_damage()
 
 func play_card(card: Node2D, es_jugador: bool) -> void:
 	card.play_sound()
@@ -341,6 +344,7 @@ func _on_fight_pressed() -> void:
 			cpu_use_card(cpu_choice)
 		else:
 			play_card(card_in_slot, true)
+			update_health()
 		player_use_card(card_in_slot)
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
 				end_round_button.show()
@@ -349,8 +353,10 @@ func _on_fight_pressed() -> void:
 	elif not is_instance_valid(card_in_slot) and player.visual_hand.size() == 0:
 		var cpu_choice: Node2D = await cpu_choose_card()
 		play_card(cpu_choice, false)
+		update_health()
 		cpu_use_card(cpu_choice)
 		fighting = false
+	await get_tree().create_timer(0.5).timeout
 	if not check_game_over():
 		if player.visual_hand.size() == 0 and cpu.visual_hand.size() == 0:
 			_on_end_round_pressed()
@@ -401,24 +407,6 @@ func _on_end_round_pressed() -> void:
 	GlobalData.rounds += 1
 	await get_tree().create_timer(.5).timeout
 	SceneLoader.load_scene("res://scenes/store.tscn")
-
-
-func _on_help_mouse_entered() -> void:
-	var help_text: String = "[code][font_size=15]Gana a ━>
-┏━━━━━> %s ━━━━━━┓
-┃          ┃         ┃
-┃          ˅         ˅
-%s <━ %s ━> %s
-˄          ˄         ┃
-┃          ┃         ┃
-┗━━━━━━━ %s <━━━━━┛[/font_size][/code]" % [tr("CARD_SWORD"), tr("CARD_SHIELD"), tr("CARD_POTION"), tr("CARD_MIRROR"), tr("CARD_MAGIC")]
-	round_label.text = help_text
-	help.self_modulate.a = 0.25
-
-
-func _on_help_mouse_exited() -> void:
-	round_label.text = "[font_size=50]" + tr("COMBAT_ROUND") + " %d" % (GlobalData.rounds) + "[/font_size]"
-	help.self_modulate.a = 0.75
 
 
 func _on_see_deck_button_pressed() -> void:

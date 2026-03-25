@@ -1,10 +1,12 @@
 extends Control
 
 @onready var list: VBoxContainer = $ScrollContainer/HistoryList
+@onready var back_button: Button = $BackButton
 var entry_scene: PackedScene = preload("res://scenes/history_entry.tscn")
 var overlay_scene: PackedScene = preload("res://scenes/deck_overlay.tscn")
 
 func _ready() -> void:
+	back_button.pressed.connect(_on_back_button_pressed)
 	display_history()
 
 func display_history() -> void:

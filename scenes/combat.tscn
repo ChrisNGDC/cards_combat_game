@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_cpw5v"]
 [ext_resource type="Script" uid="uid://dk0gg0w5qgw67" path="res://scripts/combat/combat.gd" id="3_atiws"]
+[ext_resource type="Script" uid="uid://bgohpmee5o8l2" path="res://scripts/combat/round_control.gd" id="3_hrcy2"]
 [ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="3_mlxek"]
 [ext_resource type="FontFile" uid="uid://bwhx1s134etxp" path="res://fonts/Inconsolata-VariableFont_wdth,wght.ttf" id="3_sa5k0"]
 [ext_resource type="Texture2D" uid="uid://bbqmvfd7wxs5s" path="res://images/sword.png" id="4_atiws"]
@@ -89,11 +90,21 @@ centered = false
 [node name="CardManager" type="Node2D" parent="." unique_id=1954557925]
 script = ExtResource("3_atiws")
 
-[node name="RoundLabel" type="RichTextLabel" parent="CardManager" unique_id=1465282883]
-offset_left = 50.0
-offset_top = 275.0
-offset_right = 350.0
-offset_bottom = 445.0
+[node name="RoundControl" type="Control" parent="CardManager" unique_id=1114498812]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_hrcy2")
+
+[node name="RoundLabel" type="RichTextLabel" parent="CardManager/RoundControl" unique_id=1465282883]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 330.0
+offset_bottom = 200.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/mono_font = ExtResource("3_sa5k0")
 theme_override_styles/normal = SubResource("StyleBoxFlat_6u1da")
@@ -102,6 +113,17 @@ scroll_active = false
 autowrap_trim_flags = 0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Help" type="TextureRect" parent="CardManager/RoundControl" unique_id=1889875454]
+self_modulate = Color(0, 0, 0, 0.75000006)
+layout_mode = 1
+offset_left = 280.0
+offset_top = 150.0
+offset_right = 330.0
+offset_bottom = 200.0
+mouse_filter = 0
+texture = ExtResource("5_4gnb8")
+expand_mode = 1
 
 [node name="PlayerSlot" type="Sprite2D" parent="CardManager" unique_id=1420705759]
 modulate = Color(1, 1, 1, 0.5019608)
@@ -122,17 +144,6 @@ layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("4_d7qh8")
 
-[node name="Help" type="TextureRect" parent="CardManager/Control" unique_id=1889875454]
-self_modulate = Color(0, 0, 0, 0.75000006)
-layout_mode = 1
-offset_left = 300.0
-offset_top = 395.0
-offset_right = 350.0
-offset_bottom = 445.0
-mouse_filter = 0
-texture = ExtResource("5_4gnb8")
-expand_mode = 1
-
 [node name="Fight" type="Button" parent="CardManager/Control" unique_id=195518851]
 layout_mode = 0
 offset_left = 560.0
@@ -148,10 +159,10 @@ icon_alignment = 1
 [node name="EndRound" type="Button" parent="CardManager/Control" unique_id=1505548495]
 visible = false
 layout_mode = 0
-offset_left = 944.0
-offset_top = 285.0
-offset_right = 1224.0
-offset_bottom = 375.0
+offset_left = 970.0
+offset_top = 600.0
+offset_right = 1250.0
+offset_bottom = 690.0
 theme_override_font_sizes/font_size = 32
 text = "COMBAT_NEXT_ROUND"
 clip_text = true
@@ -160,10 +171,10 @@ clip_text = true
 visible = false
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 0
-offset_left = 945.0
-offset_top = 385.0
-offset_right = 1225.0
-offset_bottom = 415.0
+offset_left = 970.0
+offset_top = 550.0
+offset_right = 1250.0
+offset_bottom = 580.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_d7qh8")
 text = "COMBAT_ROUND_WARNING"
@@ -188,18 +199,20 @@ expand_icon = true
 
 [node name="HPManager" type="Control" parent="." unique_id=877922947]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("4_d7qh8")
 script = ExtResource("5_gh8tw")
 
 [node name="PlayerHP" type="TextureProgressBar" parent="HPManager" unique_id=607212178]
 layout_mode = 1
-offset_left = 1010.0
-offset_top = 625.0
-offset_right = 1260.0
-offset_bottom = 700.0
+offset_left = 100.0
+offset_top = 322.5
+offset_right = 350.0
+offset_bottom = 397.5
 nine_patch_stretch = true
 texture_under = SubResource("AtlasTexture_d7qh8")
 texture_over = SubResource("AtlasTexture_6u1da")
@@ -218,10 +231,10 @@ vertical_alignment = 1
 
 [node name="CpuHP" type="TextureProgressBar" parent="HPManager" unique_id=720681214]
 layout_mode = 1
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 270.0
-offset_bottom = 95.0
+offset_left = 930.0
+offset_top = 322.5
+offset_right = 1180.0
+offset_bottom = 397.5
 nine_patch_stretch = true
 texture_under = SubResource("AtlasTexture_d7qh8")
 texture_over = SubResource("AtlasTexture_6u1da")
@@ -237,9 +250,3 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[connection signal="mouse_entered" from="CardManager/Control/Help" to="CardManager" method="_on_help_mouse_entered"]
-[connection signal="mouse_exited" from="CardManager/Control/Help" to="CardManager" method="_on_help_mouse_exited"]
-[connection signal="pressed" from="CardManager/Control/Fight" to="CardManager" method="_on_fight_pressed"]
-[connection signal="pressed" from="CardManager/Control/EndRound" to="CardManager" method="_on_end_round_pressed"]
-[connection signal="pressed" from="CardManager/SeeDeckButton" to="CardManager" method="_on_see_deck_button_pressed"]
