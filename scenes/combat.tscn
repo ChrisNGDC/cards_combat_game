@@ -97,6 +97,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_d7qh8")
 script = ExtResource("3_hrcy2")
 
 [node name="RoundLabel" type="RichTextLabel" parent="CardManager/RoundControl" unique_id=1465282883]
@@ -186,6 +187,7 @@ offset_left = 40.0
 offset_top = 545.0
 offset_right = 90.0
 offset_bottom = 595.0
+theme = ExtResource("4_d7qh8")
 theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)

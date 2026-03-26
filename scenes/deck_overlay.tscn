@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://daprw7wlelbff" path="res://scripts/utils/deck_overlay.gd" id="1_lskk3"]
 [ext_resource type="Script" uid="uid://bg4hhu4xbx5mf" path="res://scripts/utils/item_shelf.gd" id="2_lskk3"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_wmod2"]
 
 [node name="DeckOverlay" type="CanvasLayer" unique_id=1022579553]
 script = ExtResource("1_lskk3")
@@ -20,6 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_wmod2")
 theme_override_constants/margin_left = 200
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 200

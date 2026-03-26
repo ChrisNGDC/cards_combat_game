@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dhrxgjrcg65uj"]
 
 [ext_resource type="Script" uid="uid://ce116un2xkhyj" path="res://scripts/utils/loading_screen.gd" id="1_ly3u2"]
+[ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_hprjd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7xxo2"]
 bg_color = Color(0, 0, 0, 1)
@@ -74,6 +75,7 @@ anchor_bottom = 1.0
 offset_top = -70.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("2_hprjd")
 theme_override_constants/margin_left = 300
 theme_override_constants/margin_right = 300
 theme_override_constants/margin_bottom = 100
