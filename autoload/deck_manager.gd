@@ -2,7 +2,7 @@ extends Node
 
 var fighter: Dictionary = {
 	"nombre": "DECK_FIGHTER",
-	"ruta_imagen": "res://images/fighter.png",
+	"ruta_imagen": "res://images/characters/fighter.png",
 	"vida": 100,
 	"cartas": [
 		{"tipo": "CARD_SWORD", "niveles": {"actual": 0, "max": 3}},
@@ -19,7 +19,7 @@ var fighter: Dictionary = {
 
 var mage: Dictionary = {
 	"nombre": "DECK_MAGE",
-	"ruta_imagen": "res://images/mage.png",
+	"ruta_imagen": "res://images/characters/mage.png",
 	"vida": 100,
 	"cartas": [
 		{"tipo": "CARD_MAGIC", "niveles": {"actual": 0, "max": 3}},
@@ -35,7 +35,7 @@ var mage: Dictionary = {
 
 var paladin: Dictionary = {
 	"nombre": "DECK_PALADIN",
-	"ruta_imagen": "res://images/paladin.png",
+	"ruta_imagen": "res://images/characters/paladin.png",
 	"vida": 100,
 	"cartas": [
 		{"tipo": "CARD_SWORD", "niveles": {"actual": 0, "max": 3}},
@@ -51,7 +51,7 @@ var paladin: Dictionary = {
 
 var defender: Dictionary = {
 	"nombre": "DECK_DEFENDER",
-	"ruta_imagen": "res://images/defender.png",
+	"ruta_imagen": "res://images/characters/defender.png",
 	"vida": 150,
 	"cartas": [
 		{"tipo": "CARD_SWORD", "niveles": {"actual": 0, "max": 3}},

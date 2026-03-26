@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://cxjctpo57vj0p"]
 
-[ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/main-menu.jpg" id="1_cpw5v"]
+[ext_resource type="Texture2D" uid="uid://c8q8skgbe4lnf" path="res://images/general/main-menu.jpg" id="1_cpw5v"]
 [ext_resource type="Script" uid="uid://dk0gg0w5qgw67" path="res://scripts/combat/combat.gd" id="3_atiws"]
 [ext_resource type="Script" uid="uid://bgohpmee5o8l2" path="res://scripts/combat/round_control.gd" id="3_hrcy2"]
-[ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/dorso.jpg" id="3_mlxek"]
+[ext_resource type="Texture2D" uid="uid://chrf16mon1fa2" path="res://images/deck_base/dorso.jpg" id="3_mlxek"]
 [ext_resource type="FontFile" uid="uid://bwhx1s134etxp" path="res://fonts/Inconsolata-VariableFont_wdth,wght.ttf" id="3_sa5k0"]
-[ext_resource type="Texture2D" uid="uid://bbqmvfd7wxs5s" path="res://images/sword.png" id="4_atiws"]
+[ext_resource type="Texture2D" uid="uid://bbqmvfd7wxs5s" path="res://images/cards/sword.png" id="4_atiws"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="4_d7qh8"]
-[ext_resource type="Texture2D" uid="uid://bjd0dy7jeka2h" path="res://images/question.png" id="5_4gnb8"]
+[ext_resource type="Texture2D" uid="uid://bjd0dy7jeka2h" path="res://images/combat/question.png" id="5_4gnb8"]
 [ext_resource type="Script" uid="uid://c3aku1x6osrty" path="res://scripts/combat/health_manager.gd" id="5_gh8tw"]
-[ext_resource type="Texture2D" uid="uid://da00pqxr43212" path="res://images/health_bar.png" id="6_ai0oo"]
-[ext_resource type="Texture2D" uid="uid://cmb5e17n3qwii" path="res://images/eye.png" id="8_8we11"]
+[ext_resource type="Texture2D" uid="uid://da00pqxr43212" path="res://images/combat/health_bar.png" id="6_ai0oo"]
+[ext_resource type="Texture2D" uid="uid://cmb5e17n3qwii" path="res://images/combat/eye.png" id="8_8we11"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6u1da"]
 bg_color = Color(1, 1, 1, 0.5019608)
@@ -198,6 +198,42 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_hrcy2")
 icon = ExtResource("8_8we11")
 icon_alignment = 1
 expand_icon = true
+
+[node name="PlayerStatus" type="FoldableContainer" parent="CardManager" unique_id=2117337337]
+offset_left = 104.0
+offset_top = 401.0
+offset_right = 343.0
+offset_bottom = 428.0
+theme = ExtResource("4_d7qh8")
+folded = true
+title_alignment = 1
+title_text_direction = 2
+
+[node name="StatusContainer" type="HFlowContainer" parent="CardManager/PlayerStatus" unique_id=2086571800]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 5
+alignment = 2
+last_wrap_alignment = 3
+
+[node name="CPUStatus" type="FoldableContainer" parent="CardManager" unique_id=758672020]
+offset_left = 937.0
+offset_top = 400.0
+offset_right = 1176.0
+offset_bottom = 428.0
+theme = ExtResource("4_d7qh8")
+folded = true
+title_alignment = 1
+title_text_direction = 2
+
+[node name="StatusContainer" type="HFlowContainer" parent="CardManager/CPUStatus" unique_id=529180076]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 5
+alignment = 2
+last_wrap_alignment = 3
 
 [node name="HPManager" type="Control" parent="." unique_id=877922947]
 layout_mode = 3

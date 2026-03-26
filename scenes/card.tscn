@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://byy0gnvcl33js" path="res://scripts/cards/card.gd" id="1_axbyx"]
 [ext_resource type="PackedScene" uid="uid://bemuew7rrnehv" path="res://scenes/card_info_tooltip.tscn" id="2_7o4fp"]
-[ext_resource type="Texture2D" uid="uid://bl7mqkxk72bga" path="res://images/card_border.png" id="2_o6ujv"]
-[ext_resource type="Texture2D" uid="uid://bysdss4i3428i" path="res://images/blank_card.jpg" id="3_mv2r5"]
+[ext_resource type="Texture2D" uid="uid://bl7mqkxk72bga" path="res://images/card_base/card_border.png" id="2_o6ujv"]
+[ext_resource type="Texture2D" uid="uid://bysdss4i3428i" path="res://images/card_base/blank_card.jpg" id="3_mv2r5"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="5_mv2r5"]
 [ext_resource type="LabelSettings" uid="uid://iy5dh2vhvyv8" path="res://resources/basic_level_label_settings.tres" id="5_uobs4"]
-[ext_resource type="Texture2D" uid="uid://b6wo8vqijg6x3" path="res://images/defender.png" id="7_8w5pg"]
+[ext_resource type="Texture2D" uid="uid://b6wo8vqijg6x3" path="res://images/characters/defender.png" id="7_8w5pg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh8tw"]
 size = Vector2(1376, 2048)

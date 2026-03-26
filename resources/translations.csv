@@ -39,6 +39,9 @@ CARD_SHIELD_DESC,Block [color=%s]%d[/color] Physical damage.,Bloquea [color=%s]%
 CARD_MIRROR_DESC,Reflect all Magic damage back to the enemy.,Refleja todo el daño Mágico de vuelta al enemigo.
 CARD_POTION_DESC,Heal [color=%s]%d[/color] HP.,Cura [color=%s]%d[/color] de vida.
 CARD_STUN_DESC,"If not attacked, stun the enemy and cancel it's next card.","Si no eres atacado, aturde al enemigo y cancelar su siguiente carta."
+STATUS,Status,Estado
+STATUS_STUNNED,Stunned,Aturdido
+STATUS_STUNNED_DESC,Next card will have no effect.,La siguiente carta no tendrá efecto.
 COMBAT_ROUND,Round,Ronda
 COMBAT_NEXT_ROUND,Next Round,Siguiente Ronda
 COMBAT_ROUND_WARNING,This can only be pressed with an empty deck and full hand.,Esto solo se puede presionar con el mazo vacío y la mano llena.

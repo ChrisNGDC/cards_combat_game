@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://kwt4as8vekix"]
 
 [ext_resource type="Script" uid="uid://dxf43u3owkqd0" path="res://autoload/debug_overlay.gd" id="1_g6ve3"]
-[ext_resource type="Texture2D" uid="uid://blo76fmoo440q" path="res://images/settings.png" id="2_qqmdh"]
+[ext_resource type="Texture2D" uid="uid://c8th2afdh21k8" path="res://images/main_menu/settings.png" id="2_qqmdh"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="3_j0rna"]
-[ext_resource type="Texture2D" uid="uid://cspyd2gh0wc4l" path="res://images/fullscreen.png" id="4_a0m3s"]
+[ext_resource type="Texture2D" uid="uid://cspyd2gh0wc4l" path="res://images/main_menu/fullscreen.png" id="4_a0m3s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6ve3"]
 bg_color = Color(0, 0, 0, 0.29411766)

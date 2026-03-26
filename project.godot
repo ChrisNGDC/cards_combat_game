@@ -28,6 +28,7 @@ SceneLoader="*uid://drxxra1qcv8qt"
 TooltipManager="*uid://dwougphpc3plb"
 ConfigManager="*uid://dq4fpa7w2jdbu"
 DebugOverlay="*uid://kwt4as8vekix"
+StatusManager="*uid://fc804bnbqvbr"
 
 [debug]
 

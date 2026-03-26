@@ -6,6 +6,7 @@ var card_original_pos: Vector2
 var card_scene: PackedScene = preload("res://scenes/card.tscn")
 var game_over_scene: PackedScene = preload("res://scenes/game_over_ui.tscn")
 var overlay_scene: PackedScene = preload("res://scenes/deck_overlay.tscn")
+var status_scene: PackedScene = preload("res://scenes/status.tscn")
 var player_slot_pos: Vector2
 var player_slot_rect: Rect2
 var cpu_slot_pos: Vector2
@@ -26,7 +27,8 @@ var player: GamePlayer = GlobalData.player
 var cpu: GameCPU = GlobalData.cpu
 var viewing_deck: bool
 
-
+@onready var player_status: HFlowContainer = $PlayerStatus/StatusContainer
+@onready var cpu_status: HFlowContainer = $CPUStatus/StatusContainer
 @onready var player_card_slot: Sprite2D = $PlayerSlot
 @onready var cpu_card_slot: Sprite2D = $CPUSlot
 @onready var end_round_button: Button = $Control/EndRound
@@ -62,8 +64,12 @@ func _ready() -> void:
 	see_deck_button.pressed.connect(_on_see_deck_button_pressed)
 	end_round_button.pressed.connect(_on_end_round_pressed)
 	fight_button.pressed.connect(_on_fight_pressed)
+
+	var stun: StatusData = StatusManager.create_status("STATUS_STUNNED")
+	cpu.add_status(stun)
+	update_statuses()
 	
-	
+
 func _process(_delta: float) -> void:
 	if card_being_dragged:
 		card_being_dragged.position = get_global_mouse_position()
@@ -226,8 +232,8 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 		orden["primero"] = player
 		orden["segundo"] = cpu
 
-	var primero_stunned: bool = orden["primero"].stunned
-	var segundo_stunned: bool = orden["segundo"].stunned
+	var primero_stunned: bool = orden["primero"].has_status("STATUS_STUNNED")
+	var segundo_stunned: bool = orden["segundo"].has_status("STATUS_STUNNED")
 
 	var player_first: bool = orden["primero"] == player
 
@@ -245,21 +251,39 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 
 	if not both_shield and not both_mirror:
 		if primero_stunned:
-			orden["primero"].stunned = false
+			orden["primero"].remove_status_by_name("STATUS_STUNNED")
 			if segundo_stunned:
-				orden["segundo"].stunned = false
+				orden["segundo"].remove_status_by_name("STATUS_STUNNED")
 			elif not useless_defence:
 				await play_card(segunda, !player_first)
 		else:
 			await play_card(primera, player_first)
 			if segundo_stunned:
-				orden["segundo"].stunned = false
+				orden["segundo"].remove_status_by_name("STATUS_STUNNED")
 			elif not invalid_second:
 				await play_card(segunda, !player_first)
 
 		update_health()
 	else:
 		await get_tree().create_timer(0.5).timeout
+	update_statuses()
+
+func update_statuses() -> void:
+	for child: Control in player_status.get_children():
+		child.queue_free()
+	for child: Control in cpu_status.get_children():
+		child.queue_free()
+	for status: StatusData in player.status:
+		var status_icon: Panel = status_scene.instantiate()
+		status_icon.setup(status)
+		player_status.add_child(status_icon)
+	for status: StatusData in cpu.status:
+		var status_icon: Panel = status_scene.instantiate()
+		status_icon.setup(status)
+		cpu_status.add_child(status_icon)
+	player_status.get_parent().title = tr("STATUS ") + "(" + str(player.status.size()) + ")"
+	cpu_status.get_parent().title = tr("STATUS ") + "(" + str(cpu.status.size()) + ")"
+
 
 func update_health() -> void:
 	player.take_damage()
@@ -301,9 +325,11 @@ func play_card(card: Node2D, es_jugador: bool) -> void:
 				cpu.damage_to_receive -= healing
 		"CARD_STUN":
 			if es_jugador:
-				cpu.stunned = true
+				var stun: StatusData = StatusManager.create_status("STATUS_STUNNED")
+				cpu.add_status(stun)
 			else:
-				player.stunned = true
+				var stun: StatusData = StatusManager.create_status("STATUS_STUNNED")
+				player.add_status(stun)
 	await get_tree().create_timer(0.5).timeout
 
 

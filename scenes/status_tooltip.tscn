@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://do38qgukp2odr"]
+
+[ext_resource type="Script" uid="uid://7cbyuxgadrbc" path="res://scripts/combat/status_tooltip.gd" id="1_nx5fb"]
+
+[node name="StatusTooltip" type="PanelContainer" unique_id=1578348211]
+custom_minimum_size = Vector2(20, 20)
+offset_right = 100.0
+offset_bottom = 100.0
+script = ExtResource("1_nx5fb")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1482415157]
+layout_mode = 2
+bbcode_enabled = true
+text = "asdadsadasdasdasdasdasdasdadasdasdasdasd"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1

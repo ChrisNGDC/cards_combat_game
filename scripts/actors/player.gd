@@ -12,7 +12,7 @@ var damage_to_receive: int = 0
 var deck: DeckData = DeckManager.create_deck("DECK_MAGE")
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
-var stunned: bool = false
+var status: Array[StatusData] = []
 
 func set_initial_hp() -> void:
 	max_hp = deck.vida
@@ -26,6 +26,21 @@ func reset_round() -> void:
 	visual_deck.clear()
 	visual_hand.clear()
 
+func add_status(new_status: StatusData) -> void:
+	status.append(new_status)
+
+func remove_status_by_name(old_status_name: String) -> void:
+	for _status: StatusData in status:
+		if _status.nombre == old_status_name:
+			status.erase(_status)
+			return
+
+
+func has_status(status_name: String) -> bool:
+	for _status: StatusData in status:
+		if _status.nombre == status_name:
+			return true
+	return false
 
 func reset() -> void:
 	damage_to_receive = 0

@@ -14,7 +14,7 @@ var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 @export_enum("EASY_DIFFICULTY", "NORMAL_DIFFICULTY", "HARD_DIFFICULTY") var difficulty: String = "EASY_DIFFICULTY"
 var pick_card_logic: PickCardLogic = PickCardLogic.new()
-var stunned: bool = false
+var status: Array[StatusData] = []
 
 func _setup() -> void:
 	set_initial_hp()
@@ -33,6 +33,23 @@ func take_damage() -> void:
 func reset_round() -> void:
 	visual_deck.clear()
 	visual_hand.clear()
+
+func add_status(new_status: StatusData) -> void:
+	status.append(new_status)
+
+
+func remove_status_by_name(old_status_name: String) -> void:
+	for _status: StatusData in status:
+		if _status.nombre == old_status_name:
+			status.erase(_status)
+			return
+
+
+func has_status(status_name: String) -> bool:
+	for _status: StatusData in status:
+		if _status.nombre == status_name:
+			return true
+	return false
 
 func pick_card() -> Node2D:
 	if visual_hand.size() == 0:

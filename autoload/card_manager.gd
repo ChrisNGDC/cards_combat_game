@@ -2,7 +2,7 @@ extends Node
 
 var sword: Dictionary = {
 	"nombre": "CARD_SWORD",
-	"ruta_imagen": "res://images/sword.png",
+	"ruta_imagen": "res://images/cards/sword.png",
 	"tipo": "CARD_OFFENSIVE",
 	"niveles": {
 		"actual": 0,
@@ -14,7 +14,7 @@ var sword: Dictionary = {
 }
 var shield: Dictionary = {
 	"nombre": "CARD_SHIELD",
-	"ruta_imagen": "res://images/shield.png",
+	"ruta_imagen": "res://images/cards/shield.png",
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
@@ -26,7 +26,7 @@ var shield: Dictionary = {
 }
 var mirror: Dictionary = {
 	"nombre": "CARD_MIRROR",
-	"ruta_imagen": "res://images/mirror.png",
+	"ruta_imagen": "res://images/cards/mirror.png",
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
@@ -38,7 +38,7 @@ var mirror: Dictionary = {
 }
 var magic: Dictionary = {
 	"nombre": "CARD_MAGIC",
-	"ruta_imagen": "res://images/magic.png",
+	"ruta_imagen": "res://images/cards/magic.png",
 	"tipo": "CARD_OFFENSIVE",
 	"niveles": {
 		"actual": 0,
@@ -50,7 +50,7 @@ var magic: Dictionary = {
 }
 var potion: Dictionary = {
 	"nombre": "CARD_POTION",
-	"ruta_imagen": "res://images/potion.png",
+	"ruta_imagen": "res://images/cards/potion.png",
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
@@ -62,7 +62,7 @@ var potion: Dictionary = {
 }
 var stun: Dictionary = {
 	"nombre": "CARD_STUN",
-	"ruta_imagen": "res://images/stun.png",
+	"ruta_imagen": "res://images/cards/stun.png",
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
