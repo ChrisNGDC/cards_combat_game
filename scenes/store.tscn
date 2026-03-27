@@ -5,8 +5,9 @@
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_suv53"]
 [ext_resource type="Script" uid="uid://d0rd2t4ppfus0" path="res://scripts/store/store_actions.gd" id="3_5bups"]
 [ext_resource type="Texture2D" uid="uid://bw2iw1qjdrq8f" path="res://images/store/plus-minus.png" id="3_plgn8"]
-[ext_resource type="Texture2D" uid="uid://c5y0y7rc78nqg" path="res://images/store/up-down-arrow.png" id="4_4cg75"]
+[ext_resource type="Texture2D" uid="uid://6jbp662kdkvw" path="res://images/store/up-down-arrow.png" id="4_4cg75"]
 [ext_resource type="Script" uid="uid://d1ad6yjxi6ca5" path="res://scripts/store/store_button.gd" id="6_vb4ln"]
+[ext_resource type="PackedScene" uid="uid://dk6xtp5cbeusq" path="res://scenes/auto_translate.tscn" id="8_tmp5q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgjx4"]
 content_margin_left = 15.0
@@ -393,6 +394,8 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_ne6wg")
 horizontal_alignment = 1
+
+[node name="AutoTranslate" parent="CanvasLayer/MarginContainer/VBoxContainer/ActionHoverEffect" unique_id=814088183 instance=ExtResource("8_tmp5q")]
 
 [node name="NextRoundButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=698081096]
 visible = false

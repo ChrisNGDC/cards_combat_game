@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://boiox2thyg2pb" path="res://scripts/combat/game_over_ui.gd" id="1_bakr2"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_y6ord"]
+[ext_resource type="PackedScene" uid="uid://dk6xtp5cbeusq" path="res://scenes/auto_translate.tscn" id="3_lk38d"]
 
 [node name="GameOverUI" type="CanvasLayer" unique_id=2064153920]
 layer = 10
@@ -36,11 +37,15 @@ theme_override_font_sizes/font_size = 72
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AutoTranslate" parent="CenterContainer/VBoxContainer/ResultLabel" unique_id=814088183 instance=ExtResource("3_lk38d")]
+
 [node name="DescriptionLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=363248008]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AutoTranslate" parent="CenterContainer/VBoxContainer/DescriptionLabel" unique_id=1301299883 instance=ExtResource("3_lk38d")]
 
 [node name="RestartButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=887134884]
 layout_mode = 2

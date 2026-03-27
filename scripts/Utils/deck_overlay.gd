@@ -12,6 +12,7 @@ func _ready() -> void:
 
 func update_name(new_name: String) -> void:
 	deck_name.text = new_name
+	deck_name.get_node("AutoTranslate").set_translation(new_name)
 
 func display_history_deck(deck_data: Dictionary) -> void:
 	for child: Control in shelf.get_children():

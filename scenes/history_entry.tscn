@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://jkub1bbktbli"]
 
 [ext_resource type="Script" uid="uid://cd76d78qkux4" path="res://scripts/mainMenu/history_entry.gd" id="1_l30ns"]
+[ext_resource type="PackedScene" uid="uid://dk6xtp5cbeusq" path="res://scenes/auto_translate.tscn" id="2_2fatp"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_y7nox"]
 
 [sub_resource type="Theme" id="Theme_l30ns"]
@@ -26,6 +27,8 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AutoTranslate" parent="ResultLabel" unique_id=814088183 instance=ExtResource("2_2fatp")]
 
 [node name="PlayerDeckButton" type="Button" parent="." unique_id=1270956001]
 custom_minimum_size = Vector2(150, 0)

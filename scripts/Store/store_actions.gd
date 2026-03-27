@@ -74,7 +74,7 @@ func finalize_transaction(mode: String) -> void:
 	if next_button:
 		next_button.visible = true
 	if description_label:
-		description_label.text = tr(mode)
+		description_label.get_node("AutoTranslate").set_translation(mode)
 		description_label.add_theme_color_override("font_color", Color.GREEN)
 
 

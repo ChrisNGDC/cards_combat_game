@@ -42,6 +42,7 @@ CARD_STUN_DESC,"If not attacked, stun the enemy and cancel it's next card.","Si 
 STATUS,Status,Estado
 STATUS_STUNNED,Stunned,Aturdido
 STATUS_STUNNED_DESC,Next card will have no effect.,La siguiente carta no tendrá efecto.
+CARDS_HELP,Cards Help,Ayuda de Cartas
 COMBAT_ROUND,Round,Ronda
 COMBAT_NEXT_ROUND,Next Round,Siguiente Ronda
 COMBAT_ROUND_WARNING,This can only be pressed with an empty deck and full hand.,Esto solo se puede presionar con el mazo vacío y la mano llena.

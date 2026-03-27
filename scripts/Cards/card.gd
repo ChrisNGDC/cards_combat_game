@@ -65,7 +65,7 @@ func _process(_delta: float) -> void:
 		var mouse_pos: Vector2 = get_global_mouse_position()
 		var screen_size: Vector2 = get_viewport_rect().size
 		var tooltip_size: Vector2 = current_tooltip.get_global_rect().size
-		var offset: Vector2 = Vector2(10, 10)
+		var offset: Vector2 = Vector2(20, 20)
 		if mouse_pos.x + offset.x + tooltip_size.x > screen_size.x:
 			offset.x = - tooltip_size.x
 		if mouse_pos.y + offset.y + tooltip_size.y > screen_size.y:
@@ -92,27 +92,8 @@ func show_card(si: bool) -> void:
 func create_tooltip() -> void:
 	current_tooltip = tooltip_scene.instantiate()
 	TooltipManager.add_child(current_tooltip)
-	current_tooltip.get_node("VBox/HBox/TypeLabel").text = tr(tipo)
-	var tooltip_level_label: Label = current_tooltip.get_node("VBox/HBox/LevelLabel")
-	tooltip_level_label.text = "Lvl." + (str(nivel_actual) if nivel_actual < nivel_max else "Max")
-	tooltip_level_label.modulate = (gold_style.font_color if nivel_actual == nivel_max else basic_style.font_color)
-	var description_values: Array
-	match nombre:
-		"CARD_SWORD":
-			description_values = ["#ff0000", apply_effect(), tr(tipo_danio)]
-		"CARD_MAGIC":
-			description_values = ["#ffff00", apply_effect(), tr(tipo_danio)]
-		"CARD_SHIELD":
-			description_values = ["#0000ff", apply_effect()]
-		"CARD_MIRROR":
-			description_values = []
-		"CARD_POTION":
-			description_values = ["#00ff00", apply_effect()]
-		"CARD_STUN":
-			description_values = []
-	current_tooltip.get_node("VBox/InfoText").text = tr(datos_carta.description) % description_values
+	current_tooltip.setup(self )
 	current_tooltip.hide()
-
 
 func show_tooltip_info(si: bool) -> void:
 	if si:
@@ -125,7 +106,7 @@ func _aplicar_datos() -> void:
 	var tex_front: Texture2D = load(datos_carta.ruta_imagen)
 	card_front_image.texture = tex_front
 	nombre = datos_carta.nombre
-	card_name.text = tr(datos_carta.nombre)
+	card_name.get_node("AutoTranslate").set_translation(datos_carta.nombre)
 	tipo = datos_carta.tipo
 	nivel_actual = datos_carta.nivel_actual
 	nivel_max = datos_carta.nivel_max

@@ -49,10 +49,6 @@ func _ready() -> void:
 
 	fullscreen_button.button_pressed = is_full
 
-	video_label.bbcode_text = "[b][u]" + tr("VIDEO") + "[/u][/b]"
-	lang_label.bbcode_text = "[b][u]" + tr("LANGUAGE") + "[/u][/b]"
-	audio_label.bbcode_text = "[b][u]" + tr("AUDIO") + "[/u][/b]"
-
 	master_slider.value = AudioManager.get_master_volume()
 	music_slider.value = AudioManager.get_music_volume()
 	sfx_slider.value = AudioManager.get_sfx_volume()
@@ -135,8 +131,6 @@ func _on_language_selected(index: int) -> void:
 			ConfigManager.save_language("en")
 		1:
 			ConfigManager.save_language("es")
-	lang_label.bbcode_text = "[b][u]" + tr("LANGUAGE") + "[/u][/b]"
-	get_tree().reload_current_scene()
 
 
 func _on_exit_button_pressed() -> void:

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dk6xtp5cbeusq"]
+
+[ext_resource type="Script" uid="uid://khsxgstuta6l" path="res://scripts/utils/auto_translate.gd" id="1_ykk7d"]
+
+[node name="AutoTranslate" type="Node" unique_id=814088183]
+process_mode = 3
+script = ExtResource("1_ykk7d")

@@ -64,9 +64,6 @@ func _ready() -> void:
 	see_deck_button.pressed.connect(_on_see_deck_button_pressed)
 	end_round_button.pressed.connect(_on_end_round_pressed)
 	fight_button.pressed.connect(_on_fight_pressed)
-
-	var stun: StatusData = StatusManager.create_status("STATUS_STUNNED")
-	cpu.add_status(stun)
 	update_statuses()
 	
 
@@ -281,8 +278,8 @@ func update_statuses() -> void:
 		var status_icon: Panel = status_scene.instantiate()
 		status_icon.setup(status)
 		cpu_status.add_child(status_icon)
-	player_status.get_parent().title = tr("STATUS ") + "(" + str(player.status.size()) + ")"
-	cpu_status.get_parent().title = tr("STATUS ") + "(" + str(cpu.status.size()) + ")"
+	player_status.get_parent().title = tr("STATUS") + " (" + str(player.status.size()) + ")"
+	cpu_status.get_parent().title = tr("STATUS") + " (" + str(cpu.status.size()) + ")"
 
 
 func update_health() -> void:

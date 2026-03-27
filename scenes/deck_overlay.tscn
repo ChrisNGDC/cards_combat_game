@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://daprw7wlelbff" path="res://scripts/utils/deck_overlay.gd" id="1_lskk3"]
 [ext_resource type="Script" uid="uid://bg4hhu4xbx5mf" path="res://scripts/utils/item_shelf.gd" id="2_lskk3"]
 [ext_resource type="Theme" uid="uid://c4u10tupcw13s" path="res://resources/main_theme.tres" id="2_wmod2"]
+[ext_resource type="PackedScene" uid="uid://dk6xtp5cbeusq" path="res://scenes/auto_translate.tscn" id="3_ncljd"]
 
 [node name="DeckOverlay" type="CanvasLayer" unique_id=1022579553]
 script = ExtResource("1_lskk3")
@@ -39,6 +40,8 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 50
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AutoTranslate" parent="MarginContainer/VBoxContainer/DeckName" unique_id=814088183 instance=ExtResource("3_ncljd")]
 
 [node name="ItemShelf" type="HFlowContainer" parent="MarginContainer/VBoxContainer" unique_id=278130130]
 z_index = 5
