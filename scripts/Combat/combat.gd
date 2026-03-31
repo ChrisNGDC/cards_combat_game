@@ -207,6 +207,7 @@ func flip_card(carta: Node2D) -> void:
 	flip_tween.tween_callback(func() -> void: carta.show_card(true))
 	flip_tween.tween_property(carta, "scale:x", carta.escala_normal.x, 0.5).set_ease(Tween.EASE_OUT)
 
+# Combat logic
 
 func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 	var primera: Node2D
@@ -216,9 +217,17 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 		"segundo": null
 	}
 
-	var cpu_sword_prio: bool = (cpu_card.nombre == "CARD_SWORD" and player_card.nombre == "CARD_MAGIC")
-
-	if (cpu_card.tipo == "CARD_OFFENSIVE" and player_card.tipo != "CARD_OFFENSIVE") or cpu_sword_prio:
+	if player_card.tipo == "CARD_OFFENSIVE" and cpu_card.tipo != "CARD_OFFENSIVE":
+		primera = cpu_card
+		segunda = player_card
+		orden["primero"] = cpu
+		orden["segundo"] = player
+	elif cpu_card.tipo == "CARD_OFFENSIVE" and player_card.tipo != "CARD_OFFENSIVE":
+		primera = player_card
+		segunda = cpu_card
+		orden["primero"] = player
+		orden["segundo"] = cpu
+	elif player_card.nombre == "CARD_SWORD":
 		primera = cpu_card
 		segunda = player_card
 		orden["primero"] = cpu
@@ -229,41 +238,43 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 		orden["primero"] = player
 		orden["segundo"] = cpu
 
-	var primero_stunned: bool = orden["primero"].has_status("STATUS_STUNNED")
-	var segundo_stunned: bool = orden["segundo"].has_status("STATUS_STUNNED")
+	var primero_can_play: bool = orden["primero"].can_play()
+	var segundo_can_play: bool = orden["segundo"].can_play()
 
 	var player_first: bool = orden["primero"] == player
 
-	var useless_defence: bool = primero_stunned and segunda.nombre in ["CARD_MIRROR", "CARD_SHIELD"] or segundo_stunned and primera.nombre in ["CARD_MIRROR", "CARD_SHIELD"]
+	var useless_defence: bool = segunda.nombre in ["CARD_MIRROR", "CARD_SHIELD"]
 
-	var invalid_potion: bool = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_POTION"
-	var invalid_mirror: bool = primera.tipo_danio != "CARD_MAGICAL" and segunda.nombre == "CARD_MIRROR"
-	var invalid_shield: bool = primera.tipo_danio != "CARD_PHYSICAL" and segunda.nombre == "CARD_SHIELD"
-	var invalid_magic: bool = primera.nombre == "CARD_SWORD" and segunda.nombre == "CARD_MAGIC"
-	var invalid_stun: bool = primera.tipo == "CARD_OFFENSIVE" and segunda.nombre == "CARD_STUN"
-	var invalid_second: bool = invalid_potion or invalid_mirror or invalid_shield or invalid_magic or invalid_stun
+	var invalid_potion: bool = primera.nombre == "CARD_POTION" and segunda.tipo == "CARD_OFFENSIVE"
+	var invalid_mirror: bool = primera.nombre == "CARD_MIRROR" and segunda.tipo_danio != "CARD_MAGICAL"
+	var invalid_magic: bool = primera.nombre == "CARD_MAGIC" and segunda.nombre == "CARD_SWORD"
+	var invalid_stun: bool = primera.nombre == "CARD_STUN" and segunda.tipo == "CARD_OFFENSIVE"
+	var invalid_first: bool = invalid_potion or invalid_mirror or invalid_magic or invalid_stun
 
 	var both_shield: bool = primera.nombre == "CARD_SHIELD" and segunda.nombre == "CARD_SHIELD"
 	var both_mirror: bool = primera.nombre == "CARD_MIRROR" and segunda.nombre == "CARD_MIRROR"
 
+	print("Primera carta: " + primera.nombre + " Segundo carta: " + segunda.nombre)
+	print("Primero puede jugar: " + str(primero_can_play) + " Segundo puede jugar: " + str(segundo_can_play))
+
 	if not both_shield and not both_mirror:
-		if primero_stunned:
-			orden["primero"].remove_status_by_name("STATUS_STUNNED")
-			if segundo_stunned:
-				orden["segundo"].remove_status_by_name("STATUS_STUNNED")
-			elif not useless_defence:
+		if not primero_can_play:
+			if segundo_can_play and not useless_defence:
 				await play_card(segunda, !player_first)
 		else:
-			await play_card(primera, player_first)
-			if segundo_stunned:
-				orden["segundo"].remove_status_by_name("STATUS_STUNNED")
-			elif not invalid_second:
+			if not invalid_first:
+				await play_card(primera, player_first)
+			if segundo_can_play:
 				await play_card(segunda, !player_first)
-
-		update_health()
 	else:
 		await get_tree().create_timer(0.5).timeout
 	update_statuses()
+	player.reset_turn()
+	cpu.reset_turn()
+	apply_status_effects()
+	
+
+# Status logic
 
 func update_statuses() -> void:
 	for child: Control in player_status.get_children():
@@ -281,51 +292,62 @@ func update_statuses() -> void:
 	player_status.get_parent().title = tr("STATUS") + " (" + str(player.status.size()) + ")"
 	cpu_status.get_parent().title = tr("STATUS") + " (" + str(cpu.status.size()) + ")"
 
-
-func update_health() -> void:
-	player.take_damage()
-	cpu.take_damage()
+func apply_status_effects() -> void:
+	player.apply_status_effects()
+	cpu.apply_status_effects()
 
 func play_card(card: Node2D, es_jugador: bool) -> void:
 	card.play_sound()
 	match card.nombre:
 		"CARD_SWORD":
-			var damage: int = card.apply_effect()
+			var amount: int = card.apply_effect()
 			if es_jugador:
-				cpu.damage_to_receive += damage
+				cpu.take_physical_damage(amount)
 			else:
-				player.damage_to_receive += damage
+				player.take_physical_damage(amount)
 		"CARD_MAGIC":
-			var damage: int = card.apply_effect()
+			var amount: int = card.apply_effect()
 			if es_jugador:
-				cpu.damage_to_receive += damage
+				if cpu.has_rebound():
+					cpu.remove_rebound()
+					player.take_magical_damage(amount)
+					player.add_status(StatusManager.create_status("STATUS_BURN"))
+				else:
+					cpu.take_magical_damage(amount)
+					cpu.add_status(StatusManager.create_status("STATUS_BURN"))
 			else:
-				player.damage_to_receive += damage
+				if player.has_rebound():
+					player.remove_rebound()
+					cpu.take_magical_damage(amount)
+					cpu.add_status(StatusManager.create_status("STATUS_BURN"))
+				else:
+					player.take_magical_damage(amount)
+					player.add_status(StatusManager.create_status("STATUS_BURN"))
 		"CARD_SHIELD":
-			var damage: int = card.apply_effect()
+			var amount: int = card.apply_effect()
 			if es_jugador:
-				player.damage_to_receive = max(0, player.damage_to_receive - damage)
+				player.add_armor(amount)
 			else:
-				cpu.damage_to_receive = max(0, cpu.damage_to_receive - damage)
+				cpu.add_armor(amount)
 		"CARD_MIRROR":
 			if es_jugador:
-				cpu.damage_to_receive += player.damage_to_receive
-				player.damage_to_receive = 0
+				player.add_rebound()
 			else:
-				player.damage_to_receive += cpu.damage_to_receive
-				cpu.damage_to_receive = 0
+				cpu.add_rebound()
 		"CARD_POTION":
-			var healing: int = card.apply_effect()
+			var amount: int = card.apply_effect()
 			if es_jugador:
-				player.damage_to_receive -= healing
+				player.heal(amount)
+				player.add_status(StatusManager.create_status("STATUS_REGENERATION"))
 			else:
-				cpu.damage_to_receive -= healing
+				cpu.heal(amount)
+				cpu.add_status(StatusManager.create_status("STATUS_REGENERATION"))
 		"CARD_STUN":
 			if es_jugador:
-				var stun: StatusData = StatusManager.create_status("STATUS_STUNNED")
+				var stun: StatusData = StatusManager.create_status("STATUS_STUN")
 				cpu.add_status(stun)
 			else:
-				var stun: StatusData = StatusManager.create_status("STATUS_STUNNED")
+				var stun: StatusData = StatusManager.create_status("STATUS_STUN")
 				player.add_status(stun)
 	await get_tree().create_timer(0.5).timeout
 
@@ -367,7 +389,6 @@ func _on_fight_pressed() -> void:
 			cpu_use_card(cpu_choice)
 		else:
 			play_card(card_in_slot, true)
-			update_health()
 		player_use_card(card_in_slot)
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
 				end_round_button.show()
@@ -376,7 +397,6 @@ func _on_fight_pressed() -> void:
 	elif not is_instance_valid(card_in_slot) and player.visual_hand.size() == 0:
 		var cpu_choice: Node2D = await cpu_choose_card()
 		play_card(cpu_choice, false)
-		update_health()
 		cpu_use_card(cpu_choice)
 		fighting = false
 	await get_tree().create_timer(0.5).timeout
@@ -391,6 +411,23 @@ func _on_fight_pressed() -> void:
 				if cpu.visual_deck.size() > 0:
 					repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
 
+
+# Deck viewing logic
+
+func _on_see_deck_button_pressed() -> void:
+	if not dealing_hand:
+		viewing_deck = true
+		show_cards_tooltip(false)
+		var overlay: CanvasLayer = overlay_scene.instantiate()
+		add_child(overlay)
+		overlay.closing.connect(_on_overlay_closed)
+		overlay.display_deck(player.visual_deck)
+
+func _on_overlay_closed() -> void:
+	viewing_deck = false
+	show_cards_tooltip(true)
+
+# Game over logic
 
 func check_game_over() -> bool:
 	if player.current_hp > 0 and cpu.current_hp > 0:
@@ -423,6 +460,7 @@ func cards_to_save(deck: Array[CardData]) -> Array:
 		})
 	return deck_cards
 
+# End round and transition to store
 
 func _on_end_round_pressed() -> void:
 	GlobalData.player.reset_round()
@@ -430,17 +468,3 @@ func _on_end_round_pressed() -> void:
 	GlobalData.rounds += 1
 	await get_tree().create_timer(.5).timeout
 	SceneLoader.load_scene("res://scenes/store.tscn")
-
-
-func _on_see_deck_button_pressed() -> void:
-	if not dealing_hand:
-		viewing_deck = true
-		show_cards_tooltip(false)
-		var overlay: CanvasLayer = overlay_scene.instantiate()
-		add_child(overlay)
-		overlay.closing.connect(_on_overlay_closed)
-		overlay.display_deck(player.visual_deck)
-
-func _on_overlay_closed() -> void:
-	viewing_deck = false
-	show_cards_tooltip(true)

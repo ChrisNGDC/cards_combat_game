@@ -17,9 +17,9 @@ func setup(datos: Node2D) -> void:
 	level_label.modulate = (gold_style.font_color if datos.nivel_actual == datos.nivel_max else basic_style.font_color)
 	match datos.nombre:
 		"CARD_SWORD":
-			raw_description_values = ["#ff0000", datos.apply_effect(), datos.tipo_danio]
+			raw_description_values = ["#ff0000", datos.apply_effect()]
 		"CARD_MAGIC":
-			raw_description_values = ["#ffff00", datos.apply_effect(), datos.tipo_danio]
+			raw_description_values = ["#ffff00", datos.apply_effect()]
 		"CARD_SHIELD":
 			raw_description_values = ["#0000ff", datos.apply_effect()]
 		"CARD_MIRROR":
@@ -28,15 +28,4 @@ func setup(datos: Node2D) -> void:
 			raw_description_values = ["#00ff00", datos.apply_effect()]
 		"CARD_STUN":
 			raw_description_values = []
-	_update_translation()
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_TRANSLATION_CHANGED:
-		if raw_description != "":
-			_update_translation()
-
-func _update_translation() -> void:
-	var description_values: Array = raw_description_values.duplicate()
-	if description_values.size() == 3:
-		description_values[2] = tr(description_values[2])
-	description.text = tr(raw_description) % description_values
+	description.get_node("AutoTranslate").set_translation(raw_description, raw_description_values)

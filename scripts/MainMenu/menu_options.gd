@@ -17,6 +17,7 @@ func _on_exit_pressed() -> void:
 
 
 func _on_play_pressed() -> void:
+	GlobalData.reset_game()
 	SceneLoader.load_scene("res://scenes/decks.tscn")
 
 

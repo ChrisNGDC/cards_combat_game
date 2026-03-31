@@ -9,5 +9,6 @@ func _init() -> void:
 	player = GamePlayer.new()
 
 func reset_game() -> void:
+	rounds = 1
 	cpu.reset()
 	player.reset()

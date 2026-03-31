@@ -9,7 +9,7 @@ var sword: Dictionary = {
 		"max": 0
 	},
 	"tipo_danio": "CARD_PHYSICAL",
-	"description": "CARD_OFFENSIVE_DESC",
+	"description": "CARD_SWORD_DESC",
 	"efecto": func(nivel: int) -> int: return 10 + nivel * 10
 }
 var shield: Dictionary = {
@@ -45,7 +45,7 @@ var magic: Dictionary = {
 		"max": 3
 	},
 	"tipo_danio": "CARD_MAGICAL",
-	"description": "CARD_OFFENSIVE_DESC",
+	"description": "CARD_MAGIC_DESC",
 	"efecto": func(nivel: int) -> int: return 10 + nivel * 5
 }
 var potion: Dictionary = {

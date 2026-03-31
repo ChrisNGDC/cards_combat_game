@@ -1,55 +1,18 @@
-extends Resource
+extends Character
 class_name GameCPU
 
-signal hp_changed(nuevo_hp: int, es_jugador: bool)
-
-var max_hp: int
-var current_hp: int:
-	set(val):
-		current_hp = clamp(val, 0, max_hp)
-		hp_changed.emit(current_hp, false)
-var damage_to_receive: int = 0
-var deck: DeckData
-var visual_deck: Array[Node2D] = []
-var visual_hand: Array[Node2D] = []
 @export_enum("EASY_DIFFICULTY", "NORMAL_DIFFICULTY", "HARD_DIFFICULTY") var difficulty: String = "EASY_DIFFICULTY"
 var pick_card_logic: PickCardLogic = PickCardLogic.new()
-var status: Array[StatusData] = []
 
-func _setup() -> void:
-	set_initial_hp()
-	if difficulty == "NORMAL_DIFFICULTY":
+func _setup(params: Dictionary) -> void:
+	super ({"deck": params.deck})
+	is_player = false
+	setup_difficulty(params.difficulty)
+
+func setup_difficulty(new_difficulty: String) -> void:
+	difficulty = new_difficulty
+	if new_difficulty == "NORMAL_DIFFICULTY":
 		pick_card_logic.get_cards_by_power(GlobalData.player.deck.cartas)
-
-
-func set_initial_hp() -> void:
-	max_hp = deck.vida
-	current_hp = max_hp
-
-func take_damage() -> void:
-	current_hp -= damage_to_receive
-	damage_to_receive = 0
-
-func reset_round() -> void:
-	visual_deck.clear()
-	visual_hand.clear()
-
-func add_status(new_status: StatusData) -> void:
-	status.append(new_status)
-
-
-func remove_status_by_name(old_status_name: String) -> void:
-	for _status: StatusData in status:
-		if _status.nombre == old_status_name:
-			status.erase(_status)
-			return
-
-
-func has_status(status_name: String) -> bool:
-	for _status: StatusData in status:
-		if _status.nombre == status_name:
-			return true
-	return false
 
 func pick_card() -> Node2D:
 	if visual_hand.size() == 0:
@@ -67,7 +30,6 @@ func pick_card() -> Node2D:
 			# Pick a random card from the hand
 			return pick_easy_card()
 		
-
 func pick_easy_card() -> Node2D:
 	var card_index: int = randi() % visual_hand.size()
 	return visual_hand[card_index]
@@ -82,21 +44,13 @@ func pick_complex_card() -> Node2D:
 				return visual_hand[card_index]
 	return pick_easy_card()
 
-
-func reset() -> void:
-	damage_to_receive = 0
-	deck = null
-	visual_deck.clear()
-	visual_hand.clear()
-
-func add_card_to_deck() -> void:
+func add_card_to_deck(_card: CardData = null) -> void:
 	var card: CardData = deck.cartas.pick_random()
-	var new_card: CardData = CardManager.create_card(card.nombre, {"actual": 0, "max": card.nivel_max})
-	deck.cartas.append(new_card)
+	super (card)
 
-func remove_card_from_deck() -> void:
+func remove_card_from_deck(_index: int = -1) -> void:
 	var index: int = randi() % deck.cartas.size()
-	deck.cartas.remove_at(index)
+	super (index)
 
 func choose_card_to_upgrade() -> int:
 	var card_pos: int = randi() % deck.cartas.size()
@@ -104,6 +58,6 @@ func choose_card_to_upgrade() -> int:
 		card_pos = randi() % deck.cartas.size()
 	return card_pos
 
-func upgrade_card_in_deck() -> void:
+func upgrade_card_in_deck(_index: int = -1) -> void:
 	var index: int = choose_card_to_upgrade()
-	deck.cartas[index].upgrade()
+	super (index)

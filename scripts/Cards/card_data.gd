@@ -3,10 +3,10 @@ class_name CardData
 
 @export var nombre: String
 @export var ruta_imagen: String
-@export_enum("Ofensivo", "Defensivo") var tipo: String
+@export_enum("CARD_OFFENSIVE", "CARD_DEFENSIVE") var tipo: String
 @export var nivel_actual: int
 @export var nivel_max: int
-@export_enum("Fisico", "Magico", "Ninguno") var tipo_danio: String
+@export_enum("CARD_PHYSICAL", "CARD_MAGICAL", "CARD_NONE") var tipo_danio: String
 @export var description: String
 var efecto: Callable
 

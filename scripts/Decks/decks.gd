@@ -76,12 +76,10 @@ func _on_select_deck_button_pressed() -> void:
 
 func _on_fight_pressed() -> void:
 	if difficulty_selection.selected != 0:
-		GlobalData.player.deck = DeckManager.create_deck(selected_deck.datos_mazo.nombre)
-		GlobalData.player.set_initial_hp()
-		var cpu_deck_name: String = lista_mazos.pick_random()
-		GlobalData.cpu.deck = DeckManager.create_deck(cpu_deck_name)
-		GlobalData.cpu.difficulty = difficulty
-		GlobalData.cpu._setup()
+		var player_deck: DeckData = DeckManager.create_deck(selected_deck.datos_mazo.nombre)
+		var cpu_deck: DeckData = DeckManager.create_deck(lista_mazos.pick_random())
+		GlobalData.player._setup({"deck": player_deck})
+		GlobalData.cpu._setup({"deck": cpu_deck, "difficulty": difficulty})
 		SceneLoader.load_scene("res://scenes/combat.tscn")
 
 
