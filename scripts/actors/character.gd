@@ -12,6 +12,7 @@ var magical_rebound: bool = false
 var deck: DeckData = null
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
+var visual_discard: Array[Node2D] = []
 var status: Array[StatusData] = []
 
 # Setup

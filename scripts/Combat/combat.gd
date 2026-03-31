@@ -26,6 +26,8 @@ var return_tween: Tween
 var player: GamePlayer = GlobalData.player
 var cpu: GameCPU = GlobalData.cpu
 var viewing_deck: bool
+var player_discard_pos: Vector2
+var cpu_discard_pos: Vector2
 
 @onready var player_status: HFlowContainer = $PlayerStatus/StatusContainer
 @onready var cpu_status: HFlowContainer = $CPUStatus/StatusContainer
@@ -52,8 +54,10 @@ func _ready() -> void:
 	card.queue_free()
 	fighting = false
 	if player.deck != null:
-		player_mazo_pos = Vector2(150, screen_size.y - 150)
-		cpu_mazo_pos = Vector2(screen_size.x - 150, 150)
+		player_mazo_pos = Vector2(270, screen_size.y - 150)
+		player_discard_pos = Vector2(150, screen_size.y - 150)
+		cpu_mazo_pos = Vector2(screen_size.x - 270, 150)
+		cpu_discard_pos = Vector2(screen_size.x - 150, 150)
 		player.deck.cartas.shuffle()
 		cpu.deck.cartas.shuffle()
 		crear_mazo(player.visual_deck, player_mazo_pos, true)
@@ -117,13 +121,13 @@ func crear_mazo(mazo: Array[Node2D], mazo_pos: Vector2, es_jugador: bool) -> voi
 		var offset_mazo: Vector2
 		if es_jugador:
 			if i >= cards_amount - 4:
-				nueva_carta.anchor_pos = Vector2(screen_size.x * 0.30875 + (anchor_rel * 163.2), screen_size.y - 150)
+				nueva_carta.anchor_pos = Vector2(screen_size.x * 0.35 + (anchor_rel * 130), screen_size.y - 150)
 				anchor_rel -= 1
 			offset_mazo = Vector2(i * 2.5, 0)
 		else:
 			nueva_carta.quitar_borde()
 			if i >= cards_amount - 4:
-				nueva_carta.anchor_pos = Vector2(screen_size.x * 0.69125 - (anchor_rel * 160.4), 150)
+				nueva_carta.anchor_pos = Vector2(screen_size.x * 0.65 - (anchor_rel * 130), 150)
 				anchor_rel -= 1
 			offset_mazo = Vector2(-i * 2.5, 0)
 		nueva_carta.position = mazo_pos + offset_mazo
@@ -157,6 +161,8 @@ func animar_vuelo_repartida(carta: Node2D, destino: Vector2, flip: bool) -> void
 	tween.tween_property(carta, "rotation", 0, 1.0)
 	if flip:
 		flip_card(carta)
+	else:
+		carta.quitar_borde()
 	tween.chain().tween_callback(func() -> void: carta.z_index = 2)
 
 
@@ -364,7 +370,7 @@ func cpu_use_card(cpu_choice: Node2D) -> void:
 	var cpu_card_pos: Vector2 = cpu_choice.anchor_pos
 	cpu_choice.show_tooltip_info(false)
 	cpu.visual_hand.erase(cpu_choice)
-	cpu_choice.queue_free()
+	animar_vuelo_repartida(cpu_choice, cpu_discard_pos, false)
 	if cpu.visual_hand.size() < hand_size and cpu.visual_deck.size() > 0:
 		repartir_carta(cpu.visual_deck, cpu.visual_hand, cpu_card_pos, false)
 
@@ -372,7 +378,8 @@ func player_use_card(player_choice: Node2D) -> void:
 	var player_card_pos: Vector2 = card_in_slot.anchor_pos
 	player_choice.show_tooltip_info(false)
 	player.visual_hand.erase(player_choice)
-	player_choice.queue_free()
+	animar_vuelo_repartida(player_choice, player_discard_pos, false)
+	card_in_slot = null
 	if player.visual_hand.size() < hand_size and player.visual_deck.size() > 0:
 		repartir_carta(player.visual_deck, player.visual_hand, player_card_pos, true)
 	
@@ -393,6 +400,7 @@ func _on_fight_pressed() -> void:
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
 				end_round_button.show()
 				end_round_warning.show()
+				see_deck_button.hide()
 		fighting = false
 	elif not is_instance_valid(card_in_slot) and player.visual_hand.size() == 0:
 		var cpu_choice: Node2D = await cpu_choose_card()
@@ -463,8 +471,8 @@ func cards_to_save(deck: Array[CardData]) -> Array:
 # End round and transition to store
 
 func _on_end_round_pressed() -> void:
-	GlobalData.player.reset_round()
-	GlobalData.cpu.reset_round()
 	GlobalData.rounds += 1
 	await get_tree().create_timer(.5).timeout
+	GlobalData.player.reset_round()
+	GlobalData.cpu.reset_round()
 	SceneLoader.load_scene("res://scenes/store.tscn")
