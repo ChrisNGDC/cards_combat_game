@@ -168,7 +168,7 @@ func check_drop_card() -> void:
 		if !card_in_slot:
 			card_in_slot = card_being_dragged
 		else:
-			tween.tween_property(card_in_slot, "position", player_slot_pos, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tween.tween_property(card_in_slot, "position", card_in_slot.anchor_pos, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 			card_in_slot.z_index = 2
 			card_in_slot = card_being_dragged
 	else:
