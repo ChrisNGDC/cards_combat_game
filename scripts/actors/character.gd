@@ -61,10 +61,12 @@ func can_play() -> bool:
 
 func clear_visuals() -> void:
 	for card: Node2D in visual_deck:
-		card.queue_free()
+		if card != null and not card.is_queued_for_deletion():
+			card.queue_free()
 	visual_deck.clear()
 	for card: Node2D in visual_hand:
-		card.queue_free()
+		if card != null and not card.is_queued_for_deletion():
+			card.queue_free()
 	visual_hand.clear()
 
 

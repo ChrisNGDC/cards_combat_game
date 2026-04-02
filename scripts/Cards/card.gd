@@ -138,6 +138,7 @@ func _on_area_2d_mouse_entered() -> void:
 	if self.card_front.visible:
 		if self.own_by_player:
 			borde.self_modulate *= 1.5
+			Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 		if not self.selected:
 			apply_scale_tween(self.escala_grande)
 		if show_tooltip:
@@ -148,6 +149,7 @@ func _on_area_2d_mouse_exited() -> void:
 	if self.card_front.visible:
 		if self.own_by_player:
 			borde.self_modulate /= 1.5
+			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		if not self.selected:
 			apply_scale_tween(self.escala_normal)
 		show_tooltip_info(false)

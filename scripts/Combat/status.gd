@@ -26,7 +26,7 @@ func _process(_delta: float) -> void:
 		var mouse_pos: Vector2 = get_global_mouse_position()
 		var screen_size: Vector2 = get_viewport_rect().size
 		var tooltip_size: Vector2 = current_tooltip.get_global_rect().size
-		var offset: Vector2 = Vector2(10, 10)
+		var offset: Vector2 = Vector2(15, -5)
 		if mouse_pos.x + offset.x + tooltip_size.x > screen_size.x:
 			offset.x = - tooltip_size.x
 		if mouse_pos.y + offset.y + tooltip_size.y > screen_size.y:

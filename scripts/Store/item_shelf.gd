@@ -18,7 +18,7 @@ func mostrar_cartas() -> void:
 
 	for i: int in range(mazo.size()):
 		var wrapper: Control = Control.new()
-		wrapper.custom_minimum_size = Vector2(135, 185)
+		wrapper.custom_minimum_size = Vector2(130, 180)
 		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
 		add_child(wrapper)
 
@@ -41,6 +41,8 @@ func mostrar_cartas() -> void:
 
 
 func seleccionar_carta(slot: Control, card_node: Node2D, data: CardData, index: int) -> void:
+	if current_selected_wrapper and current_selected_wrapper == slot:
+		return
 	if current_selected_wrapper and current_selected_wrapper != slot:
 		deseleccionar(current_selected_wrapper)
 
@@ -51,14 +53,14 @@ func seleccionar_carta(slot: Control, card_node: Node2D, data: CardData, index: 
 
 	slot.get_node("SelectionBG").visible = true
 
-	card_node.apply_scale_tween(card_node.escala_grande)
+	card_node._on_area_2d_mouse_entered()
 
 
 func deseleccionar(slot: Control) -> void:
 	slot.get_node("SelectionBG").visible = false
 	var card: Node2D = slot.get_child(1)
 	card.selected = false
-	card.apply_scale_tween(card.escala_normal)
+	card._on_area_2d_mouse_exited()
 
 
 func _on_slot_gui_input(event: InputEvent, slot: Control, card_node: Node2D, data: CardData, index: int) -> void:
