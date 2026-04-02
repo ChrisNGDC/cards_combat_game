@@ -6,11 +6,11 @@ var sword: Dictionary = {
 	"tipo": "CARD_OFFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 0
+		"max": 0,
 	},
 	"tipo_danio": "CARD_PHYSICAL",
 	"description": "CARD_SWORD_DESC",
-	"efecto": func(nivel: int) -> int: return 10 + nivel * 10
+	"efecto": func(nivel: int) -> int: return 10 + nivel * 10,
 }
 var shield: Dictionary = {
 	"nombre": "CARD_SHIELD",
@@ -18,11 +18,11 @@ var shield: Dictionary = {
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 3
+		"max": 3,
 	},
 	"tipo_danio": "CARD_NONE",
 	"description": "CARD_SHIELD_DESC",
-	"efecto": func(nivel: int) -> int: return 10 + nivel * 10
+	"efecto": func(nivel: int) -> int: return 10 + nivel * 10,
 }
 var mirror: Dictionary = {
 	"nombre": "CARD_MIRROR",
@@ -30,11 +30,11 @@ var mirror: Dictionary = {
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 0
+		"max": 0,
 	},
 	"tipo_danio": "CARD_NONE",
 	"description": "CARD_MIRROR_DESC",
-	"efecto": print
+	"efecto": print,
 }
 var magic: Dictionary = {
 	"nombre": "CARD_MAGIC",
@@ -42,11 +42,11 @@ var magic: Dictionary = {
 	"tipo": "CARD_OFFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 3
+		"max": 3,
 	},
 	"tipo_danio": "CARD_MAGICAL",
 	"description": "CARD_MAGIC_DESC",
-	"efecto": func(nivel: int) -> int: return 10 + nivel * 5
+	"efecto": func(nivel: int) -> int: return 10 + nivel * 5,
 }
 var potion: Dictionary = {
 	"nombre": "CARD_POTION",
@@ -54,11 +54,11 @@ var potion: Dictionary = {
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 3
+		"max": 3,
 	},
 	"tipo_danio": "CARD_NONE",
 	"description": "CARD_POTION_DESC",
-	"efecto": func(nivel: int) -> int: return 10 + nivel * 15
+	"efecto": func(nivel: int) -> int: return 10 + nivel * 15,
 }
 var stun: Dictionary = {
 	"nombre": "CARD_STUN",
@@ -66,11 +66,11 @@ var stun: Dictionary = {
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 0
+		"max": 0,
 	},
 	"tipo_danio": "CARD_NONE",
 	"description": "CARD_STUN_DESC",
-	"efecto": print
+	"efecto": print,
 }
 
 var cards_classes: Dictionary = {
@@ -79,8 +79,9 @@ var cards_classes: Dictionary = {
 	"CARD_MIRROR": mirror,
 	"CARD_MAGIC": magic,
 	"CARD_POTION": potion,
-	"CARD_STUN": stun
+	"CARD_STUN": stun,
 }
+
 
 func create_card(tipo: String, niveles: Dictionary) -> CardData:
 	if cards_classes.has(tipo):

@@ -7,6 +7,7 @@ extends CanvasLayer
 var result_key: String
 var description_key: String
 
+
 func _ready() -> void:
 	restart_button.pressed.connect(_on_restart_button_pressed)
 	setup(true)
@@ -17,6 +18,7 @@ func set_won() -> void:
 	description_key = "GAMEOVER_WIN_MSG"
 	result_label.add_theme_color_override("font_color", Color.GREEN)
 	description_label.add_theme_color_override("font_color", Color.WHITE)
+
 
 func set_lost() -> void:
 	result_key = "GAMEOVER_LOSS_TITLE"

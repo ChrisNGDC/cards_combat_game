@@ -1,5 +1,6 @@
 extends Label
 
+
 func _ready() -> void:
 	var current_version: String = ProjectSettings.get_setting("application/config/version")
 	if current_version:

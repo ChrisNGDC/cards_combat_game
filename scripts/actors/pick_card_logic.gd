@@ -1,11 +1,12 @@
 class_name PickCardLogic
 
 var matchups: Matchups = Matchups.new()
-var cards_power: Dictionary = {}
+var cards_power: Dictionary = { }
 var cards_to_play: Array = []
 
+
 func get_cards_frequency(cards: Array[CardData]) -> Dictionary:
-	var cards_frequency: Dictionary = {}
+	var cards_frequency: Dictionary = { }
 	for card: CardData in cards:
 		if card.nombre in cards_frequency:
 			cards_frequency[card.nombre] += 1
@@ -18,6 +19,7 @@ func dict_to_sorted_array(dict: Dictionary) -> Array:
 	var keys: Array = dict.keys()
 	keys.sort_custom(func(a: String, b: String) -> bool: return dict[a] > dict[b])
 	return keys
+
 
 func get_cards_by_power(cartas: Array[CardData]) -> void:
 	var cards_frequency: Dictionary = get_cards_frequency(cartas)

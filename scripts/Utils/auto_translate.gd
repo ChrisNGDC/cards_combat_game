@@ -4,19 +4,23 @@ var parent: Node
 var current_key: String = ""
 var current_args: Array = []
 
+
 func _ready() -> void:
 	parent = get_parent()
 	current_key = parent.text
 	_update_translation()
+
 
 func set_translation(key: String, args: Array = []) -> void:
 	current_key = key
 	current_args = args
 	_update_translation()
 
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSLATION_CHANGED and parent:
 		_update_translation()
+
 
 func _update_translation() -> void:
 	if current_key == "" or not parent:

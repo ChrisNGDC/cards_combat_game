@@ -1,4 +1,5 @@
 extends Resource
+
 class_name CardData
 
 @export var nombre: String
@@ -10,6 +11,7 @@ class_name CardData
 @export var description: String
 var efecto: Callable
 
+
 func _init(datos: Dictionary) -> void:
 	self.nombre = datos.nombre
 	self.ruta_imagen = datos.ruta_imagen
@@ -20,11 +22,14 @@ func _init(datos: Dictionary) -> void:
 	self.description = datos.description
 	self.efecto = datos.efecto
 
+
 func upgradeable() -> bool:
 	return nivel_actual < nivel_max
 
+
 func upgrade() -> void:
 	nivel_actual += 1
+
 
 func actuar() -> int:
 	var resultado: int = 0

@@ -12,7 +12,6 @@ extends CanvasLayer
 @onready var blank_selected_deck: Node2D = $MarginContainer/DifficultyUI/HBoxContainer/Control/Deck
 @onready var fight_button: Button = $MarginContainer/DifficultyUI/Fight
 
-
 var dragging: bool = false
 var last_mouse_pos: Vector2 = Vector2()
 var deck_scene: PackedScene = preload("res://scenes/deck.tscn")
@@ -35,6 +34,7 @@ func _ready() -> void:
 	if lista_mazos:
 		crear_mazos_en_pantalla()
 
+
 func crear_mazos_en_pantalla() -> void:
 	for child: Node2D in deck_list.get_children():
 		child.queue_free()
@@ -54,6 +54,7 @@ func crear_mazos_en_pantalla() -> void:
 		wrapper.gui_input.connect(_on_deck_wrapper_input.bind(nuevo_mazo))
 		wrapper.mouse_entered.connect(_on_deck_hover.bind(nuevo_mazo, true))
 		wrapper.mouse_exited.connect(_on_deck_hover.bind(nuevo_mazo, false))
+
 
 func _input(event: InputEvent) -> void:
 	if !viewing_deck:
@@ -104,10 +105,12 @@ func _on_deck_wrapper_input(event: InputEvent, deck_node: Node2D) -> void:
 		select_deck_button.disabled = false
 		view_deck_button.disabled = false
 
+
 func _on_deck_hover(deck_node: Node2D, is_hovering: bool) -> void:
 	var target_scale: Vector2 = escala_grande if is_hovering else escala_normal
 	var tween: Tween = create_tween()
 	tween.tween_property(deck_node, "scale", target_scale, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 
 func _process(_delta: float) -> void:
 	var h_bar: HScrollBar = scroll_container.get_h_scroll_bar()

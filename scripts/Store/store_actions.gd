@@ -7,10 +7,11 @@ extends VBoxContainer
 @onready var add_button: StoreButton = $Footer/Add
 @onready var remove_button: StoreButton = $Footer/Remove
 @onready var upgrade_button: StoreButton = $Footer/Upgrade
-
 @onready var buttons: Array = [add_button, remove_button, upgrade_button]
+
 var player: GamePlayer = GlobalData.player
 var cpu: GameCPU = GlobalData.cpu
+
 
 func _ready() -> void:
 	connect_buttons_signals()
@@ -24,16 +25,19 @@ func connect_buttons_signals() -> void:
 		button.pivot_offset = button.size / 2
 	next_button.pressed.connect(_on_next_round_button_pressed)
 
+
 func _on_mouse_entered(button: Button, description: String) -> void:
 	create_tween().tween_property(button, "scale", Vector2(1.1, 1.1), 0.1)
 	if description_label:
 		description_label.text = tr(description)
+
 
 func _on_mouse_exited() -> void:
 	create_tween().tween_property(self , "scale", Vector2(1.0, 1.0), 0.1)
 	if description_label:
 		description_label.text = ""
 		description_label.add_theme_color_override("font_color", Color.BLACK)
+
 
 func _on_pressed(mode: String) -> void:
 	var selected_card: CardData = shelf.selected_card_data

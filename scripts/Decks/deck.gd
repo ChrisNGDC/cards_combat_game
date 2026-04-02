@@ -5,6 +5,7 @@ extends Node2D
 
 var datos_mazo: DeckData = null
 
+
 func setup(datos: DeckData) -> void:
 	datos_mazo = datos
 	nombre.text = tr(datos_mazo.nombre)

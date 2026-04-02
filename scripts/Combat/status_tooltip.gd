@@ -2,6 +2,7 @@ extends PanelContainer
 
 @onready var descripcion: RichTextLabel = $RichTextLabel
 
+
 func setup(nombre: String, raw_desc: String) -> void:
 	var desc: String = ""
 	match nombre:

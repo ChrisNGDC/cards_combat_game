@@ -38,6 +38,7 @@ var cpu_discard_pos: Vector2
 @onready var see_deck_button: Button = $SeeDeckButton
 @onready var fight_button: Button = $Control/Fight
 
+
 func _ready() -> void:
 	randomize()
 	screen_size = get_viewport_rect().size
@@ -68,7 +69,7 @@ func _ready() -> void:
 	see_deck_button.pressed.connect(_on_see_deck_button_pressed)
 	end_round_button.pressed.connect(_on_end_round_pressed)
 	fight_button.pressed.connect(_on_fight_pressed)
-	end_of_round_update()
+	end_of_combat_update()
 	
 
 func _process(_delta: float) -> void:
@@ -156,8 +157,7 @@ func animar_vuelo_repartida(carta: Node2D, destino: Vector2, flip: bool) -> void
 	carta.z_index = 100
 	carta.show_card(false)
 	carta.scale = carta.escala_normal
-	tween.tween_property(carta, "position", destino, 1.0) \
-	.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(carta, "position", destino, 1.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	tween.tween_property(carta, "rotation", 0, 1.0)
 	if flip:
 		flip_card(carta)
@@ -213,7 +213,9 @@ func flip_card(carta: Node2D) -> void:
 	flip_tween.tween_callback(func() -> void: carta.show_card(true))
 	flip_tween.tween_property(carta, "scale:x", carta.escala_normal.x, 0.5).set_ease(Tween.EASE_OUT)
 
+
 # Combat logic
+
 
 func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 	var primera: Node2D
@@ -242,6 +244,8 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 		primero_en_jugar = player
 		segundo_en_jugar = cpu
 
+	apply_status_effects()
+
 	var primero_can_play: bool = primero_en_jugar.can_play()
 	var segundo_can_play: bool = segundo_en_jugar.can_play()
 
@@ -257,9 +261,6 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 	var both_shield: bool = primera.nombre == "CARD_SHIELD" and segunda.nombre == "CARD_SHIELD"
 	var both_mirror: bool = primera.nombre == "CARD_MIRROR" and segunda.nombre == "CARD_MIRROR"
 
-	print("Primera carta: " + primera.nombre + " Segundo carta: " + segunda.nombre)
-	print("Primero puede jugar: " + str(primero_can_play) + " Segundo puede jugar: " + str(segundo_can_play))
-
 	if not both_shield and not both_mirror:
 		if primero_can_play:
 			if segundo_can_play:
@@ -274,13 +275,15 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 	else:
 		await get_tree().create_timer(1).timeout
 
+
 # Status logic
 
-func end_of_round_update() -> void:
-	update_visual_status()
+
+func end_of_combat_update() -> void:
 	player.reset_turn()
 	cpu.reset_turn()
-	apply_status_effects()
+	update_visual_status()
+	
 
 func update_visual_status() -> void:
 	for child: Control in player_status.get_children():
@@ -298,9 +301,11 @@ func update_visual_status() -> void:
 	player_status.get_parent().title = tr("STATUS") + " (" + str(player.status.size()) + ")"
 	cpu_status.get_parent().title = tr("STATUS") + " (" + str(cpu.status.size()) + ")"
 
+
 func apply_status_effects() -> void:
 	player.apply_status_effects()
 	cpu.apply_status_effects()
+
 
 func play_card(card: Node2D, actor: Character, adversario: Character) -> void:
 	var play_sound: bool = true
@@ -338,6 +343,7 @@ func play_card(card: Node2D, actor: Character, adversario: Character) -> void:
 func cpu_choose_card() -> Node2D:
 	var cpu_choice: Node2D = cpu.pick_card()
 	if cpu_choice:
+		cpu.last_card_played = cpu_choice.datos_carta
 		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
 		await get_tree().create_timer(1.5).timeout
 	return cpu_choice
@@ -350,6 +356,7 @@ func cpu_use_card(cpu_choice: Node2D) -> void:
 	animar_vuelo_repartida(cpu_choice, cpu_discard_pos, false)
 	if cpu.visual_hand.size() < hand_size and cpu.visual_deck.size() > 0:
 		repartir_carta(cpu.visual_deck, cpu.visual_hand, cpu_card_pos, false)
+
 
 func player_use_card(player_choice: Node2D) -> void:
 	var player_card_pos: Vector2 = card_in_slot.anchor_pos
@@ -365,6 +372,7 @@ func _on_fight_pressed() -> void:
 	if fighting or dealing_hand or viewing_deck:
 		return
 	if is_instance_valid(card_in_slot):
+		player.last_card_played = card_in_slot.datos_carta
 		fighting = true
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
 			end_round_button.hide()
@@ -386,7 +394,7 @@ func _on_fight_pressed() -> void:
 		play_card(cpu_choice, cpu, player)
 		cpu_use_card(cpu_choice)
 	fighting = false
-	end_of_round_update()
+	end_of_combat_update()
 	await get_tree().create_timer(0.5).timeout
 	if not check_game_over():
 		if player.visual_hand.size() == 0 and cpu.visual_hand.size() == 0:
@@ -402,6 +410,7 @@ func _on_fight_pressed() -> void:
 
 # Deck viewing logic
 
+
 func _on_see_deck_button_pressed() -> void:
 	if not dealing_hand:
 		viewing_deck = true
@@ -411,11 +420,14 @@ func _on_see_deck_button_pressed() -> void:
 		overlay.closing.connect(_on_overlay_closed)
 		overlay.display_deck(player.visual_deck)
 
+
 func _on_overlay_closed() -> void:
 	viewing_deck = false
 	show_cards_tooltip(true)
 
+
 # Game over logic
+
 
 func check_game_over() -> bool:
 	if player.current_hp > 0 and cpu.current_hp > 0:
@@ -423,6 +435,7 @@ func check_game_over() -> bool:
 	var won: bool = (player.current_hp > 0 and cpu.current_hp <= 0)
 	show_game_over_ui(won)
 	return true
+
 
 func show_game_over_ui(won: bool) -> void:
 	var instance: CanvasLayer = game_over_scene.instantiate()
@@ -435,7 +448,8 @@ func show_game_over_ui(won: bool) -> void:
 		"cpu_deck": {"name": cpu.deck.nombre, "cards": cards_to_save(cpu.deck.cartas)}
 	}
 	SaveManager.save_run(run_data)
-	
+
+
 func cards_to_save(deck: Array[CardData]) -> Array:
 	var deck_cards: Array = []
 	for card: CardData in deck:
@@ -448,7 +462,9 @@ func cards_to_save(deck: Array[CardData]) -> Array:
 		})
 	return deck_cards
 
+
 # End round and transition to store
+
 
 func _on_end_round_pressed() -> void:
 	GlobalData.rounds += 1

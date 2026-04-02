@@ -58,7 +58,7 @@ func play_sound() -> void:
 			AudioManager.play_sfx(potion_sound)
 		"CARD_STUN":
 			AudioManager.play_sfx(stun_sound)
-	
+
 
 func _process(_delta: float) -> void:
 	if current_tooltip:
@@ -67,10 +67,10 @@ func _process(_delta: float) -> void:
 		var tooltip_size: Vector2 = current_tooltip.get_global_rect().size
 		var offset: Vector2 = Vector2(20, 20)
 		if mouse_pos.x + offset.x + tooltip_size.x > screen_size.x:
-			offset.x = - tooltip_size.x
+			offset.x = -tooltip_size.x
 		if mouse_pos.y + offset.y + tooltip_size.y > screen_size.y:
-			offset.y = - tooltip_size.y
-			
+			offset.y = -tooltip_size.y
+
 		current_tooltip.global_position = mouse_pos + offset
 
 
@@ -92,8 +92,9 @@ func show_card(si: bool) -> void:
 func create_tooltip() -> void:
 	current_tooltip = tooltip_scene.instantiate()
 	TooltipManager.add_child(current_tooltip)
-	current_tooltip.setup(self )
+	current_tooltip.setup(self)
 	current_tooltip.hide()
+
 
 func show_tooltip_info(si: bool) -> void:
 	if si:
@@ -113,6 +114,7 @@ func _aplicar_datos() -> void:
 	tipo_danio = datos_carta.tipo_danio
 	update_level_display()
 
+
 func dar_borde() -> void:
 	match tipo:
 		"CARD_OFFENSIVE":
@@ -120,9 +122,11 @@ func dar_borde() -> void:
 		"CARD_DEFENSIVE":
 			borde.self_modulate = COLOR_DEFENSIVO
 
+
 func quitar_borde() -> void:
 	borde.self_modulate = Color(1.0, 1.0, 1.0, 0.0)
-		
+
+
 func update_level_display() -> void:
 	if nivel_max > nivel_actual:
 		if nivel_actual > 0:
@@ -133,6 +137,7 @@ func update_level_display() -> void:
 	else:
 		level_label.text = "Max"
 		level_label.label_settings = gold_style
+
 
 func _on_area_2d_mouse_entered() -> void:
 	if self.card_front.visible:
@@ -154,9 +159,11 @@ func _on_area_2d_mouse_exited() -> void:
 			apply_scale_tween(self.escala_normal)
 		show_tooltip_info(false)
 
+
 func apply_scale_tween(target_scale: Vector2) -> void:
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self , "scale", target_scale, 0.2)
+	tween.tween_property(self, "scale", target_scale, 0.2)
+
 
 func apply_effect() -> int:
 	return datos_carta.actuar()

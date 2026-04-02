@@ -4,6 +4,7 @@ extends Control
 @onready var history_button: Button = $History
 @onready var exit_button: Button = $Exit
 
+
 func _ready() -> void:
 	if OS.has_feature("web"):
 		$Exit.hide()
@@ -11,6 +12,7 @@ func _ready() -> void:
 		exit_button.pressed.connect(_on_exit_pressed)
 	play_button.pressed.connect(_on_play_pressed)
 	history_button.pressed.connect(_on_history_pressed)
+
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
