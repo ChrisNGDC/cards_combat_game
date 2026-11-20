@@ -3,6 +3,7 @@ name: Build and Release Godot Game
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   export_game:
