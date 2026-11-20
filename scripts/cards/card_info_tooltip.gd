@@ -14,7 +14,7 @@ var raw_description_values: Array = []
 func setup(datos: Node2D) -> void:
 	raw_description = datos.datos_carta.description
 	label.get_node("AutoTranslate").set_translation(datos.nombre)
-	level_label.text = "Lvl." + (str(datos.nivel_actual) if datos.nivel_actual < datos.nivel_max else "Max" )
+	level_label.text = tr("CARD_LEVEL") + (str(datos.nivel_actual) if datos.nivel_actual < datos.nivel_max else tr("CARD_MAX"))
 	level_label.modulate = gold_style.font_color if datos.nivel_actual == datos.nivel_max else basic_style.font_color
 	match datos.nombre:
 		"CARD_SWORD":

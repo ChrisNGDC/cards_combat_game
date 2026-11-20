@@ -34,12 +34,14 @@ CARD_DEFENSIVE,Defensive,Defensiva
 CARD_PHYSICAL,Physical,Físico
 CARD_MAGICAL,Magical,Mágico
 CARD_NONE,None,Ninguno
+CARD_LEVEL,Lvl.,Nv.
+CARD_MAX,Max,Máx
 CARD_SWORD_DESC,Deal [color=%s]%d[/color] Physical damage to the enemy.,Inflige [color=%s]%d[/color] de daño Físico al enemigo.
 CARD_MAGIC_DESC,Deal [color=%s]%d[/color] Magic damage to the enemy and inflict Burn.,Inflige [color=%s]%d[/color] de daño Mágico al enemigo y causa Quemadura.
 CARD_SHIELD_DESC,Block [color=%s]%d[/color] Physical damage.,Bloquea [color=%s]%d[/color] de daño Físico.
-CARD_MIRROR_DESC,Reflect all Magic damage back to the enemy.,Refleja todo el daño Mágico de vuelta al enemigo.
+CARD_MIRROR_DESC,Reflect the next Magic attack back to the enemy.,Refleja el siguiente ataque Mágico de vuelta al enemigo.
 CARD_POTION_DESC,Heal [color=%s]%d[/color] HP and gives Regeneration.,Cura [color=%s]%d[/color] de vida y otorga Regeneración.
-CARD_STUN_DESC,"If not attacked, stun the enemy and cancel it's next card.","Si no eres atacado, aturde al enemigo y cancelar su siguiente carta."
+CARD_STUN_DESC,"If not attacked, stun the enemy and cancel its next card.","Si no eres atacado, aturde al enemigo y cancelar su siguiente carta."
 STATUS,Status,Estado
 STATUS_STUN,Stunned,Aturdido
 STATUS_STUN_DESC,Next card will have no effect.,La siguiente carta no tendrá efecto.
@@ -56,7 +58,7 @@ STORE_GUIDE,"Select a card to add, remove or upgrade.","Selecciona una carta par
 STORE_ADD,Card Added,Carta Añadida
 STORE_REMOVE,Card Removed,Carta Removida
 STORE_UPGRADE,Card Upgraded,Carta Mejorada
-STORE_ADD_MSG,Add same basic card,Añadir una copia basica
+STORE_ADD_MSG,Add same basic card,Añadir una copia básica
 STORE_REMOVE_MSG,Remove Card,Remover carta
 STORE_UPGRADE_MSG,Upgrade card effect,Mejorar efecto de carta
 STORE_INVALID_UPGRADE,Not Upgradeable,No mejorable
