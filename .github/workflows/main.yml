@@ -4,10 +4,16 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump type"
+        type: choice
+        options: [patch, minor, major]
+        default: patch
 
 jobs:
   export_game:
-    if: startsWith(github.event.head_commit.message, 'build')
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'build')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -24,6 +30,9 @@ jobs:
         run: |
           VERSION=$(grep '^config/version=' project.godot | cut -d'"' -f2)
           MSG="${{ github.event.head_commit.message }}"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            MSG="build-${{ inputs.bump }}"
+          fi
           IFS='.' read -r V_MAJOR V_MINOR V_PATCH <<< "$VERSION"
           
           if [[ "$MSG" == *"build-major"* ]]; then
