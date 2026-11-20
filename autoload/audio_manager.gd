@@ -3,19 +3,25 @@ extends Node
 const MASTER_BUS_NAME: String = "Master"
 const MUSIC_BUS_NAME: String = "Music"
 const SOUND_EFFECTS_BUS_NAME: String = "SFX"
+const MAIN_MUSIC: AudioStream = preload("res://music/main_theme.ogg")
 
 var master_bus_index: int = AudioServer.get_bus_index(MASTER_BUS_NAME)
 var music_bus_index: int = AudioServer.get_bus_index(MUSIC_BUS_NAME)
 var sfx_bus_index: int = AudioServer.get_bus_index(SOUND_EFFECTS_BUS_NAME)
 
 var music_player: AudioStreamPlayer = AudioStreamPlayer.new()
-var main_music: Resource = load("res://music/main_theme.ogg")
 
 
 func _ready() -> void:
 	add_child(music_player)
 	music_player.bus = MUSIC_BUS_NAME
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	play_main_theme()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		music_player.stop()
 
 
 func play_bgm(stream: AudioStream) -> void:
@@ -26,20 +32,20 @@ func play_bgm(stream: AudioStream) -> void:
 
 
 func play_main_theme() -> void:
-	play_bgm(main_music)
+	play_bgm(MAIN_MUSIC)
 
 
 func play_sfx(stream: AudioStream) -> void:
 	var instance: AudioStreamPlayer = AudioStreamPlayer.new()
 	instance.stream = stream
-	instance.bus = "SFX"
+	instance.bus = SOUND_EFFECTS_BUS_NAME
 	add_child(instance)
 	instance.play()
 	instance.finished.connect(instance.queue_free)
 
 
 func get_volume(bus_index: int) -> float:
-	return db_to_linear(AudioServer.get_bus_volume_db(bus_index)) * 2.5
+	return db_to_linear(AudioServer.get_bus_volume_db(bus_index))
 
 
 func get_master_volume() -> float:
@@ -55,7 +61,7 @@ func get_sfx_volume() -> float:
 
 
 func set_volume(bus_index: int, value: float) -> void:
-	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value / 2.5))
+	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
 	AudioServer.set_bus_mute(bus_index, value < 0.01)
 
 

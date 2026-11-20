@@ -19,7 +19,9 @@ var cpu_mazo_pos: Vector2
 var hand_size: int = 4
 var last_hand_pos: int = 0
 var fighting: bool
-var dealing_hand: bool
+var dealing_count: int = 0
+var ending_round: bool = false
+var slot_highlighted: bool = false
 var card_size: Vector2
 var anchor_rect: Rect2
 var return_tween: Tween
@@ -31,6 +33,8 @@ var cpu_discard_pos: Vector2
 
 @onready var player_status: HFlowContainer = $PlayerStatus/StatusContainer
 @onready var cpu_status: HFlowContainer = $CPUStatus/StatusContainer
+@onready var player_status_panel: FoldableContainer = $PlayerStatus
+@onready var cpu_status_panel: FoldableContainer = $CPUStatus
 @onready var player_card_slot: Sprite2D = $PlayerSlot
 @onready var cpu_card_slot: Sprite2D = $CPUSlot
 @onready var end_round_button: Button = $Control/EndRound
@@ -76,16 +80,18 @@ func _process(_delta: float) -> void:
 	if card_being_dragged:
 		card_being_dragged.position = get_global_mouse_position()
 		var card_rect: Rect2 = Rect2(card_being_dragged.global_position - (card_size / 2), card_size)
-		var debe_resaltar: bool = card_being_dragged and card_rect.intersects(player_slot_rect)
-		var target_color: Color = highlight_color if debe_resaltar else normal_color
-		var target_scale: Vector2 = slot_scale * 1.2 if debe_resaltar else slot_scale
-		if player_card_slot.modulate != target_color:
-			var tween: Tween = get_tree().create_tween()
+		var debe_resaltar: bool = card_rect.intersects(player_slot_rect)
+		if debe_resaltar != slot_highlighted:
+			slot_highlighted = debe_resaltar
+			var target_color: Color = highlight_color if debe_resaltar else normal_color
+			var target_scale: Vector2 = slot_scale * 1.2 if debe_resaltar else slot_scale
 			player_card_slot.modulate = target_color
+			var tween: Tween = get_tree().create_tween()
 			tween.tween_property(player_card_slot, "scale", target_scale, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	else:
-		var tween: Tween = get_tree().create_tween()
+	elif slot_highlighted:
+		slot_highlighted = false
 		player_card_slot.modulate = normal_color
+		var tween: Tween = get_tree().create_tween()
 		tween.tween_property(player_card_slot, "scale", slot_scale, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		
 
@@ -145,11 +151,11 @@ func repartir_carta(mazo: Array[Node2D], mano: Array[Node2D], pos: Vector2, es_j
 
 
 func repartir_mano(mazo: Array[Node2D], mano: Array[Node2D], es_jugador: bool) -> void:
-	dealing_hand = true
+	dealing_count += 1
 	for i: int in range(min(hand_size, mazo.size())):
 		repartir_carta(mazo, mano, Vector2(0, 0), es_jugador)
 		await get_tree().create_timer(0.75).timeout
-	dealing_hand = false
+	dealing_count -= 1
 
 
 func animar_vuelo_repartida(carta: Node2D, destino: Vector2, flip: bool) -> void:
@@ -168,7 +174,7 @@ func animar_vuelo_repartida(carta: Node2D, destino: Vector2, flip: bool) -> void
 
 func check_drop_card() -> void:
 	var card_rect: Rect2 = Rect2(card_being_dragged.global_position - (card_size / 2), card_size)
-	if card_rect.intersects(player_slot_rect) and not fighting and not dealing_hand:
+	if card_rect.intersects(player_slot_rect) and not fighting and dealing_count == 0:
 		var tween: Tween = get_tree().create_tween()
 		tween.tween_property(card_being_dragged, "position", player_slot_pos, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		if !card_in_slot:
@@ -196,8 +202,10 @@ func check_card_click() -> Node2D:
 	parameters.collide_with_areas = true
 	parameters.collision_mask = 1
 	var result: Array[Dictionary] = space_state.intersect_point(parameters)
-	if result.size() > 0:
-		return result[0].collider.get_parent()
+	for hit: Dictionary in result:
+		var card: Node = hit.collider.get_parent()
+		if card.is_in_group("cards"):
+			return card as Node2D
 	return null
 
 
@@ -290,16 +298,16 @@ func update_visual_status() -> void:
 		child.queue_free()
 	for child: Control in cpu_status.get_children():
 		child.queue_free()
-	for status: StatusData in player.status:
+	for status: StatusData in player.status_effects:
 		var status_icon: Panel = status_scene.instantiate()
 		status_icon.setup(status)
 		player_status.add_child(status_icon)
-	for status: StatusData in cpu.status:
+	for status: StatusData in cpu.status_effects:
 		var status_icon: Panel = status_scene.instantiate()
 		status_icon.setup(status)
 		cpu_status.add_child(status_icon)
-	player_status.get_parent().title = tr("STATUS") + " (" + str(player.status.size()) + ")"
-	cpu_status.get_parent().title = tr("STATUS") + " (" + str(cpu.status.size()) + ")"
+	player_status_panel.title = tr("STATUS") + " (" + str(player.status_effects.size()) + ")"
+	cpu_status_panel.title = tr("STATUS") + " (" + str(cpu.status_effects.size()) + ")"
 
 
 func apply_status_effects() -> void:
@@ -369,7 +377,7 @@ func player_use_card(player_choice: Node2D) -> void:
 	
 
 func _on_fight_pressed() -> void:
-	if fighting or dealing_hand or viewing_deck:
+	if fighting or dealing_count > 0 or viewing_deck:
 		return
 	if is_instance_valid(card_in_slot):
 		player.last_card_played = card_in_slot.datos_carta
@@ -382,16 +390,22 @@ func _on_fight_pressed() -> void:
 			await combat(card_in_slot, cpu_choice)
 			cpu_use_card(cpu_choice)
 		else:
-			play_card(card_in_slot, player, cpu)
+			cpu.last_card_played = null
+			apply_status_effects()
+			if player.can_play():
+				await play_card(card_in_slot, player, cpu)
 		player_use_card(card_in_slot)
 		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
-				end_round_button.show()
-				end_round_warning.show()
-				see_deck_button.hide()
+			end_round_button.show()
+			end_round_warning.show()
+			see_deck_button.hide()
 	elif player.visual_hand.size() == 0 and cpu.visual_hand.size() > 0:
 		fighting = true
+		player.last_card_played = null
 		var cpu_choice: Node2D = await cpu_choose_card()
-		play_card(cpu_choice, cpu, player)
+		apply_status_effects()
+		if cpu.can_play():
+			await play_card(cpu_choice, cpu, player)
 		cpu_use_card(cpu_choice)
 	fighting = false
 	end_of_combat_update()
@@ -412,7 +426,7 @@ func _on_fight_pressed() -> void:
 
 
 func _on_see_deck_button_pressed() -> void:
-	if not dealing_hand:
+	if dealing_count == 0:
 		viewing_deck = true
 		show_cards_tooltip(false)
 		var overlay: CanvasLayer = overlay_scene.instantiate()
@@ -450,8 +464,8 @@ func show_game_over_ui(won: bool) -> void:
 	SaveManager.save_run(run_data)
 
 
-func cards_to_save(deck: Array[CardData]) -> Array:
-	var deck_cards: Array = []
+func cards_to_save(deck: Array[CardData]) -> Array[Dictionary]:
+	var deck_cards: Array[Dictionary] = []
 	for card: CardData in deck:
 		deck_cards.append({
 			"tipo": card.nombre,
@@ -467,6 +481,9 @@ func cards_to_save(deck: Array[CardData]) -> Array:
 
 
 func _on_end_round_pressed() -> void:
+	if ending_round:
+		return
+	ending_round = true
 	GlobalData.rounds += 1
 	await get_tree().create_timer(.5).timeout
 	GlobalData.player.reset_round()

@@ -51,22 +51,31 @@ func pick_complex_card() -> Node2D:
 
 
 func add_card_to_deck(_card: CardData = null) -> void:
+	if deck.cartas.is_empty():
+		return
 	var card: CardData = deck.cartas.pick_random()
 	super(card)
 
 
 func remove_card_from_deck(_index: int = -1) -> void:
+	if deck.cartas.is_empty():
+		return
 	var index: int = randi() % deck.cartas.size()
 	super(index)
 
 
 func choose_card_to_upgrade() -> int:
-	var card_pos: int = randi() % deck.cartas.size()
-	while not deck.cartas[card_pos].upgradeable():
-		card_pos = randi() % deck.cartas.size()
-	return card_pos
+	var upgradeables: Array[int] = []
+	for i: int in range(deck.cartas.size()):
+		if deck.cartas[i].upgradeable():
+			upgradeables.append(i)
+	if upgradeables.is_empty():
+		return -1
+	return upgradeables.pick_random()
 
 
 func upgrade_card_in_deck(_index: int = -1) -> void:
 	var index: int = choose_card_to_upgrade()
+	if index == -1:
+		return
 	super(index)
