@@ -37,9 +37,9 @@ func animar_cambio_vida(barra: TextureProgressBar, nuevo_valor: int) -> void:
 func animar_cambio_cant_vida(es_jugador: bool, nuevo_valor: int) -> void:
 	var tween: Tween = create_tween()
 	if es_jugador:
-		tween.tween_property(self , "player_display_hp", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(self, "player_display_hp", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	else:
-		tween.tween_property(self , "cpu_display_hp", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(self, "cpu_display_hp", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func setup_hp() -> void:

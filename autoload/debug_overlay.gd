@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var settings_panel: PanelContainer = $SettingsPanel
 
 @onready var video_label: RichTextLabel = $SettingsPanel/SettingsContainer/VideoContainer/VideoLabel
-@onready var res_button: Button = $SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer/ResolutionButton
+@onready var res_button: OptionButton = $SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer/ResolutionButton
 @onready var fullscreen_button: Button = $SettingsPanel/SettingsContainer/VideoContainer/ResolutionContainer/FullscreenButton
 @onready var audio_label: RichTextLabel = $SettingsPanel/SettingsContainer/AudioContainer/AudioLabel
 @onready var master_slider: HSlider = $SettingsPanel/SettingsContainer/AudioContainer/MasterContainer/MasterSlider
@@ -15,7 +15,7 @@ extends CanvasLayer
 @onready var sfx_slider: HSlider = $SettingsPanel/SettingsContainer/AudioContainer/SFXContainer/SFXSlider
 @onready var sfx_slider_value: Label = $SettingsPanel/SettingsContainer/AudioContainer/SFXContainer/ValueLabel
 @onready var lang_label: RichTextLabel = $SettingsPanel/SettingsContainer/LanguageContainer/LanguageLabel
-@onready var lang_button: Button = $SettingsPanel/SettingsContainer/LanguageContainer/LanguageButton
+@onready var lang_button: OptionButton = $SettingsPanel/SettingsContainer/LanguageContainer/LanguageButton
 
 @onready var close_button: Button = $SettingsPanel/CloseButton
 @onready var exit_button: Button = $SettingsPanel/SettingsContainer/ExitButton
@@ -47,7 +47,6 @@ func _ready() -> void:
 	master_slider.value = AudioManager.get_master_volume()
 	music_slider.value = AudioManager.get_music_volume()
 	sfx_slider.value = AudioManager.get_sfx_volume()
-	AudioManager.play_main_theme()
 	connect_signals()
 
 
