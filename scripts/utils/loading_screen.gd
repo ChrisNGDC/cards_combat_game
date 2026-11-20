@@ -1,17 +1,28 @@
 extends CanvasLayer
 
+# --- Signals ---
 signal loading_screen_ready
 
-@export var animation_player: AnimationPlayer
-@export var progress_bar: ProgressBar
+# --- Node References ---
+@onready var panel: Panel = $Panel
+@onready var progress_bar: ProgressBar = $MarginContainer/ProgressBar
 
 
+# --- Virtual Methods ---
 func _ready() -> void:
-	await animation_player.animation_finished
+	panel.modulate = Color(1, 1, 1, 0)
+	panel.scale = Vector2.ZERO
+	panel.rotation = -TAU
+	var tween: Tween = create_tween().set_parallel(true)
+	tween.tween_property(panel, "modulate", Color(0, 0, 0, 1), 0.5)
+	tween.tween_property(panel, "scale", Vector2.ONE, 0.5)
+	tween.tween_property(panel, "rotation", 0.0, 0.5)
+	await tween.finished
 	progress_bar.modulate.a = 1
 	loading_screen_ready.emit()
 
 
+# --- Signal Callbacks ---
 func on_progress_changed(progress: float) -> void:
 	progress_bar.value = progress
 
@@ -19,10 +30,16 @@ func on_progress_changed(progress: float) -> void:
 func on_load_finished() -> void:
 	await get_tree().create_timer(.3).timeout
 	progress_bar_transition()
-	animation_player.play_backwards("transition")
-	await animation_player.animation_finished
+
+	var tween: Tween = create_tween().set_parallel(true)
+	tween.tween_property(panel, "modulate", Color(1, 1, 1, 0), 0.5)
+	tween.tween_property(panel, "scale", Vector2.ZERO, 0.5)
+	tween.tween_property(panel, "rotation", -TAU, 0.5)
+	await tween.finished
 	queue_free()
 
 
+# --- Internal Logic ---
 func progress_bar_transition() -> void:
-	create_tween().tween_property(progress_bar, "modulate:a", 0, 0.3).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	var tween: Tween = create_tween()
+	tween.tween_property(progress_bar, "modulate:a", 0, 0.3).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)

@@ -1,21 +1,27 @@
 extends HFlowContainer
 
 var card_scene: PackedScene = preload("res://scenes/card.tscn")
+var wrapper_size: Vector2 = Vector2(104, 154)
 
 
-func mostrar_cartas(mazo: Array[CardData]) -> void:
+func mostrar_cartas(mazo: Array[CardData] = []) -> void:
 	for child: Node in get_children():
 		child.queue_free()
-	
-	for carta: CardData in mazo:
-		var wrapper: Control = Control.new()
-		wrapper.custom_minimum_size = Vector2(104, 154)
-		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
-		add_child(wrapper)
-		
-		var nueva_carta: Node2D = card_scene.instantiate()
-		wrapper.add_child(nueva_carta)
-		nueva_carta.setup(carta, true)
-		nueva_carta.show_card(true)
-		nueva_carta.dar_borde()
-		nueva_carta.position = wrapper.custom_minimum_size / 2
+
+	for i: int in range(mazo.size()):
+		_crear_wrapper(mazo[i], i)
+
+
+func _crear_wrapper(carta: CardData, _index: int) -> Control:
+	var wrapper: Control = Control.new()
+	wrapper.custom_minimum_size = wrapper_size
+	wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
+	add_child(wrapper)
+
+	var nueva_carta: Node2D = card_scene.instantiate()
+	wrapper.add_child(nueva_carta)
+	nueva_carta.setup(carta, true)
+	nueva_carta.show_card(true)
+	nueva_carta.dar_borde()
+	nueva_carta.position = wrapper.custom_minimum_size / 2
+	return wrapper
