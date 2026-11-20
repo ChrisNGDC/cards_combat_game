@@ -14,7 +14,7 @@ config/name="cards_combat_game"
 config/version="0.9.3"
 config/tags=PackedStringArray("2d", "cards", "deck", "game")
 run/main_scene="uid://cduyerybdtq7u"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="uid://dpe8ixn4tq0o0"
 
 [autoload]
@@ -52,13 +52,8 @@ theme/custom_font="uid://bkmp6cbx1sym3"
 
 locale/translations=PackedStringArray("res://resources/translations.en.translation", "res://resources/translations.es.translation")
 
-[physics]
-
-3d/physics_engine="Jolt Physics"
-
 [rendering]
 
-rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
