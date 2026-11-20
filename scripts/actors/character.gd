@@ -14,7 +14,6 @@ var deck: DeckData = null
 var last_card_played: CardData = null
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
-var visual_discard: Array[Node2D] = []
 var status_effects: Array[StatusData] = []
 
 # Setup
@@ -34,7 +33,7 @@ func set_initial_hp() -> void:
 
 func set_hp(value: int) -> void:
 	current_hp = clamp(value, 0, max_hp)
-	emit_signal("hp_changed", current_hp, is_player)
+	hp_changed.emit(current_hp, is_player)
 
 # Status management
 
@@ -120,7 +119,8 @@ func add_card_to_hand(card: Node2D) -> void:
 
 func remove_card_from_hand(card: Node2D) -> void:
 	visual_hand.erase(card)
-	card.queue_free()
+	if is_instance_valid(card):
+		card.queue_free()
 
 # Visual Deck management
 
@@ -131,7 +131,8 @@ func add_card_to_visual_deck(card: Node2D) -> void:
 
 func remove_card_from_visual_deck(card: Node2D) -> void:
 	visual_deck.erase(card)
-	card.queue_free()
+	if is_instance_valid(card):
+		card.queue_free()
 
 # Combat management
 

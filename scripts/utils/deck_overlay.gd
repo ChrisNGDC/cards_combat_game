@@ -23,6 +23,9 @@ func display_history_deck(deck_data: Dictionary) -> void:
 	var cartas: Array[CardData] = []
 	for card_info: Dictionary in deck_data.cards:
 		var nueva_carta: CardData = CardManager.create_card(card_info.tipo, card_info.niveles)
+		if nueva_carta == null:
+			push_warning("Unknown card type in saved deck: " + str(card_info.tipo))
+			continue
 		cartas.append(nueva_carta)
 	
 	update_name(deck_data.name)

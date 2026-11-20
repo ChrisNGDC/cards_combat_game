@@ -17,12 +17,17 @@ func display_history() -> void:
 		child.queue_free()
 		
 	var history: Array = SaveManager.load_history()
-	for run: Dictionary in history:
-		if run["player_deck"] is not Dictionary:
+	for run: Variant in history:
+		if run is not Dictionary:
+			continue
+		var entry_data: Dictionary = run
+		if not (entry_data.has("date") and entry_data.has("won") and entry_data.has("player_deck") and entry_data.has("cpu_deck")):
+			continue
+		if entry_data["player_deck"] is not Dictionary:
 			continue
 		var entry: HBoxContainer = entry_scene.instantiate()
 		list.add_child(entry)
-		entry.setup(run)
+		entry.setup(entry_data)
 		entry.show_deck_requested.connect(_on_show_deck_requested)
 
 

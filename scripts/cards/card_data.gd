@@ -28,7 +28,7 @@ func upgradeable() -> bool:
 
 
 func upgrade() -> void:
-	nivel_actual += 1
+	nivel_actual = mini(nivel_actual + 1, nivel_max)
 
 
 func actuar() -> int:

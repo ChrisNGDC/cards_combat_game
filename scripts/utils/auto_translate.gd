@@ -7,7 +7,8 @@ var current_args: Array = []
 
 func _ready() -> void:
 	parent = get_parent()
-	current_key = parent.text
+	if current_key == "":
+		current_key = parent.text
 	_update_translation()
 
 

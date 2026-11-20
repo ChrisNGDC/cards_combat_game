@@ -74,7 +74,11 @@ func create_deck(tipo: String) -> DeckData:
 	if decks_classes.has(tipo):
 		var cartas: Array[CardData] = []
 		for carta: Dictionary in decks_classes[tipo]["cartas"]:
-			cartas.append(CardManager.create_card(carta["tipo"], carta["niveles"]))
+			var nueva_carta: CardData = CardManager.create_card(carta["tipo"], carta["niveles"])
+			if nueva_carta == null:
+				push_warning("Unknown card type in deck definition: " + str(carta["tipo"]))
+				continue
+			cartas.append(nueva_carta)
 		var nuevo_mazo: DeckData = DeckData.new(decks_classes[tipo], cartas)
 		return nuevo_mazo
 	return null

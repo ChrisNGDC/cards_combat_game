@@ -6,7 +6,7 @@ var sword: Dictionary = {
 	"tipo": "CARD_OFFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 0,
+		"max": 3,
 	},
 	"tipo_danio": "CARD_PHYSICAL",
 	"description": "CARD_SWORD_DESC",
@@ -34,7 +34,7 @@ var mirror: Dictionary = {
 	},
 	"tipo_danio": "CARD_NONE",
 	"description": "CARD_MIRROR_DESC",
-	"efecto": print,
+	"efecto": func(_nivel: int) -> int: return 0,
 }
 var magic: Dictionary = {
 	"nombre": "CARD_MAGIC",
@@ -54,7 +54,7 @@ var potion: Dictionary = {
 	"tipo": "CARD_DEFENSIVE",
 	"niveles": {
 		"actual": 0,
-		"max": 3,
+		"max": 2,
 	},
 	"tipo_danio": "CARD_NONE",
 	"description": "CARD_POTION_DESC",
@@ -70,7 +70,7 @@ var stun: Dictionary = {
 	},
 	"tipo_danio": "CARD_NONE",
 	"description": "CARD_STUN_DESC",
-	"efecto": print,
+	"efecto": func(_nivel: int) -> int: return 0,
 }
 
 var cards_classes: Dictionary = {

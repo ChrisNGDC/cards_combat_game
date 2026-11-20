@@ -8,7 +8,7 @@ extends CanvasLayer
 @onready var right_arrow: TextureRect = $MarginContainer/SelectionUI/HBoxDecks/RightArrow
 @onready var selection_ui: Control = $MarginContainer/SelectionUI
 @onready var difficulty_ui: Control = $MarginContainer/DifficultyUI
-@onready var difficulty_selection: Button = $MarginContainer/DifficultyUI/HBoxContainer/DifficultySelection
+@onready var difficulty_selection: OptionButton = $MarginContainer/DifficultyUI/HBoxContainer/DifficultySelection
 @onready var blank_selected_deck: Node2D = $MarginContainer/DifficultyUI/HBoxContainer/Control/Deck
 @onready var fight_button: Button = $MarginContainer/DifficultyUI/Fight
 
@@ -22,6 +22,7 @@ var escala_normal: Vector2 = Vector2(0.25, 0.25)
 var escala_grande: Vector2 = Vector2(0.3, 0.3)
 var viewing_deck: bool = false
 var difficulty: String
+var starting_fight: bool = false
 
 
 func _ready() -> void:
@@ -36,7 +37,7 @@ func _ready() -> void:
 
 
 func crear_mazos_en_pantalla() -> void:
-	for child: Node2D in deck_list.get_children():
+	for child: Node in deck_list.get_children():
 		child.queue_free()
 		
 	for nombre: String in lista_mazos:
@@ -76,7 +77,10 @@ func _on_select_deck_button_pressed() -> void:
 
 
 func _on_fight_pressed() -> void:
+	if starting_fight:
+		return
 	if difficulty_selection.selected != 0:
+		starting_fight = true
 		var player_deck: DeckData = DeckManager.create_deck(selected_deck.datos_mazo.nombre)
 		var cpu_deck: DeckData = DeckManager.create_deck(lista_mazos.pick_random())
 		GlobalData.player._setup({"deck": player_deck})
