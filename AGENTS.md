@@ -4,7 +4,7 @@ Godot 4.7 2D card-combat game (PvE, card-vs-card matchups). GDScript only — ne
 
 ## Hard rules
 
-- Explicit static types on every var, param, return, and loop iterator. No `:=`, no untyped declarations (project.godot warns on both).
+- Explicit static types on every var, param, return, and loop iterator. No `:=`, no untyped declarations (project.godot errors on both).
 - String keys, not enums: `"CARD_*"`, `"STATUS_*"`, `"DECK_*"` via `@export_enum`.
 - Mixed Spanish/English identifiers (nombre, mazo, cartas, repartir_mano) are deliberate — match local naming, never rename.
 - Card/deck/status definitions are hardcoded Dictionaries with Callable effects in autoloads (CardManager, DeckManager, StatusManager) — not .tres or CSV data files.

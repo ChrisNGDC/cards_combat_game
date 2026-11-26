@@ -62,7 +62,7 @@ Full flow, numbers, and content checklists: read `references/combat-and-content.
 
 ## Conventions
 
-- Explicit static types everywhere — vars, params, returns, loop iterators (`for card: CardData in ...`). No `:=`, no untyped declarations (project.godot warns on both; narrowing_conversion deliberately off).
+- Explicit static types everywhere — vars, params, returns, loop iterators (`for card: CardData in ...`). No `:=`, no untyped declarations (project.godot errors on both; narrowing_conversion deliberately off).
 - snake_case files/vars/funcs; UPPER_SNAKE consts. Mixed Spanish/English identifiers are deliberate (nombre, mazo, cartas, repartir_mano, si, es_jugador). Match local naming; never rename.
 - `@onready` typed node refs; `preload` as UPPER_SNAKE `const` at top of file. Comments only when they explain something not obvious from reading the code for a few seconds; no section/doc comments.
 - Characters initialize via `_setup(params: Dictionary)`; instantiated scenes via `setup(...)`.

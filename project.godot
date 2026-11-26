@@ -32,8 +32,8 @@ StatusManager="*uid://fc804bnbqvbr"
 
 [debug]
 
-gdscript/warnings/untyped_declaration=1
-gdscript/warnings/inferred_declaration=1
+gdscript/warnings/untyped_declaration=2
+gdscript/warnings/inferred_declaration=2
 gdscript/warnings/narrowing_conversion=0
 
 [display]
