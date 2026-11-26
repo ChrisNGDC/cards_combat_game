@@ -82,4 +82,4 @@ Full flow, numbers, and content checklists: read `references/combat-and-content.
 
 ## Verification
 
-No test suite. Run the project in Godot after changes (headless smoke check if godot is on PATH: `godot --headless --path . --quit-after 2`) and watch for script errors. Engine API questions: use the godot-4-gdscript skill. UI/animation: use godot-card-ui.
+GdUnit4 v6.2.3 suite in `tests/` (unit, integration, smoke). Run it headless: `godot --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd --add res://tests --ignoreHeadlessMode --continue` (exit ≠ 0 on failure; reports in `reports/`). Also run the smoke check `godot --headless --path . --quit-after 2` and watch for script errors. CI job `tests` runs on every push/PR to main, independent of the `build` release gate. Engine API questions: use the godot-4-gdscript skill. UI/animation: use godot-card-ui.

@@ -25,4 +25,4 @@ Project skills in `.qoder/skills` carry the full knowledge:
 
 ## Verification
 
-No test suite. After script changes, run the project in Godot (headless smoke check if godot is on PATH: `godot --headless --path . --quit-after 2`) and check for script errors before claiming success.
+GdUnit4 v6.2.3 suite in `tests/` (unit, integration, smoke). Run it headless: `godot --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd --add res://tests --ignoreHeadlessMode --continue` (exit ≠ 0 on failure; reports in `reports/`). Also run the smoke check `godot --headless --path . --quit-after 2` and check for script errors before claiming success. The CI job `tests` runs on every push/PR to main, independent of the `build` release gate.

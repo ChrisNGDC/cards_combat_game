@@ -3,6 +3,8 @@ name: Build and Release Godot Game
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       bump:
@@ -12,6 +14,40 @@ on:
         default: patch
 
 jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v5
+
+      - name: Install Godot 4.7.2
+        run: |
+          curl -L -o godot.zip "https://downloads.godotengine.org/?version=4.7.2&flavor=stable&slug=linux.x86_64.zip&platform=linux.64"
+          unzip -q godot.zip -d godot
+          GODOT_BIN=$(find godot -maxdepth 1 -type f -name 'Godot*' | head -n 1)
+          chmod +x "$GODOT_BIN"
+          echo "GODOT_BIN=$GODOT_BIN" >> "$GITHUB_ENV"
+
+      - name: Import project
+        run: |
+          "$GODOT_BIN" --headless --path . --import || true
+
+      - name: Smoke check
+        run: |
+          "$GODOT_BIN" --headless --path . --quit-after 2
+
+      - name: Run GdUnit4 tests
+        run: |
+          "$GODOT_BIN" --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd --add res://tests --ignoreHeadlessMode --continue
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: reports/
+
   export_game:
     if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'build')
     runs-on: ubuntu-latest
