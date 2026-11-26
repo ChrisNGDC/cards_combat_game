@@ -69,6 +69,21 @@ func test_game_over_ui_traduce_resultado() -> void:
 	assert_str(etiqueta.text).is_equal(tr("GAMEOVER_WIN_TITLE"))
 
 
+func test_game_over_ui_ready_no_aplica_resultado() -> void:
+	# Regresion A3: _ready() no debe llamar setup() ni aplicar estado de victoria
+	var ui: CanvasLayer = auto_free(load("res://scenes/game_over_ui.tscn").instantiate())
+	add_child(ui)
+	await get_tree().process_frame
+	assert_str(ui.result_key).is_empty()
+	assert_str(ui.description_key).is_empty()
+	var etiqueta: Label = ui.get_node("CenterContainer/VBoxContainer/ResultLabel")
+	assert_bool(etiqueta.has_theme_color_override("font_color")).is_false()
+	ui.setup(false)
+	assert_str(ui.result_key).is_equal("GAMEOVER_LOSS_TITLE")
+	assert_str(etiqueta.text).is_equal(tr("GAMEOVER_LOSS_TITLE"))
+	assert_bool(etiqueta.has_theme_color_override("font_color")).is_true()
+
+
 func test_loading_screen_emite_ready_solo_con_tweens() -> void:
 	var pantalla: CanvasLayer = auto_free(load("res://scenes/loading_screen.tscn").instantiate())
 	add_child(pantalla)
