@@ -4,6 +4,7 @@ extends VBoxContainer
 # --- Variables ---
 var player: GamePlayer = GlobalData.player
 var cpu: GameCPU = GlobalData.cpu
+var transaction_done: bool = false
 
 # --- UI Elements ---
 @onready var shelf: Control = $ScrollContainer/ItemShelf
@@ -33,7 +34,7 @@ func _on_mouse_entered(button: Button, description: String) -> void:
 func _on_mouse_exited(button: Button) -> void:
 	create_tween().tween_property(button, "scale", Vector2(1.0, 1.0), 0.1)
 	
-	if description_label:
+	if description_label and not transaction_done:
 		description_label.text = ""
 		description_label.add_theme_color_override("font_color", Color.BLACK)
 
@@ -95,6 +96,7 @@ func connect_buttons_signals() -> void:
 
 
 func finalize_transaction(mode: String) -> void:
+	transaction_done = true
 	if footer_node:
 		footer_node.visible = false
 	

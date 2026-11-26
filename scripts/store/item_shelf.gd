@@ -25,6 +25,9 @@ func _on_slot_gui_input(event: InputEvent, slot: Control, card_node: Node2D, dat
 func mostrar_cartas(cartas: Array[CardData] = []) -> void:
 	if cartas.is_empty():
 		cartas = mazo
+	selected_card_data = null
+	selected_card_index = -1
+	current_selected_wrapper = null
 	super(cartas)
 
 

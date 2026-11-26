@@ -41,7 +41,7 @@ CARD_MAGIC_DESC,Deal [color=%s]%d[/color] Magic damage to the enemy and inflict 
 CARD_SHIELD_DESC,Block [color=%s]%d[/color] Physical damage.,Bloquea [color=%s]%d[/color] de daño Físico.
 CARD_MIRROR_DESC,Reflect the next Magic attack back to the enemy.,Refleja el siguiente ataque Mágico de vuelta al enemigo.
 CARD_POTION_DESC,Heal [color=%s]%d[/color] HP and gives Regeneration.,Cura [color=%s]%d[/color] de vida y otorga Regeneración.
-CARD_STUN_DESC,"If not attacked, stun the enemy and cancel its next card.","Si no eres atacado, aturde al enemigo y cancelar su siguiente carta."
+CARD_STUN_DESC,"If not attacked, stun the enemy and cancel its next card.","Si no eres atacado, aturde al enemigo y cancela su siguiente carta."
 STATUS,Status,Estado
 STATUS_STUN,Stunned,Aturdido
 STATUS_STUN_DESC,Next card will have no effect.,La siguiente carta no tendrá efecto.
@@ -50,16 +50,17 @@ STATUS_BURN_DESC,Take [color=%s]%d[/color] damage at the start of your turn.,Rec
 STATUS_REGENERATION,Regeneration,Regeneración
 STATUS_REGENERATION_DESC,Heal [color=%s]%d[/color] HP at the start of your turn.,Cura [color=%s]%d[/color] de vida al inicio de tu turno.
 CARDS_HELP,Cards Help,Ayuda de Cartas
+HELP_AND,and,y
 COMBAT_ROUND,Round,Ronda
 COMBAT_NEXT_ROUND,Next Round,Siguiente Ronda
 COMBAT_ROUND_WARNING,This can only be pressed with an empty deck and full hand.,Esto solo se puede presionar con el mazo vacío y la mano llena.
 STORE_NAME,Store,Tienda
-STORE_GUIDE,"Select a card to add, remove or upgrade.","Selecciona una carta para añadir, remover o mejorar."
+STORE_GUIDE,"Select a card to add, remove or upgrade.","Selecciona una carta para añadir, eliminar o mejorar."
 STORE_ADD,Card Added,Carta Añadida
-STORE_REMOVE,Card Removed,Carta Removida
+STORE_REMOVE,Card Removed,Carta Eliminada
 STORE_UPGRADE,Card Upgraded,Carta Mejorada
 STORE_ADD_MSG,Add same basic card,Añadir una copia básica
-STORE_REMOVE_MSG,Remove Card,Remover carta
+STORE_REMOVE_MSG,Remove Card,Eliminar carta
 STORE_UPGRADE_MSG,Upgrade card effect,Mejorar efecto de carta
 STORE_INVALID_UPGRADE,Not Upgradeable,No mejorable
 STORE_EXIT,Next Round,Siguiente Ronda

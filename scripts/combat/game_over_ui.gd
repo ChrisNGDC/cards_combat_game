@@ -10,7 +10,6 @@ var description_key: String
 
 func _ready() -> void:
 	restart_button.pressed.connect(_on_restart_button_pressed)
-	setup(true)
 
 
 func set_won() -> void:
