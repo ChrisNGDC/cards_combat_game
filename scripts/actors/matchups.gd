@@ -1,12 +1,6 @@
 class_name Matchups
 extends RefCounted
 
-const INVERT: Dictionary = {
-	"1": 5,
-	"4": 4,
-	"5": 1,
-}
-
 const MATCHUP_TABLE: Dictionary = {
 	"CARD_SWORD": {
 		"CARD_SWORD": 4,

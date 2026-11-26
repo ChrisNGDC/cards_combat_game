@@ -64,22 +64,21 @@ Full flow, numbers, and content checklists: read `references/combat-and-content.
 
 - Explicit static types everywhere — vars, params, returns, loop iterators (`for card: CardData in ...`). No `:=`, no untyped declarations (project.godot warns on both; narrowing_conversion deliberately off).
 - snake_case files/vars/funcs; UPPER_SNAKE consts. Mixed Spanish/English identifiers are deliberate (nombre, mazo, cartas, repartir_mano, si, es_jugador). Match local naming; never rename.
-- `@onready` typed node refs; `preload` at top of file; section comments (`# Combat logic`), no doc comments.
+- `@onready` typed node refs; `preload` as UPPER_SNAKE `const` at top of file. Comments only when they explain something not obvious from reading the code for a few seconds; no section/doc comments.
 - Characters initialize via `_setup(params: Dictionary)`; instantiated scenes via `setup(...)`.
 - Sequencing with `await get_tree().create_timer(x).timeout`; lambdas in dicts and tween callbacks.
 - `self.` prefix is common; legacy `emit_signal("hp_changed", ...)` exists — prefer `hp_changed.emit(...)` in new code.
 
 ## Gotchas — do not "fix" these
 
-1. MATCHUP_TABLE is AI-only; `INVERT` in matchups.gd is unused — leave it.
+1. MATCHUP_TABLE is AI-only — never use it for combat resolution.
 2. combat.tscn's combat-logic node is named "CombatLogic" (renamed from "CardManager", which collided with the autoload name) — it is NOT the CardManager autoload.
-3. Character is a Resource in GlobalData holding Node2D refs (visual_deck/hand). Call `reset_round()` / `clear_visuals()` before the combat scene frees; never keep node refs across scene changes.
+3. Character is a Resource in GlobalData holding Node2D refs (visual_deck/hand). Call `reset_round()` / `clear_visuals()` before the combat scene frees; never keep node refs across scene changes. combat.gd manipulates visual_deck/visual_hand directly — no helper API.
 4. PickCardLogic.cards_power accumulates across calls — existing behavior.
 5. SaveManager: `const VERSION: int = 2.0`; JSON returns floats, check is `data[0] is float and data[0] == VERSION`. Version mismatch deletes the save. Bump VERSION when changing save structure.
-6. health_manager tweens `player_display_hp` but labels read `bar.value` — vestigial; leave alone.
-7. Statuses stack by plain append — duplicates accumulate and all apply each exchange.
-8. Every .gd has a paired .gd.uid; .tscn nodes carry `unique_id` (4.7). Preserve all uid:// references; never regenerate.
-9. Commit messages starting with `build` trigger the CI release pipeline (version bump + Windows/Web export + GitHub release + itch.io deploy). `build-minor` / `build-major` control the bump. Never start routine commits with `build`.
+6. Statuses stack by plain append — duplicates accumulate and all apply each exchange.
+7. Every .gd has a paired .gd.uid; .tscn nodes carry `unique_id` (4.7). Preserve all uid:// references; never regenerate.
+8. Commit messages starting with `build` trigger the CI release pipeline (version bump + Windows/Web export + GitHub release + itch.io deploy). `build-minor` / `build-major` control the bump. Never start routine commits with `build`.
 
 ## Verification
 

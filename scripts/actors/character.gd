@@ -101,26 +101,6 @@ func upgrade_card_in_deck(index: int) -> void:
 	deck.cartas[index].upgrade()
 
 
-func add_card_to_hand(card: Node2D) -> void:
-	visual_hand.append(card)
-
-
-func remove_card_from_hand(card: Node2D) -> void:
-	visual_hand.erase(card)
-	if is_instance_valid(card):
-		card.queue_free()
-
-
-func add_card_to_visual_deck(card: Node2D) -> void:
-	visual_deck.append(card)
-
-
-func remove_card_from_visual_deck(card: Node2D) -> void:
-	visual_deck.erase(card)
-	if is_instance_valid(card):
-		card.queue_free()
-
-
 func reset_turn() -> void:
 	magical_rebound = false
 	physical_defense = 0

@@ -5,9 +5,6 @@ extends Control
 @onready var player_hp_label: Label = $PlayerHP/HPLabel
 @onready var cpu_hp_label: Label = $CpuHP/HPLabel
 
-var player_display_hp: int
-var cpu_display_hp: int
-
 
 func _ready() -> void:
 	setup_hp()
@@ -23,23 +20,13 @@ func _process(_delta: float) -> void:
 func _on_hp_updated(valor: int, es_jugador: bool) -> void:
 	if es_jugador:
 		animar_cambio_vida(player_bar, valor)
-		animar_cambio_cant_vida(true, valor)
 	else:
 		animar_cambio_vida(cpu_bar, valor)
-		animar_cambio_cant_vida(false, valor)
 
 
 func animar_cambio_vida(barra: TextureProgressBar, nuevo_valor: int) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_property(barra, "value", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-
-
-func animar_cambio_cant_vida(es_jugador: bool, nuevo_valor: int) -> void:
-	var tween: Tween = create_tween()
-	if es_jugador:
-		tween.tween_property(self, "player_display_hp", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	else:
-		tween.tween_property(self, "cpu_display_hp", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func setup_hp() -> void:
