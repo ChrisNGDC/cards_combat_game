@@ -1,14 +1,11 @@
 extends CanvasLayer
 
-# --- Signals ---
 signal loading_screen_ready
 
-# --- Node References ---
 @onready var panel: Panel = $Panel
 @onready var progress_bar: ProgressBar = $MarginContainer/ProgressBar
 
 
-# --- Virtual Methods ---
 func _ready() -> void:
 	panel.modulate = Color(1, 1, 1, 0)
 	panel.scale = Vector2.ZERO
@@ -22,7 +19,6 @@ func _ready() -> void:
 	loading_screen_ready.emit()
 
 
-# --- Signal Callbacks ---
 func on_progress_changed(progress: float) -> void:
 	progress_bar.value = progress
 
@@ -39,7 +35,6 @@ func on_load_finished() -> void:
 	queue_free()
 
 
-# --- Internal Logic ---
 func progress_bar_transition() -> void:
 	var tween: Tween = create_tween()
 	tween.tween_property(progress_bar, "modulate:a", 0, 0.3).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)

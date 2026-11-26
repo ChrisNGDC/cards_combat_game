@@ -72,7 +72,7 @@ Full flow, numbers, and content checklists: read `references/combat-and-content.
 ## Gotchas — do not "fix" these
 
 1. MATCHUP_TABLE is AI-only; `INVERT` in matchups.gd is unused — leave it.
-2. combat.tscn has a child node named "CardManager" — it is NOT the autoload.
+2. combat.tscn's combat-logic node is named "CombatLogic" (renamed from "CardManager", which collided with the autoload name) — it is NOT the CardManager autoload.
 3. Character is a Resource in GlobalData holding Node2D refs (visual_deck/hand). Call `reset_round()` / `clear_visuals()` before the combat scene frees; never keep node refs across scene changes.
 4. PickCardLogic.cards_power accumulates across calls — existing behavior.
 5. SaveManager: `const VERSION: int = 2.0`; JSON returns floats, check is `data[0] is float and data[0] == VERSION`. Version mismatch deletes the save. Bump VERSION when changing save structure.

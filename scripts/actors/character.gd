@@ -16,14 +16,10 @@ var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 var status_effects: Array[StatusData] = []
 
-# Setup
-
 
 func _setup(params: Dictionary) -> void:
 	set_deck(params.deck)
 	set_initial_hp()
-
-# HP management
 
 
 func set_initial_hp() -> void:
@@ -34,8 +30,6 @@ func set_initial_hp() -> void:
 func set_hp(value: int) -> void:
 	current_hp = clamp(value, 0, max_hp)
 	hp_changed.emit(current_hp, is_player)
-
-# Status management
 
 
 func apply_status_effects() -> void:
@@ -64,8 +58,6 @@ func has_status(status_name: String) -> bool:
 func can_play() -> bool:
 	return can_play_card
 
-# Round management
-
 
 func clear_visuals() -> void:
 	for card: Node2D in visual_deck:
@@ -91,8 +83,6 @@ func reset() -> void:
 	reset_round()
 	deck = null
 
-# Deck management
-
 
 func set_deck(new_deck: DeckData) -> void:
 	deck = new_deck
@@ -110,8 +100,6 @@ func remove_card_from_deck(index: int) -> void:
 func upgrade_card_in_deck(index: int) -> void:
 	deck.cartas[index].upgrade()
 
-# Visual Hand management
-
 
 func add_card_to_hand(card: Node2D) -> void:
 	visual_hand.append(card)
@@ -122,8 +110,6 @@ func remove_card_from_hand(card: Node2D) -> void:
 	if is_instance_valid(card):
 		card.queue_free()
 
-# Visual Deck management
-
 
 func add_card_to_visual_deck(card: Node2D) -> void:
 	visual_deck.append(card)
@@ -133,8 +119,6 @@ func remove_card_from_visual_deck(card: Node2D) -> void:
 	visual_deck.erase(card)
 	if is_instance_valid(card):
 		card.queue_free()
-
-# Combat management
 
 
 func reset_turn() -> void:

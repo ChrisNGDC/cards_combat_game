@@ -1,4 +1,5 @@
 class_name PickCardLogic
+extends RefCounted
 
 var matchups: Matchups = Matchups.new()
 var cards_power: Dictionary = { }
@@ -25,7 +26,7 @@ func dict_to_sorted_array(dict: Dictionary) -> Array[String]:
 
 func get_cards_by_power(cartas: Array[CardData]) -> void:
 	var cards_frequency: Dictionary = get_cards_frequency(cartas)
-	var sorted_cards: Array = dict_to_sorted_array(cards_frequency)
+	var sorted_cards: Array[String] = dict_to_sorted_array(cards_frequency)
 	for card: String in sorted_cards:
 		var card_matchups: Dictionary = matchups.get_card_matchup(card)
 		var card_frequency: int = cards_frequency[card]

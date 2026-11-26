@@ -2,9 +2,9 @@ extends Resource
 
 class_name StatusData
 
-var image: String
-var description: String
-var nombre: String
+@export var image: String
+@export var description: String
+@export var nombre: String
 var effect: Callable
 
 
@@ -16,5 +16,5 @@ func _init(data: Dictionary) -> void:
 
 
 func apply_effect(character: Character) -> void:
-	if effect:
+	if effect.is_valid():
 		effect.call(character)

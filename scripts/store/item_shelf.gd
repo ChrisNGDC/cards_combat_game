@@ -1,27 +1,23 @@
-extends "res://scripts/utils/item_shelf.gd"
+extends ItemShelf
 
 
-# --- State Variables ---
 var mazo: Array[CardData] = []
 var selected_card_data: CardData = null
 var current_selected_wrapper: Control = null
 var selected_card_index: int = -1
 
 
-# --- Virtual Methods ---
 func _ready() -> void:
 	wrapper_size = Vector2(130, 180)
 	mazo = GlobalData.player.deck.cartas
 	mostrar_cartas()
 
 
-# --- Signal Callbacks ---
 func _on_slot_gui_input(event: InputEvent, slot: Control, card_node: Node2D, data: CardData, index: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		seleccionar_carta(slot, card_node, data, index)
 
 
-# --- Card Management Logic ---
 func mostrar_cartas(cartas: Array[CardData] = []) -> void:
 	if cartas.is_empty():
 		cartas = mazo
@@ -61,7 +57,7 @@ func seleccionar_carta(slot: Control, card_node: Node2D, data: CardData, index: 
 	card_node.selected = true
 
 	slot.get_node("SelectionBG").visible = true
-	card_node._on_area_2d_mouse_entered()
+	card_node.aplicar_hover(true)
 
 
 func deseleccionar(slot: Control) -> void:
@@ -71,5 +67,5 @@ func deseleccionar(slot: Control) -> void:
 		var card: Node2D = node as Node2D
 		if card.get_parent() == slot:
 			card.selected = false
-			card._on_area_2d_mouse_exited()
+			card.aplicar_hover(false)
 			break

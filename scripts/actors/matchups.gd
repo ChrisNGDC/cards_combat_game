@@ -1,4 +1,5 @@
 class_name Matchups
+extends RefCounted
 
 const INVERT: Dictionary = {
 	"1": 5,

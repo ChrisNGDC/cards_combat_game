@@ -30,7 +30,7 @@ func _on_hp_updated(valor: int, es_jugador: bool) -> void:
 
 
 func animar_cambio_vida(barra: TextureProgressBar, nuevo_valor: int) -> void:
-	var tween: Tween = get_tree().create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(barra, "value", nuevo_valor, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 

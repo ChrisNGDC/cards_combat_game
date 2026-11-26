@@ -23,7 +23,6 @@ func pick_card() -> Node2D:
 		return null
 	match difficulty:
 		"HARD_DIFFICULTY":
-			# Take into account the player's hand
 			var hand: Array[CardData] = pick_card_logic.convert_hand(GlobalData.player.visual_hand)
 			pick_card_logic.get_cards_by_power(hand)
 			return pick_complex_card()
@@ -31,7 +30,6 @@ func pick_card() -> Node2D:
 			# Take into account the player's deck composition
 			return pick_complex_card()
 		"EASY_DIFFICULTY", _:
-			# Pick a random card from the hand
 			return pick_easy_card()
 
 

@@ -1,9 +1,10 @@
 extends Node
 
+const LOADING_SCENE: PackedScene = preload("res://scenes/loading_screen.tscn")
+
 signal progress_changed(progress: float)
 signal load_finished()
 
-var loading_scene: PackedScene = preload("res://scenes/loading_screen.tscn")
 var loaded_resource: PackedScene
 var scene_path: String
 var progress: Array[float] = []
@@ -22,7 +23,7 @@ func load_scene(_scene_path: String) -> void:
 		return
 	is_loading = true
 	scene_path = _scene_path
-	current_loading_screen = loading_scene.instantiate()
+	current_loading_screen = LOADING_SCENE.instantiate()
 	add_child(current_loading_screen)
 	progress_changed.connect(current_loading_screen.on_progress_changed)
 	load_finished.connect(current_loading_screen.on_load_finished)

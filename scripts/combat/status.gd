@@ -1,10 +1,11 @@
 extends Panel
 
+const TOOLTIP_SCENE: PackedScene = preload("res://scenes/status_tooltip.tscn")
+
 
 var nombre: String
 var description: String
 var image_loaded: CompressedTexture2D
-var tooltip_scene: PackedScene = preload("res://scenes/status_tooltip.tscn")
 var current_tooltip: PanelContainer = null
 
 
@@ -33,7 +34,7 @@ func connect_signals() -> void:
 
 
 func _on_mouse_enter() -> void:
-	current_tooltip = tooltip_scene.instantiate()
+	current_tooltip = TOOLTIP_SCENE.instantiate()
 	TooltipManager.add_child(current_tooltip)
 	current_tooltip.setup(nombre, description)
 

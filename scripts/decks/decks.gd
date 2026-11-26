@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+const DECK_SCENE: PackedScene = preload("res://scenes/deck.tscn")
+const OVERLAY_SCENE: PackedScene = preload("res://scenes/deck_overlay.tscn")
+
 @onready var scroll_container: ScrollContainer = $MarginContainer/SelectionUI/HBoxDecks/ScrollContainer
 @onready var deck_list: HBoxContainer = $MarginContainer/SelectionUI/HBoxDecks/ScrollContainer/MarginContainer/DeckList
 @onready var select_deck_button: Button = $MarginContainer/SelectionUI/HBoxButtons/SelectDeckButton
@@ -14,9 +17,7 @@ extends CanvasLayer
 
 var dragging: bool = false
 var last_mouse_pos: Vector2 = Vector2()
-var deck_scene: PackedScene = preload("res://scenes/deck.tscn")
-var overlay_scene: PackedScene = preload("res://scenes/deck_overlay.tscn")
-var lista_mazos: Array = DeckManager.decks_classes.keys()
+var lista_mazos: Array[String] = []
 var selected_deck: Node2D = null
 var escala_normal: Vector2 = Vector2(0.25, 0.25)
 var escala_grande: Vector2 = Vector2(0.3, 0.3)
@@ -32,6 +33,7 @@ func _ready() -> void:
 	difficulty_selection.item_selected.connect(_on_option_button_item_selected)
 	select_deck_button.disabled = true
 	view_deck_button.disabled = true
+	lista_mazos.assign(DeckManager.decks_classes.keys())
 	if lista_mazos:
 		crear_mazos_en_pantalla()
 
@@ -46,7 +48,7 @@ func crear_mazos_en_pantalla() -> void:
 		wrapper.mouse_filter = Control.MOUSE_FILTER_STOP
 		deck_list.add_child(wrapper)
 		
-		var nuevo_mazo: Node2D = deck_scene.instantiate()
+		var nuevo_mazo: Node2D = DECK_SCENE.instantiate()
 		wrapper.add_child(nuevo_mazo)
 		nuevo_mazo.position = wrapper.custom_minimum_size / 2
 		nuevo_mazo.setup(DeckManager.create_deck(nombre))
@@ -58,7 +60,7 @@ func crear_mazos_en_pantalla() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if !viewing_deck:
+	if not viewing_deck:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			dragging = event.pressed
 			last_mouse_pos = event.position
@@ -90,7 +92,7 @@ func _on_fight_pressed() -> void:
 
 func _on_view_deck_button_pressed() -> void:
 	viewing_deck = true
-	var overlay: CanvasLayer = overlay_scene.instantiate()
+	var overlay: CanvasLayer = OVERLAY_SCENE.instantiate()
 	add_child(overlay)
 	overlay.closing.connect(_on_overlay_closed)
 	overlay.display_deck_data(selected_deck.datos_mazo.cartas)

@@ -1,12 +1,10 @@
 extends VBoxContainer
 
 
-# --- Variables ---
 var player: GamePlayer = GlobalData.player
 var cpu: GameCPU = GlobalData.cpu
 var transaction_done: bool = false
 
-# --- UI Elements ---
 @onready var shelf: Control = $ScrollContainer/ItemShelf
 @onready var footer_node: Control = $Footer
 @onready var description_label: Label = $ActionHoverEffect
@@ -18,12 +16,10 @@ var transaction_done: bool = false
 @onready var buttons: Array[StoreButton] = [add_button, remove_button, upgrade_button]
 
 
-# --- Virtual Methods ---
 func _ready() -> void:
 	connect_buttons_signals()
 
 
-# --- Signal Callbacks ---
 func _on_mouse_entered(button: Button, description: String) -> void:
 	create_tween().tween_property(button, "scale", Vector2(1.1, 1.1), 0.1)
 	
@@ -83,7 +79,6 @@ func _on_next_round_button_pressed() -> void:
 	SceneLoader.load_scene("res://scenes/combat.tscn")
 
 
-# --- Internal Logic ---
 func connect_buttons_signals() -> void:
 	for button: StoreButton in buttons:
 		button.mouse_entered.connect(_on_mouse_entered.bind(button, button.description))

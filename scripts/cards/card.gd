@@ -8,6 +8,9 @@ const MIRROR_SOUND: AudioStream = preload("res://sounds/mirror.wav")
 const POTION_SOUND: AudioStream = preload("res://sounds/potion.wav")
 const MAGIC_SOUND: AudioStream = preload("res://sounds/magic.wav")
 const STUN_SOUND: AudioStream = preload("res://sounds/stun.wav")
+const TOOLTIP_SCENE: PackedScene = preload("res://scenes/card_info_tooltip.tscn")
+const GOLD_STYLE: LabelSettings = preload("res://resources/max_level_label_settings.tres")
+const BASIC_STYLE: LabelSettings = preload("res://resources/basic_level_label_settings.tres")
 
 @onready var borde: Sprite2D = $Borde
 @onready var card_front: Node2D = $Front
@@ -17,10 +20,6 @@ const STUN_SOUND: AudioStream = preload("res://sounds/stun.wav")
 @onready var card_back: Node2D = $Back
 @onready var card_back_image: Sprite2D = $Back/CharacterImage
 @onready var collision: Area2D = $Area2D
-
-var tooltip_scene: PackedScene = preload("res://scenes/card_info_tooltip.tscn")
-var gold_style: LabelSettings = preload("res://resources/max_level_label_settings.tres")
-var basic_style: LabelSettings = preload("res://resources/basic_level_label_settings.tres")
 
 var nombre: String
 var tipo: String
@@ -67,9 +66,9 @@ func _process(_delta: float) -> void:
 		TooltipFollower.follow(current_tooltip, self, Vector2(20, 20))
 
 
-func setup(datos: CardData, player: bool, deck_type: String = "") -> void:
+func setup(datos: CardData, es_jugador: bool, deck_type: String = "") -> void:
 	datos_carta = datos
-	own_by_player = player
+	own_by_player = es_jugador
 	if deck_type:
 		card_back_image.texture = load(deck_type)
 	show_card(false)
@@ -79,11 +78,11 @@ func setup(datos: CardData, player: bool, deck_type: String = "") -> void:
 
 func show_card(si: bool) -> void:
 	card_front.visible = si
-	card_back.visible = !si
+	card_back.visible = not si
 
 
 func create_tooltip() -> void:
-	current_tooltip = tooltip_scene.instantiate()
+	current_tooltip = TOOLTIP_SCENE.instantiate()
 	TooltipManager.add_child(current_tooltip)
 	current_tooltip.setup(self)
 	current_tooltip.hide()
@@ -128,30 +127,32 @@ func update_level_display() -> void:
 			level_label.text = "+" + str(nivel_actual)
 		else:
 			level_label.text = ""
-		level_label.label_settings = basic_style
+		level_label.label_settings = BASIC_STYLE
 	else:
 		level_label.text = tr("CARD_MAX")
-		level_label.label_settings = gold_style
+		level_label.label_settings = GOLD_STYLE
 
 
 func _on_area_2d_mouse_entered() -> void:
-	if self.card_front.visible:
-		if self.own_by_player:
-			borde.self_modulate = borde_base_color * 1.5
-			Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
-		if not self.selected:
-			apply_scale_tween(self.escala_grande)
-		if show_tooltip:
-			show_tooltip_info(true)
+	aplicar_hover(true)
 
 
 func _on_area_2d_mouse_exited() -> void:
-	if self.card_front.visible:
-		if self.own_by_player:
-			borde.self_modulate = borde_base_color
-			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-		if not self.selected:
-			apply_scale_tween(self.escala_normal)
+	aplicar_hover(false)
+
+
+func aplicar_hover(si: bool) -> void:
+	if not card_front.visible:
+		return
+	if own_by_player:
+		borde.self_modulate = borde_base_color * 1.5 if si else borde_base_color
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if si else Input.CURSOR_ARROW)
+	if not selected:
+		apply_scale_tween(escala_grande if si else escala_normal)
+	if si:
+		if show_tooltip:
+			show_tooltip_info(true)
+	else:
 		show_tooltip_info(false)
 
 

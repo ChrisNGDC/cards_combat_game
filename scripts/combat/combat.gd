@@ -1,12 +1,28 @@
 extends Node2D
 
+const CARD_SCENE: PackedScene = preload("res://scenes/card.tscn")
+const GAME_OVER_SCENE: PackedScene = preload("res://scenes/game_over_ui.tscn")
+const OVERLAY_SCENE: PackedScene = preload("res://scenes/deck_overlay.tscn")
+const STATUS_SCENE: PackedScene = preload("res://scenes/status.tscn")
+const HAND_SIZE: int = 4
+const MAZO_OFFSET_X: float = 270.0
+const DISCARD_OFFSET_X: float = 150.0
+const MAZO_MARGIN_Y: float = 150.0
+const FAN_SPACING: float = 130.0
+const FAN_START_PLAYER: float = 0.35
+const FAN_START_CPU: float = 0.65
+const STACK_OFFSET: float = 2.5
+const INITIAL_DEAL_DELAY: float = 1.0
+const DEAL_STAGGER: float = 0.75
+const PLAY_DELAY: float = 0.75
+const CPU_REVEAL_DELAY: float = 1.5
+const NULL_EXCHANGE_DELAY: float = 1.0
+const POST_COMBAT_DELAY: float = 0.5
+const END_ROUND_DELAY: float = 0.5
+
 var screen_size: Vector2
 var card_being_dragged: Node2D
 var card_original_pos: Vector2
-var card_scene: PackedScene = preload("res://scenes/card.tscn")
-var game_over_scene: PackedScene = preload("res://scenes/game_over_ui.tscn")
-var overlay_scene: PackedScene = preload("res://scenes/deck_overlay.tscn")
-var status_scene: PackedScene = preload("res://scenes/status.tscn")
 var player_slot_pos: Vector2
 var player_slot_rect: Rect2
 var cpu_slot_pos: Vector2
@@ -16,7 +32,6 @@ var normal_color: Color = Color(1, 1, 1, 0.4)
 var card_in_slot: Node2D
 var player_mazo_pos: Vector2
 var cpu_mazo_pos: Vector2
-var hand_size: int = 4
 var last_hand_pos: int = 0
 var fighting: bool
 var dealing_count: int = 0
@@ -44,7 +59,6 @@ var cpu_discard_pos: Vector2
 
 
 func _ready() -> void:
-	randomize()
 	screen_size = get_viewport_rect().size
 	player_slot_pos = player_card_slot.global_position
 	cpu_slot_pos = cpu_card_slot.global_position
@@ -53,21 +67,21 @@ func _ready() -> void:
 	slot_scale = player_card_slot.scale
 	var slot_size: Vector2 = player_card_slot.texture.get_size() * slot_scale
 	player_slot_rect = Rect2(player_card_slot.global_position - (slot_size / 2), slot_size)
-	var card: Node2D = card_scene.instantiate()
+	var card: Node2D = CARD_SCENE.instantiate()
 	var card_borde: Sprite2D = card.get_node("Borde")
 	card_size = card_borde.texture.get_size() * card_borde.scale * card.escala_grande
 	card.queue_free()
 	fighting = false
 	if player.deck != null:
-		player_mazo_pos = Vector2(270, screen_size.y - 150)
-		player_discard_pos = Vector2(150, screen_size.y - 150)
-		cpu_mazo_pos = Vector2(screen_size.x - 270, 150)
-		cpu_discard_pos = Vector2(screen_size.x - 150, 150)
+		player_mazo_pos = Vector2(MAZO_OFFSET_X, screen_size.y - MAZO_MARGIN_Y)
+		player_discard_pos = Vector2(DISCARD_OFFSET_X, screen_size.y - MAZO_MARGIN_Y)
+		cpu_mazo_pos = Vector2(screen_size.x - MAZO_OFFSET_X, MAZO_MARGIN_Y)
+		cpu_discard_pos = Vector2(screen_size.x - DISCARD_OFFSET_X, MAZO_MARGIN_Y)
 		player.deck.cartas.shuffle()
 		cpu.deck.cartas.shuffle()
 		crear_mazo(player.visual_deck, player_mazo_pos, true)
 		crear_mazo(cpu.visual_deck, cpu_mazo_pos, false)
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(INITIAL_DEAL_DELAY).timeout
 		repartir_mano(player.visual_deck, player.visual_hand, true)
 		repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
 	see_deck_button.pressed.connect(_on_see_deck_button_pressed)
@@ -86,12 +100,12 @@ func _process(_delta: float) -> void:
 			var target_color: Color = highlight_color if debe_resaltar else normal_color
 			var target_scale: Vector2 = slot_scale * 1.2 if debe_resaltar else slot_scale
 			player_card_slot.modulate = target_color
-			var tween: Tween = get_tree().create_tween()
+			var tween: Tween = create_tween()
 			tween.tween_property(player_card_slot, "scale", target_scale, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	elif slot_highlighted:
 		slot_highlighted = false
 		player_card_slot.modulate = normal_color
-		var tween: Tween = get_tree().create_tween()
+		var tween: Tween = create_tween()
 		tween.tween_property(player_card_slot, "scale", slot_scale, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		
 
@@ -121,22 +135,22 @@ func crear_mazo(mazo: Array[Node2D], mazo_pos: Vector2, es_jugador: bool) -> voi
 	var cards_amount: int = cartas_mazo.size()
 	var anchor_rel: int = 3
 	for i: int in range(cards_amount):
-		var nueva_carta: Node2D = card_scene.instantiate()
+		var nueva_carta: Node2D = CARD_SCENE.instantiate()
 		add_child(nueva_carta)
 		nueva_carta.setup(cartas_mazo[i], es_jugador, mazo_seleccionado.ruta_imagen)
 		nueva_carta.anchor_pos = Vector2(0, 0)
 		var offset_mazo: Vector2
 		if es_jugador:
-			if i >= cards_amount - 4:
-				nueva_carta.anchor_pos = Vector2(screen_size.x * 0.35 + (anchor_rel * 130), screen_size.y - 150)
+			if i >= cards_amount - HAND_SIZE:
+				nueva_carta.anchor_pos = Vector2(screen_size.x * FAN_START_PLAYER + (anchor_rel * FAN_SPACING), screen_size.y - MAZO_MARGIN_Y)
 				anchor_rel -= 1
-			offset_mazo = Vector2(i * 2.5, 0)
+			offset_mazo = Vector2(i * STACK_OFFSET, 0)
 		else:
 			nueva_carta.quitar_borde()
-			if i >= cards_amount - 4:
-				nueva_carta.anchor_pos = Vector2(screen_size.x * 0.65 - (anchor_rel * 130), 150)
+			if i >= cards_amount - HAND_SIZE:
+				nueva_carta.anchor_pos = Vector2(screen_size.x * FAN_START_CPU - (anchor_rel * FAN_SPACING), MAZO_MARGIN_Y)
 				anchor_rel -= 1
-			offset_mazo = Vector2(-i * 2.5, 0)
+			offset_mazo = Vector2(-i * STACK_OFFSET, 0)
 		nueva_carta.position = mazo_pos + offset_mazo
 		mazo.append(nueva_carta)
 
@@ -152,14 +166,14 @@ func repartir_carta(mazo: Array[Node2D], mano: Array[Node2D], pos: Vector2, es_j
 
 func repartir_mano(mazo: Array[Node2D], mano: Array[Node2D], es_jugador: bool) -> void:
 	dealing_count += 1
-	for i: int in range(min(hand_size, mazo.size())):
+	for i: int in range(min(HAND_SIZE, mazo.size())):
 		repartir_carta(mazo, mano, Vector2(0, 0), es_jugador)
-		await get_tree().create_timer(0.75).timeout
+		await get_tree().create_timer(DEAL_STAGGER).timeout
 	dealing_count -= 1
 
 
 func animar_vuelo_repartida(carta: Node2D, destino: Vector2, flip: bool) -> void:
-	var tween: Tween = get_tree().create_tween().set_parallel(true)
+	var tween: Tween = create_tween().set_parallel(true)
 	carta.z_index = 100
 	carta.show_card(false)
 	carta.scale = carta.escala_normal
@@ -175,9 +189,9 @@ func animar_vuelo_repartida(carta: Node2D, destino: Vector2, flip: bool) -> void
 func check_drop_card() -> void:
 	var card_rect: Rect2 = Rect2(card_being_dragged.global_position - (card_size / 2), card_size)
 	if card_rect.intersects(player_slot_rect) and not fighting and dealing_count == 0:
-		var tween: Tween = get_tree().create_tween()
+		var tween: Tween = create_tween()
 		tween.tween_property(card_being_dragged, "position", player_slot_pos, 0.1).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		if !card_in_slot:
+		if not card_in_slot:
 			card_in_slot = card_being_dragged
 		elif card_in_slot != card_being_dragged:
 			tween.tween_property(card_in_slot, "position", card_in_slot.anchor_pos, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -215,14 +229,11 @@ func show_cards_tooltip(si: bool) -> void:
 
 
 func flip_card(carta: Node2D) -> void:
-	var flip_tween: Tween = get_tree().create_tween()
+	var flip_tween: Tween = create_tween()
 	flip_tween.tween_property(carta, "scale:x", 0.0, 0.5).set_ease(Tween.EASE_IN)
 	carta.dar_borde()
 	flip_tween.tween_callback(func() -> void: carta.show_card(true))
 	flip_tween.tween_property(carta, "scale:x", carta.escala_normal.x, 0.5).set_ease(Tween.EASE_OUT)
-
-
-# Combat logic
 
 
 func combat(player_card: Node2D, cpu_card: Node2D) -> void:
@@ -281,10 +292,7 @@ func combat(player_card: Node2D, cpu_card: Node2D) -> void:
 			if segundo_can_play and not useless_second:
 				await play_card(segunda, segundo_en_jugar, primero_en_jugar)
 	else:
-		await get_tree().create_timer(1).timeout
-
-
-# Status logic
+		await get_tree().create_timer(NULL_EXCHANGE_DELAY).timeout
 
 
 func end_of_combat_update() -> void:
@@ -299,11 +307,11 @@ func update_visual_status() -> void:
 	for child: Control in cpu_status.get_children():
 		child.queue_free()
 	for status: StatusData in player.status_effects:
-		var status_icon: Panel = status_scene.instantiate()
+		var status_icon: Panel = STATUS_SCENE.instantiate()
 		status_icon.setup(status)
 		player_status.add_child(status_icon)
 	for status: StatusData in cpu.status_effects:
-		var status_icon: Panel = status_scene.instantiate()
+		var status_icon: Panel = STATUS_SCENE.instantiate()
 		status_icon.setup(status)
 		cpu_status.add_child(status_icon)
 	player_status_panel.title = tr("STATUS") + " (" + str(player.status_effects.size()) + ")"
@@ -345,7 +353,7 @@ func play_card(card: Node2D, actor: Character, adversario: Character) -> void:
 			adversario.add_status(stun)
 	if play_sound:
 		card.play_sound()
-	await get_tree().create_timer(0.75).timeout
+	await get_tree().create_timer(PLAY_DELAY).timeout
 
 
 func cpu_choose_card() -> Node2D:
@@ -353,7 +361,7 @@ func cpu_choose_card() -> Node2D:
 	if cpu_choice:
 		cpu.last_card_played = cpu_choice.datos_carta
 		animar_vuelo_repartida(cpu_choice, cpu_slot_pos, true)
-		await get_tree().create_timer(1.5).timeout
+		await get_tree().create_timer(CPU_REVEAL_DELAY).timeout
 	return cpu_choice
 		
 
@@ -362,7 +370,7 @@ func cpu_use_card(cpu_choice: Node2D) -> void:
 	cpu_choice.show_tooltip_info(false)
 	cpu.visual_hand.erase(cpu_choice)
 	animar_vuelo_repartida(cpu_choice, cpu_discard_pos, false)
-	if cpu.visual_hand.size() < hand_size and cpu.visual_deck.size() > 0:
+	if cpu.visual_hand.size() < HAND_SIZE and cpu.visual_deck.size() > 0:
 		repartir_carta(cpu.visual_deck, cpu.visual_hand, cpu_card_pos, false)
 
 
@@ -372,7 +380,7 @@ func player_use_card(player_choice: Node2D) -> void:
 	player.visual_hand.erase(player_choice)
 	animar_vuelo_repartida(player_choice, player_discard_pos, false)
 	card_in_slot = null
-	if player.visual_hand.size() < hand_size and player.visual_deck.size() > 0:
+	if player.visual_hand.size() < HAND_SIZE and player.visual_deck.size() > 0:
 		repartir_carta(player.visual_deck, player.visual_hand, player_card_pos, true)
 	
 
@@ -380,56 +388,65 @@ func _on_fight_pressed() -> void:
 	if fighting or dealing_count > 0 or viewing_deck:
 		return
 	if is_instance_valid(card_in_slot):
-		player.last_card_played = card_in_slot.datos_carta
-		fighting = true
-		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
-			end_round_button.hide()
-			end_round_warning.hide()
-		var cpu_choice: Node2D = await cpu_choose_card()
-		if cpu_choice:
-			await combat(card_in_slot, cpu_choice)
-			cpu_use_card(cpu_choice)
-		else:
-			cpu.last_card_played = null
-			apply_status_effects()
-			if player.can_play():
-				await play_card(card_in_slot, player, cpu)
-		player_use_card(card_in_slot)
-		if player.visual_deck.size() == 0 and player.visual_hand.size() == hand_size:
-			end_round_button.show()
-			end_round_warning.show()
-			see_deck_button.hide()
+		await _intercambio_con_jugador()
 	elif player.visual_hand.size() == 0 and cpu.visual_hand.size() > 0:
-		fighting = true
-		player.last_card_played = null
-		var cpu_choice: Node2D = await cpu_choose_card()
-		apply_status_effects()
-		if cpu.can_play():
-			await play_card(cpu_choice, cpu, player)
-		cpu_use_card(cpu_choice)
+		await _intercambio_solo_cpu()
 	fighting = false
 	end_of_combat_update()
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(POST_COMBAT_DELAY).timeout
 	if not check_game_over():
-		if player.visual_hand.size() == 0 and cpu.visual_hand.size() == 0:
-			_on_end_round_pressed()
-		else:
-			if player.visual_hand.size() == 0:
-				if player.visual_deck.size() > 0:
-					repartir_mano(player.visual_deck, player.visual_hand, true)
-			if cpu.visual_hand.size() == 0:
-				if cpu.visual_deck.size() > 0:
-					repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
+		_repartir_manos_vacias()
 
 
-# Deck viewing logic
+func _intercambio_con_jugador() -> void:
+	player.last_card_played = card_in_slot.datos_carta
+	fighting = true
+	if player.visual_deck.size() == 0 and player.visual_hand.size() == HAND_SIZE:
+		end_round_button.hide()
+		end_round_warning.hide()
+	var cpu_choice: Node2D = await cpu_choose_card()
+	if cpu_choice:
+		await combat(card_in_slot, cpu_choice)
+		cpu_use_card(cpu_choice)
+	else:
+		cpu.last_card_played = null
+		apply_status_effects()
+		if player.can_play():
+			await play_card(card_in_slot, player, cpu)
+	player_use_card(card_in_slot)
+	if player.visual_deck.size() == 0 and player.visual_hand.size() == HAND_SIZE:
+		end_round_button.show()
+		end_round_warning.show()
+		see_deck_button.hide()
+
+
+func _intercambio_solo_cpu() -> void:
+	fighting = true
+	player.last_card_played = null
+	var cpu_choice: Node2D = await cpu_choose_card()
+	apply_status_effects()
+	if cpu.can_play():
+		await play_card(cpu_choice, cpu, player)
+	cpu_use_card(cpu_choice)
+
+
+func _repartir_manos_vacias() -> void:
+	if player.visual_hand.size() == 0 and cpu.visual_hand.size() == 0:
+		_on_end_round_pressed()
+	else:
+		if player.visual_hand.size() == 0:
+			if player.visual_deck.size() > 0:
+				repartir_mano(player.visual_deck, player.visual_hand, true)
+		if cpu.visual_hand.size() == 0:
+			if cpu.visual_deck.size() > 0:
+				repartir_mano(cpu.visual_deck, cpu.visual_hand, false)
 
 
 func _on_see_deck_button_pressed() -> void:
 	if dealing_count == 0:
 		viewing_deck = true
 		show_cards_tooltip(false)
-		var overlay: CanvasLayer = overlay_scene.instantiate()
+		var overlay: CanvasLayer = OVERLAY_SCENE.instantiate()
 		add_child(overlay)
 		overlay.closing.connect(_on_overlay_closed)
 		overlay.display_deck(player.visual_deck)
@@ -438,9 +455,6 @@ func _on_see_deck_button_pressed() -> void:
 func _on_overlay_closed() -> void:
 	viewing_deck = false
 	show_cards_tooltip(true)
-
-
-# Game over logic
 
 
 func check_game_over() -> bool:
@@ -452,21 +466,21 @@ func check_game_over() -> bool:
 
 
 func show_game_over_ui(won: bool) -> void:
-	var instance: CanvasLayer = game_over_scene.instantiate()
+	var instance: CanvasLayer = GAME_OVER_SCENE.instantiate()
 	add_child(instance)
 	instance.setup(won)
 	var run_data: Dictionary = {
 		"date": Time.get_datetime_string_from_system(false, true),
-		"won": (player.current_hp > 0),
+		"won": won,
 		"player_deck": {"name": player.deck.nombre, "cards": cards_to_save(player.deck.cartas)},
 		"cpu_deck": {"name": cpu.deck.nombre, "cards": cards_to_save(cpu.deck.cartas)}
 	}
 	SaveManager.save_run(run_data)
 
 
-func cards_to_save(deck: Array[CardData]) -> Array[Dictionary]:
+func cards_to_save(cartas: Array[CardData]) -> Array[Dictionary]:
 	var deck_cards: Array[Dictionary] = []
-	for card: CardData in deck:
+	for card: CardData in cartas:
 		deck_cards.append({
 			"tipo": card.nombre,
 			"niveles": {
@@ -477,15 +491,12 @@ func cards_to_save(deck: Array[CardData]) -> Array[Dictionary]:
 	return deck_cards
 
 
-# End round and transition to store
-
-
 func _on_end_round_pressed() -> void:
 	if ending_round:
 		return
 	ending_round = true
 	GlobalData.rounds += 1
-	await get_tree().create_timer(.5).timeout
+	await get_tree().create_timer(END_ROUND_DELAY).timeout
 	GlobalData.player.reset_round()
 	GlobalData.cpu.reset_round()
 	SceneLoader.load_scene("res://scenes/store.tscn")

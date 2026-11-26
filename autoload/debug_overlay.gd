@@ -34,6 +34,8 @@ var resolutions: Dictionary = {
 func _ready() -> void:
 	var is_full: bool = (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
 	var current_locale: String = TranslationServer.get_locale()
+	lang_button.set_item_metadata(0, "en")
+	lang_button.set_item_metadata(1, "es")
 	if current_locale.begins_with("es"):
 		lang_button.selected = 1
 	else:
@@ -67,26 +69,24 @@ func connect_signals() -> void:
 func _fill_resolution_options() -> void:
 	res_button.clear()
 	for res_text: String in resolutions.keys():
+		var index: int = res_button.item_count
 		res_button.add_item(res_text)
+		res_button.set_item_metadata(index, resolutions[res_text])
 	var current_res: Vector2i = ConfigManager.load_resolution()
 	for i: int in res_button.item_count:
-		if resolutions.values()[i] == current_res:
+		if res_button.get_item_metadata(i) == current_res:
 			res_button.selected = i
 			set_resolution(current_res)
 			break
 
 
 func _on_resolution_selected(index: int) -> void:
-	var selected_res_text: String = res_button.get_item_text(index)
-	var target_size: Vector2i = resolutions[selected_res_text]
+	var target_size: Vector2i = res_button.get_item_metadata(index)
 	set_resolution(target_size)
 
 
 func set_resolution(resolution: Vector2i) -> void:
-	DisplayServer.window_set_size(resolution)
-	var screen_pos: Vector2i = DisplayServer.screen_get_position()
-	var screen_center: Vector2i = screen_pos + Vector2i(DisplayServer.screen_get_size() / 2.0)
-	DisplayServer.window_set_position(screen_center - Vector2i(resolution / 2.0))
+	ConfigManager.center_window(resolution)
 	ConfigManager.save_resolution(resolution.x, resolution.y)
 
 
@@ -124,11 +124,8 @@ func _on_close_button_pressed() -> void:
 
 
 func _on_language_selected(index: int) -> void:
-	match index:
-		0:
-			ConfigManager.save_language("en")
-		1:
-			ConfigManager.save_language("es")
+	var locale: String = lang_button.get_item_metadata(index)
+	ConfigManager.save_language(locale)
 
 
 func _on_exit_button_pressed() -> void:

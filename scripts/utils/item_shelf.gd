@@ -1,6 +1,9 @@
 extends HFlowContainer
 
-var card_scene: PackedScene = preload("res://scenes/card.tscn")
+class_name ItemShelf
+
+const CARD_SCENE: PackedScene = preload("res://scenes/card.tscn")
+
 var wrapper_size: Vector2 = Vector2(104, 154)
 
 
@@ -18,7 +21,7 @@ func _crear_wrapper(carta: CardData, _index: int) -> Control:
 	wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child(wrapper)
 
-	var nueva_carta: Node2D = card_scene.instantiate()
+	var nueva_carta: Node2D = CARD_SCENE.instantiate()
 	wrapper.add_child(nueva_carta)
 	nueva_carta.setup(carta, true)
 	nueva_carta.show_card(true)
