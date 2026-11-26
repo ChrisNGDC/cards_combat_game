@@ -79,6 +79,7 @@ Full flow, numbers, and content checklists: read `references/combat-and-content.
 6. Statuses stack by plain append — duplicates accumulate and all apply each exchange.
 7. Every .gd has a paired .gd.uid; .tscn nodes carry `unique_id` (4.7). Preserve all uid:// references; never regenerate.
 8. Commit messages starting with `build` trigger the CI release pipeline (version bump + Windows/Web export + GitHub release + itch.io deploy). `build-minor` / `build-major` control the bump. Never start routine commits with `build`.
+9. Both export presets carry `exclude_filter="addons/gdUnit4/*,tests/*"` — exporting with GdUnit4 included crashes the Godot exporter (signal 11; CI shows "exit code null"). Never remove these filters. Running Godot in editor mode (e.g. `--export-release`) re-saves export_presets.cfg and can corrupt the multiline `ssh_remote_deploy` strings — check `git diff export_presets.cfg` after any local export attempt.
 
 ## Verification
 
