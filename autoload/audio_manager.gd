@@ -16,6 +16,8 @@ func _ready() -> void:
 	add_child(music_player)
 	music_player.bus = MUSIC_BUS_NAME
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	if sfx_bus_index == -1:
+		push_warning("Audio bus not found: " + SOUND_EFFECTS_BUS_NAME)
 	play_main_theme()
 
 
@@ -36,6 +38,8 @@ func play_main_theme() -> void:
 
 
 func play_sfx(stream: AudioStream) -> void:
+	if stream == null or sfx_bus_index == -1:
+		return
 	var instance: AudioStreamPlayer = AudioStreamPlayer.new()
 	instance.stream = stream
 	instance.bus = SOUND_EFFECTS_BUS_NAME

@@ -84,9 +84,9 @@ var cards_classes: Dictionary = {
 
 
 func create_card(tipo: String, niveles: Dictionary) -> CardData:
-	if cards_classes.has(tipo):
-		var nueva_carta: CardData = CardData.new(cards_classes[tipo])
-		nueva_carta.nivel_actual = niveles.actual
-		nueva_carta.nivel_max = niveles.max
-		return nueva_carta
-	return null
+	if not cards_classes.has(tipo):
+		return null
+	var nueva_carta: CardData = CardData.new(cards_classes[tipo])
+	nueva_carta.nivel_actual = niveles.get("actual", 0)
+	nueva_carta.nivel_max = niveles.get("max", nueva_carta.nivel_max)
+	return nueva_carta
