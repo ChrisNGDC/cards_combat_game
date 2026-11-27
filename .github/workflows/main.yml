@@ -15,6 +15,7 @@ on:
 
 jobs:
   tests:
+    if: github.event_name != 'push' || !startsWith(github.event.head_commit.message, 'docs')
     runs-on: ubuntu-latest
 
     steps:

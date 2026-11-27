@@ -5,7 +5,7 @@ La idea es que las partidas sean de una duración de 10/15’ (Buscamos que sea 
 una ronda es hasta que ambos se quedan sin cartas o por efecto de combate
 después de una ronda de combate una ronda de tienda, así hasta que la vida de uno de los 2 llegue a 0
 para comprar en la tienda hacer solo 1 acción (de momento sin monedas u otro sistema) obtener carta, quitar carta, mejorar carta
-Vida de jugador a ver para coordinar con la duración del juego y el daño de cartas
+Vida de jugador: 100 puntos (150 el tanque), coordinada con la duración del juego y el daño de cartas
 
 # Referencias
 
@@ -20,10 +20,18 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 - 🟢 Espada (daño fisico en base al nivel)
   - 🟠 Ataque físico rompe magia 1️⃣
 - 🟢 Escudo (bloquea daño fisico segun su nivel)
-- 🟢 Magia (ignora escudo, no hace mas daño que la espada,daño depende nivel carta)
+- 🟢 Magia (ignora escudo, quema al rival, no hace mas daño que la espada,daño depende nivel carta)
   - 🟠 Magia subida de nivel aumento de daño menor que espada subida de nivel 2️⃣
 - 🟢 Espejo (rebota el daño mágico, se rompe si recibe daño físico, no mejorable)
-- 🟢 Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida)
+- 🟢 Poción (Solo cura si no recibes daño, curación en base al nivel, no supera máximo de vida, aplica regeneración)
+- 🟢 Aturdir (cancela la siguiente carta del rival, no mejorable)
+
+# Estados
+
+- 🟢 Quemadura (daño mágico cada intercambio si jugaste una carta ofensiva)
+- 🟢 Regeneración (cura un poco cada intercambio, sin superar el máximo de vida)
+- 🟢 Aturdir (impide jugar el siguiente intercambio)
+- Los estados se acumulan: repetir uno aplica su efecto varias veces
 
 # Items
 
@@ -50,6 +58,8 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 - 🟢 Permitir ver las cartas pertenecientes a un mazo antes de seleccionarlo
 - 🟢 Poder ver las cartas restantes del mazo (sin orden)
 - 🟢 Agregar sonido y un control de volumenes
+- 🟢 Historial de partidas (resultado y mazos usados en cada run)
+- 🟢 Idiomas español e inglés
 
 # Espacio para dudas, bugs y errores
 
@@ -59,6 +69,8 @@ Vida de jugador a ver para coordinar con la duración del juego y el daño de ca
 | [Items](#item) | 3️⃣ | ¿Para el jugador o el mazo? |
 
 ## Links de Ayuda
+
+[Comportamiento técnico del juego (BEHAVIOUR.md)](BEHAVIOUR.md)
 
 [Guia de Markdown](https://www.markdownguide.org/cheatsheet)
 
