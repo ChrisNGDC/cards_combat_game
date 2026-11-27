@@ -71,15 +71,15 @@ Orden y reglas por intercambio:
 1. Efectos de estado primero, en ambos personajes.
 2. La carta no ofensiva resuelve antes que la ofensiva; si ambas son ofensivas, `CARD_SWORD` resuelve **última**; en otro caso, jugador primero.
 3. `can_play()` bloquea al personaje aturdido.
-4. Carta **inválida como primera** (se salta, solo resuelve la segunda): poción vs ofensiva, espejo vs carta no mágica, magia vs espada, aturdir vs ofensiva.
+4. Carta **inválida como primera** (solo se chequea si ambos pueden jugar; se salta y solo resuelve la segunda): poción vs ofensiva, espejo vs carta no mágica, magia vs espada, aturdir vs ofensiva.
 5. Carta **inútil** (mirror/escudo sin oposición que pueda jugar): se salta.
 6. Escudo vs escudo y espejo vs espejo: pausa de 1 s, ningún efecto.
-7. Cada carta jugada vuela al descarte; las manos se rellenan hasta `HAND_SIZE = 4` desde el mazo.
+7. Cada carta jugada vuela al descarte y su dueño roba una carta de reposición (si la mano queda bajo `HAND_SIZE = 4` y hay mazo).
 
-Flujo de la ronda (`round_control.gd` lleva la UI de ayuda/fin de ronda):
+Flujo de la ronda (`round_control.gd` lleva el label de ronda y la ayuda de counters; el botón de fin de ronda está en `combat.gd`):
 
 - Mano de 4 cartas; el jugador arrastra una al slot y pulsa Fight (`_on_fight_pressed()`).
-- Sin cartas en mano pero con mazo: se rellena; ambas manos vacías: fin de ronda automático. También hay botón de finalizar ronda cuando no se puede robar.
+- Sin cartas en mano pero con mazo: se reparte mano nueva (hasta 4); ambas manos vacías: fin de ronda automático. También hay botón de finalizar ronda cuando no se puede robar.
 - Fin de ronda: `GlobalData.rounds += 1`, `reset_round()` en ambos, transición a `store.tscn`.
 - `Character` es un Resource con refs a nodos visuales (`visual_deck`/`visual_hand`): se limpian antes de liberar la escena; nunca mantener refs entre escenas.
 
@@ -90,7 +90,7 @@ Flujo de la ronda (`round_control.gd` lleva la UI de ayuda/fin de ronda):
 | Dificultad | Comportamiento |
 |---|---|
 | `EASY_DIFFICULTY` | Carta aleatoria de la mano |
-| `NORMAL_DIFFICULTY` | Puntúa contra la composición del **mazo** del jugador |
+| `NORMAL_DIFFICULTY` | Puntúa contra la composición del **mazo** del jugador (calculado una vez al elegir dificultad, en `setup_difficulty`) |
 | `HARD_DIFFICULTY` | Puntúa contra la **mano viva** del jugador |
 
 - `PickCardLogic.get_cards_by_power`: frecuencia × puntuación de `MATCHUP_TABLE` (6×6, valores {1, 4, 5}) por carta de counter, orden descendente; `pick_complex_card` recorre la lista con fallback aleatorio.
@@ -103,7 +103,7 @@ Flujo de la ronda (`round_control.gd` lleva la UI de ayuda/fin de ronda):
 
 | Acción | Jugador | CPU |
 |---|---|---|
-| `STORE_ADD` | Añade una copia a nivel 0 de la carta elegida | Añade una carta aleatoria |
+| `STORE_ADD` | Añade una copia a nivel 0 de la carta elegida | Añade una copia a nivel 0 de una carta aleatoria de su mazo |
 | `STORE_REMOVE` | Elimina la carta seleccionada | Elimina una aleatoria |
 | `STORE_UPGRADE` | `nivel_actual + 1` de la seleccionada | Mejora una aleatoria mejorable |
 
@@ -113,7 +113,7 @@ Flujo de la ronda (`round_control.gd` lleva la UI de ayuda/fin de ronda):
 ## 9. Persistencia y configuración
 
 - `autoload/save_manager.gd` → `user://run_history.save`: JSON `[VERSION, run, run, …]`; run = `{date, won, player_deck, cpu_deck}` con cartas `{tipo, niveles {actual, max}}`. `VERSION` se compara como float (JSON devuelve floats — deliberado). Versión distinta o JSON corrupto → borrado del fichero. **Bumpear `VERSION` si cambia la estructura.**
-- `autoload/config_manager.gd` → `user://settings.cfg`: idioma (default `es`), volúmenes master/music/sfx, resolución (default 1280x720). Se aplica al arrancar.
+- `autoload/config_manager.gd` → `user://settings.cfg`: idioma (default `es`), volúmenes master/music/sfx, resolución (default 1280x720) y pantalla completa. Se aplica al arrancar.
 - El historial se muestra en `history_menu.tscn` (`scripts/mainMenu/history_menu.gd`); las entradas basura se descartan al mostrar.
 
 ## 10. UI, audio y localización
@@ -177,8 +177,8 @@ Reglas críticas del export:
 
 ## 13. Invariantes (no cambiar)
 
-- Resolución de combate hardcoded en `combat.gd`; `MATCHUP_TABLE` solo para la IA (`INVERT` sin uso, se deja).
+- Resolución de combate hardcoded en `combat.gd`; `MATCHUP_TABLE` solo para la IA.
 - Diccionarios hardcoded en autoloads; claves String; identificadores mixtos es/en deliberados (nombre, mazo, repartir_mano…).
 - Tweens vía `create_tween()`; sin AnimationPlayer.
 - Ficheros `.gd.uid`, referencias `uid://` y atributos `unique_id` de las `.tscn` se preservan siempre; escenas se editan preferentemente en el editor de Godot.
-- Gotchas deliberados: `cards_power` acumulativo, `VERSION` float, `display_hp` vestigial en `health_manager.gd`, apilado de estados por append.
+- Gotchas deliberados: `cards_power` acumulativo, `VERSION` float, apilado de estados por append.
