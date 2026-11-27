@@ -71,6 +71,75 @@ func test_sin_cabecera_de_version_devuelve_vacio() -> void:
 	assert_bool(FileAccess.file_exists(SaveManager.SAVE_PATH)).is_false()
 
 
+func test_version_2_se_descarta_y_borra() -> void:
+	_escribir_save(JSON.stringify([2.0, _run_valida()]))
+	assert_array(SaveManager.load_history()).is_empty()
+	assert_bool(FileAccess.file_exists(SaveManager.SAVE_PATH)).is_false()
+
+
+func test_run_con_items_roundtrip() -> void:
+	var run: Dictionary = _run_valida()
+	run["player_items"] = ["ITEM_MAX_HP", "ITEM_MAX_HP"]
+	run["cpu_items"] = ["ITEM_REGEN"]
+	SaveManager.save_run(run)
+	var historial: Array = SaveManager.load_history()
+	assert_int(historial[0]["player_items"].size()).is_equal(2)
+	assert_str(historial[0]["player_items"][0]).is_equal("ITEM_MAX_HP")
+	assert_str(historial[0]["cpu_items"][0]).is_equal("ITEM_REGEN")
+
+
+func test_items_to_save_devuelve_nombres_con_duplicados() -> void:
+	var items: Array[ItemData] = [
+		ItemManager.create_item("ITEM_MAX_HP"),
+		ItemManager.create_item("ITEM_MAX_HP"),
+		ItemManager.create_item("ITEM_REGEN"),
+	]
+	var nombres: Array[String] = SaveManager.items_to_save(items)
+	assert_int(nombres.size()).is_equal(3)
+	assert_str(nombres[0]).is_equal("ITEM_MAX_HP")
+	assert_str(nombres[1]).is_equal("ITEM_MAX_HP")
+	assert_str(nombres[2]).is_equal("ITEM_REGEN")
+
+
+func test_delete_run_elimina_solo_la_partida_indicada() -> void:
+	var primera: Dictionary = _run_valida()
+	primera["date"] = "2026-01-01 10:00"
+	var segunda: Dictionary = _run_valida()
+	segunda["date"] = "2026-02-01 10:00"
+	SaveManager.save_run(primera)
+	SaveManager.save_run(segunda)
+	SaveManager.delete_run(0)
+	var historial: Array = SaveManager.load_history()
+	assert_int(historial.size()).is_equal(1)
+	assert_str(historial[0]["date"]).is_equal("2026-02-01 10:00")
+
+
+func test_delete_run_indice_invalido_no_cambia_nada() -> void:
+	SaveManager.save_run(_run_valida())
+	SaveManager.delete_run(5)
+	SaveManager.delete_run(-1)
+	assert_int(SaveManager.load_history().size()).is_equal(1)
+
+
+func test_history_menu_muestra_la_mas_nueva_arriba() -> void:
+	var vieja: Dictionary = _run_valida()
+	vieja["date"] = "2026-01-01 10:00"
+	var nueva: Dictionary = _run_valida()
+	nueva["date"] = "2026-02-01 10:00"
+	SaveManager.save_run(vieja)
+	SaveManager.save_run(nueva)
+	var menu: Control = auto_free(load("res://scenes/history_menu.tscn").instantiate())
+	add_child(menu)
+	var lista: VBoxContainer = menu.get_node("ScrollContainer/HistoryList")
+	var entradas: Array = []
+	for hijo: Node in lista.get_children():
+		if not hijo.is_queued_for_deletion():
+			entradas.append(hijo)
+	assert_int(entradas.size()).is_equal(2)
+	assert_str(entradas[0].run_data["date"]).is_equal("2026-02-01 10:00")
+	assert_str(entradas[1].run_data["date"]).is_equal("2026-01-01 10:00")
+
+
 func test_history_menu_descarta_entradas_basura() -> void:
 	var entradas: Array = [SaveManager.VERSION, "basura", { "date": "x" }, _run_valida()]
 	_escribir_save(JSON.stringify(entradas))

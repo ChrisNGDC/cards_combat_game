@@ -1,18 +1,38 @@
 extends Node
 
 const SAVE_PATH: String = "user://run_history.save"
-const VERSION: int = 2.0 # Update when changing save structure
+const VERSION: int = 3.0 # Update when changing save structure
+
+
+func items_to_save(items: Array[ItemData]) -> Array[String]:
+	var nombres: Array[String] = []
+	for item: ItemData in items:
+		nombres.append(item.nombre)
+	return nombres
+
+
+func delete_run(indice: int) -> void:
+	var history: Array = load_history()
+	if indice < 0 or indice >= history.size():
+		return
+	history.remove_at(indice)
+	_write_history(history)
 
 
 func save_run(run_data: Dictionary) -> void:
 	var history: Array = load_history()
 	history.append(run_data)
-	history.push_front(VERSION)
+	_write_history(history)
+
+
+func _write_history(history: Array) -> void:
+	var data: Array = history.duplicate()
+	data.push_front(VERSION)
 	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null:
 		push_warning("Could not open save file for writing: " + SAVE_PATH)
 		return
-	file.store_string(JSON.stringify(history))
+	file.store_string(JSON.stringify(data))
 	file.close()
 
 

@@ -29,6 +29,7 @@ TooltipManager="*uid://dwougphpc3plb"
 ConfigManager="*uid://dq4fpa7w2jdbu"
 DebugOverlay="*uid://kwt4as8vekix"
 StatusManager="*uid://fc804bnbqvbr"
+ItemManager="*res://autoload/item_manager.gd"
 
 [debug]
 

@@ -170,7 +170,7 @@ clip_text = true
 
 [node name="WarningEndLabel" type="Label" parent="CombatLogic/Control" unique_id=1867724754]
 visible = false
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(1, 30)
 layout_mode = 0
 offset_left = 970.0
 offset_top = 550.0
@@ -228,6 +228,44 @@ title_alignment = 1
 title_text_direction = 2
 
 [node name="StatusContainer" type="HFlowContainer" parent="CombatLogic/CPUStatus" unique_id=529180076]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 5
+alignment = 2
+last_wrap_alignment = 3
+
+[node name="PlayerItems" type="FoldableContainer" parent="CombatLogic" unique_id=2117337338]
+offset_left = 104.0
+offset_top = 292.0
+offset_right = 343.0
+offset_bottom = 319.0
+grow_vertical = 0
+theme = ExtResource("4_d7qh8")
+folded = true
+title_alignment = 1
+title_text_direction = 2
+
+[node name="ItemsContainer" type="HFlowContainer" parent="CombatLogic/PlayerItems" unique_id=2086571801]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 5
+alignment = 2
+last_wrap_alignment = 3
+
+[node name="CPUItems" type="FoldableContainer" parent="CombatLogic" unique_id=758672021]
+offset_left = 937.0
+offset_top = 292.0
+offset_right = 1176.0
+offset_bottom = 319.0
+grow_vertical = 0
+theme = ExtResource("4_d7qh8")
+folded = true
+title_alignment = 1
+title_text_direction = 2
+
+[node name="ItemsContainer" type="HFlowContainer" parent="CombatLogic/CPUItems" unique_id=529180077]
 visible = false
 layout_mode = 2
 mouse_filter = 2

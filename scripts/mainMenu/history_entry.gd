@@ -1,9 +1,11 @@
 extends HBoxContainer
 
-signal show_deck_requested(deck_data: Dictionary)
+signal show_deck_requested(deck_data: Dictionary, items: Array)
+signal delete_requested(run_data: Dictionary)
 
 @onready var player_deck_button: Button = $PlayerDeckButton
 @onready var cpu_deck_button: Button = $CPUDeckButton
+@onready var delete_button: Button = $DeleteButton
 
 var run_data: Dictionary
 
@@ -11,6 +13,7 @@ var run_data: Dictionary
 func _ready() -> void:
 	player_deck_button.pressed.connect(_on_player_deck_button_pressed)
 	cpu_deck_button.pressed.connect(_on_cpu_deck_button_pressed)
+	delete_button.pressed.connect(_on_delete_button_pressed)
 
 
 func setup(data: Dictionary) -> void:
@@ -23,10 +26,14 @@ func setup(data: Dictionary) -> void:
 func _on_player_deck_button_pressed() -> void:
 	var deck_data: Dictionary = {}
 	deck_data.assign(run_data["player_deck"])
-	show_deck_requested.emit(deck_data)
+	show_deck_requested.emit(deck_data, run_data.get("player_items", []))
 
 
 func _on_cpu_deck_button_pressed() -> void:
 	var deck_data: Dictionary = {}
 	deck_data.assign(run_data["cpu_deck"])
-	show_deck_requested.emit(deck_data)
+	show_deck_requested.emit(deck_data, run_data.get("cpu_items", []))
+
+
+func _on_delete_button_pressed() -> void:
+	delete_requested.emit(run_data)

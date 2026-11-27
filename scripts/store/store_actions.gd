@@ -4,6 +4,8 @@ extends VBoxContainer
 var player: GamePlayer = GlobalData.player
 var cpu: GameCPU = GlobalData.cpu
 var transaction_done: bool = false
+var viewing_items: bool = false
+var oferta_items: Array[ItemData] = []
 
 @onready var shelf: Control = $ScrollContainer/ItemShelf
 @onready var footer_node: Control = $Footer
@@ -13,11 +15,14 @@ var transaction_done: bool = false
 @onready var add_button: StoreButton = $Footer/Add
 @onready var remove_button: StoreButton = $Footer/Remove
 @onready var upgrade_button: StoreButton = $Footer/Upgrade
-@onready var buttons: Array[StoreButton] = [add_button, remove_button, upgrade_button]
+@onready var item_button: StoreButton = $Footer/Item
+@onready var buttons: Array[StoreButton] = [add_button, remove_button, upgrade_button, item_button]
 
 
 func _ready() -> void:
 	connect_buttons_signals()
+	shelf.connect("item_selected", _on_item_selected)
+	oferta_items = ItemManager.get_oferta(player)
 
 
 func _on_mouse_entered(button: Button, description: String) -> void:
@@ -36,6 +41,17 @@ func _on_mouse_exited(button: Button) -> void:
 
 
 func _on_pressed(mode: String) -> void:
+	if mode == "STORE_ITEM":
+		if viewing_items:
+			viewing_items = false
+			shelf.mostrar_cartas()
+		else:
+			viewing_items = true
+			shelf.mostrar_items(oferta_items)
+		return
+	if viewing_items:
+		viewing_items = false
+		shelf.mostrar_cartas()
 	var selected_card: CardData = shelf.selected_card_data
 	var selected_index: int = shelf.selected_card_index
 	var action_success: bool = false
@@ -77,6 +93,15 @@ func _on_pressed(mode: String) -> void:
 
 func _on_next_round_button_pressed() -> void:
 	SceneLoader.load_scene("res://scenes/combat.tscn")
+
+
+func _on_item_selected(item: ItemData) -> void:
+	player.add_item(item)
+	var cpu_item: ItemData = cpu.pick_item()
+	if cpu_item:
+		cpu.add_item(cpu_item)
+	viewing_items = false
+	finalize_transaction("STORE_ITEM")
 
 
 func connect_buttons_signals() -> void:

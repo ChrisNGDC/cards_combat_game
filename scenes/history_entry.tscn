@@ -43,3 +43,10 @@ layout_mode = 2
 theme = ExtResource("2_y7nox")
 theme_override_font_sizes/font_size = 30
 text = "HISTORY_ENEMY"
+
+[node name="DeleteButton" type="Button" parent="." unique_id=731905412]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme = ExtResource("2_y7nox")
+theme_override_font_sizes/font_size = 30
+text = "X"

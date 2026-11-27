@@ -15,6 +15,7 @@ var last_card_played: CardData = null
 var visual_deck: Array[Node2D] = []
 var visual_hand: Array[Node2D] = []
 var status_effects: Array[StatusData] = []
+var items: Array[ItemData] = []
 
 
 func _setup(params: Dictionary) -> void:
@@ -33,6 +34,9 @@ func set_hp(value: int) -> void:
 
 
 func apply_status_effects() -> void:
+	var regen: int = get_item_bonus("EXCHANGE_HEAL")
+	if regen > 0:
+		heal(regen)
 	for status: StatusData in status_effects:
 		status.apply_effect(self)
 
@@ -53,6 +57,26 @@ func has_status(status_name: String) -> bool:
 		if status.nombre == status_name:
 			return true
 	return false
+
+
+func add_item(item: ItemData) -> void:
+	items.append(item)
+	if item.efecto_adquisicion.is_valid():
+		item.efecto_adquisicion.call(self)
+
+
+func has_item(nombre_item: String) -> bool:
+	for item: ItemData in items:
+		if item.nombre == nombre_item:
+			return true
+	return false
+
+
+func get_item_bonus(clave: String) -> int:
+	var total: int = 0
+	for item: ItemData in items:
+		total += item.get_bono(clave)
+	return total
 
 
 func can_play() -> bool:
@@ -82,6 +106,7 @@ func reset_round() -> void:
 func reset() -> void:
 	reset_round()
 	deck = null
+	items.clear()
 
 
 func set_deck(new_deck: DeckData) -> void:

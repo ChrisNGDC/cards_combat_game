@@ -4,6 +4,7 @@ const CARD_SCENE: PackedScene = preload("res://scenes/card.tscn")
 const GAME_OVER_SCENE: PackedScene = preload("res://scenes/game_over_ui.tscn")
 const OVERLAY_SCENE: PackedScene = preload("res://scenes/deck_overlay.tscn")
 const STATUS_SCENE: PackedScene = preload("res://scenes/status.tscn")
+const ITEM_ICON_SCENE: PackedScene = preload("res://scenes/item_icon.tscn")
 const HAND_SIZE: int = 4
 const MAZO_OFFSET_X: float = 270.0
 const DISCARD_OFFSET_X: float = 150.0
@@ -50,6 +51,10 @@ var cpu_discard_pos: Vector2
 @onready var cpu_status: HFlowContainer = $CPUStatus/StatusContainer
 @onready var player_status_panel: FoldableContainer = $PlayerStatus
 @onready var cpu_status_panel: FoldableContainer = $CPUStatus
+@onready var player_items: HFlowContainer = $PlayerItems/ItemsContainer
+@onready var cpu_items: HFlowContainer = $CPUItems/ItemsContainer
+@onready var player_items_panel: FoldableContainer = $PlayerItems
+@onready var cpu_items_panel: FoldableContainer = $CPUItems
 @onready var player_card_slot: Sprite2D = $PlayerSlot
 @onready var cpu_card_slot: Sprite2D = $CPUSlot
 @onready var end_round_button: Button = $Control/EndRound
@@ -87,6 +92,7 @@ func _ready() -> void:
 	see_deck_button.pressed.connect(_on_see_deck_button_pressed)
 	end_round_button.pressed.connect(_on_end_round_pressed)
 	fight_button.pressed.connect(_on_fight_pressed)
+	update_visual_items()
 	end_of_combat_update()
 	
 
@@ -323,14 +329,35 @@ func apply_status_effects() -> void:
 	cpu.apply_status_effects()
 
 
+func update_visual_items() -> void:
+	for child: Control in player_items.get_children():
+		child.queue_free()
+	for child: Control in cpu_items.get_children():
+		child.queue_free()
+	_poblar_items(player.items, player_items)
+	_poblar_items(cpu.items, cpu_items)
+	player_items_panel.title = tr("ITEMS") + " (" + str(player.items.size()) + ")"
+	cpu_items_panel.title = tr("ITEMS") + " (" + str(cpu.items.size()) + ")"
+
+
+func _poblar_items(items: Array[ItemData], contenedor: HFlowContainer) -> void:
+	var cantidades: Dictionary = {}
+	for item: ItemData in items:
+		cantidades[item.nombre] = cantidades.get(item.nombre, 0) + 1
+	for nombre: String in cantidades:
+		var icono: Panel = ITEM_ICON_SCENE.instantiate()
+		icono.setup(ItemManager.create_item(nombre), cantidades[nombre])
+		contenedor.add_child(icono)
+
+
 func play_card(card: Node2D, actor: Character, adversario: Character) -> void:
 	var play_sound: bool = true
 	match card.nombre:
 		"CARD_SWORD":
-			var amount: int = card.apply_effect()
+			var amount: int = card.apply_effect() + actor.get_item_bonus("SWORD_DAMAGE")
 			adversario.take_physical_damage(amount)
 		"CARD_MAGIC":
-			var amount: int = card.apply_effect()
+			var amount: int = card.apply_effect() + actor.get_item_bonus("MAGIC_DAMAGE")
 			if adversario.has_rebound():
 				play_sound = false
 				adversario.remove_rebound()
@@ -340,12 +367,12 @@ func play_card(card: Node2D, actor: Character, adversario: Character) -> void:
 				adversario.take_magical_damage(amount)
 				adversario.add_status(StatusManager.create_status("STATUS_BURN"))
 		"CARD_SHIELD":
-			var amount: int = card.apply_effect()
+			var amount: int = card.apply_effect() + actor.get_item_bonus("SHIELD_ARMOR")
 			actor.add_armor(amount)
 		"CARD_MIRROR":
 			actor.add_rebound()
 		"CARD_POTION":
-			var amount: int = card.apply_effect()
+			var amount: int = card.apply_effect() + actor.get_item_bonus("POTION_HEAL")
 			actor.heal(amount)
 			actor.add_status(StatusManager.create_status("STATUS_REGENERATION"))
 		"CARD_STUN":
@@ -473,7 +500,9 @@ func show_game_over_ui(won: bool) -> void:
 		"date": Time.get_datetime_string_from_system(false, true),
 		"won": won,
 		"player_deck": {"name": player.deck.nombre, "cards": cards_to_save(player.deck.cartas)},
-		"cpu_deck": {"name": cpu.deck.nombre, "cards": cards_to_save(cpu.deck.cartas)}
+		"cpu_deck": {"name": cpu.deck.nombre, "cards": cards_to_save(cpu.deck.cartas)},
+		"player_items": SaveManager.items_to_save(player.items),
+		"cpu_items": SaveManager.items_to_save(cpu.items)
 	}
 	SaveManager.save_run(run_data)
 

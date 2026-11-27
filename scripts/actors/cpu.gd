@@ -77,3 +77,10 @@ func upgrade_card_in_deck(_index: int = -1) -> void:
 	if index == -1:
 		return
 	super(index)
+
+
+func pick_item() -> ItemData:
+	var oferta: Array[ItemData] = ItemManager.get_oferta(self)
+	if oferta.is_empty():
+		return null
+	return oferta.pick_random()

@@ -16,6 +16,7 @@ func display_history() -> void:
 		child.queue_free()
 		
 	var history: Array = SaveManager.load_history()
+	history.reverse()
 	for run: Variant in history:
 		if run is not Dictionary:
 			continue
@@ -28,12 +29,22 @@ func display_history() -> void:
 		list.add_child(entry)
 		entry.setup(entry_data)
 		entry.show_deck_requested.connect(_on_show_deck_requested)
+		entry.delete_requested.connect(_on_delete_requested)
 
 
-func _on_show_deck_requested(deck_data: Dictionary) -> void:
+func _on_show_deck_requested(deck_data: Dictionary, items: Array) -> void:
 	var overlay: CanvasLayer = OVERLAY_SCENE.instantiate()
 	add_child(overlay)
-	overlay.display_history_deck(deck_data)
+	overlay.display_history_deck(deck_data, items)
+
+
+func _on_delete_requested(run_data: Dictionary) -> void:
+	var history: Array = SaveManager.load_history()
+	for i: int in range(history.size()):
+		if history[i] is Dictionary and history[i].get("date", "") == run_data.get("date", ""):
+			SaveManager.delete_run(i)
+			break
+	display_history()
 
 
 func _on_back_button_pressed() -> void:

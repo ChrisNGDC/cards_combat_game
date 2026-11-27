@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://6jbp662kdkvw" path="res://images/store/up-down-arrow.png" id="4_4cg75"]
 [ext_resource type="Script" uid="uid://d1ad6yjxi6ca5" path="res://scripts/store/store_button.gd" id="6_vb4ln"]
 [ext_resource type="PackedScene" uid="uid://dk6xtp5cbeusq" path="res://scenes/auto_translate.tscn" id="8_tmp5q"]
+[ext_resource type="Texture2D" uid="uid://dv7kisn45qbef" path="res://images/store/item.png" id="9_itemicon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgjx4"]
 content_margin_left = 15.0
@@ -386,6 +387,22 @@ expand_icon = true
 script = ExtResource("6_vb4ln")
 mode = "STORE_UPGRADE"
 description = "STORE_UPGRADE_MSG"
+
+[node name="Item" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer" unique_id=402484907]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgjx4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p64wd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_plgn8")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4cg75")
+theme_override_styles/focus = SubResource("StyleBoxFlat_3vssa")
+text = "           "
+icon = ExtResource("9_itemicon")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("6_vb4ln")
+mode = "STORE_ITEM"
+description = "STORE_ITEM_MSG"
 
 [node name="ActionHoverEffect" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1006803085]
 layout_mode = 2

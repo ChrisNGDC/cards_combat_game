@@ -55,13 +55,15 @@ COMBAT_ROUND,Round,Ronda
 COMBAT_NEXT_ROUND,Next Round,Siguiente Ronda
 COMBAT_ROUND_WARNING,This can only be pressed with an empty deck and full hand.,Esto solo se puede presionar con el mazo vacío y la mano llena.
 STORE_NAME,Store,Tienda
-STORE_GUIDE,"Select a card to add, remove or upgrade.","Selecciona una carta para añadir, eliminar o mejorar."
+STORE_GUIDE,"Select a card to add, remove or upgrade, or take an item.","Selecciona una carta para añadir, eliminar o mejorar, o toma un item."
 STORE_ADD,Card Added,Carta Añadida
 STORE_REMOVE,Card Removed,Carta Eliminada
 STORE_UPGRADE,Card Upgraded,Carta Mejorada
 STORE_ADD_MSG,Add same basic card,Añadir una copia básica
 STORE_REMOVE_MSG,Remove Card,Eliminar carta
 STORE_UPGRADE_MSG,Upgrade card effect,Mejorar efecto de carta
+STORE_ITEM,Item Taken,Item Obtenido
+STORE_ITEM_MSG,Take an item,Tomar un item
 STORE_INVALID_UPGRADE,Not Upgradeable,No mejorable
 STORE_EXIT,Next Round,Siguiente Ronda
 HISTORY_BACK,Back,Volver
@@ -72,3 +74,16 @@ GAMEOVER_LOSS_TITLE,Defeat,Derrota
 GAMEOVER_WIN_MSG,You won on %d rounds.,Ganaste en %d rondas.
 GAMEOVER_LOSS_MSG,You lost on %d rounds.,Perdiste en %d rondas.
 GAMEOVER_RESTART,Restart,Reiniciar
+ITEMS,Items,Objetos
+ITEM_MAX_HP,Max HP,Vida Máxima
+ITEM_MAX_HP_DESC,Increase max HP by [color=%s]%d[/color] and heal the same amount.,Aumenta la vida máxima en [color=%s]%d[/color] y cura la misma cantidad.
+ITEM_REGEN,Regeneration,Regeneración
+ITEM_REGEN_DESC,Heal [color=%s]%d[/color] HP at the start of each exchange.,Cura [color=%s]%d[/color] de vida al inicio de cada intercambio.
+ITEM_SWORD_DAMAGE,Sword Damage,Daño de Espada
+ITEM_SWORD_DAMAGE_DESC,Your Sword cards deal [color=%s]%d[/color] extra damage.,Tus cartas de Espada infligen [color=%s]%d[/color] de daño extra.
+ITEM_SHIELD_ARMOR,Shield Armor,Armadura de Escudo
+ITEM_SHIELD_ARMOR_DESC,Your Shield cards block [color=%s]%d[/color] extra damage.,Tus cartas de Escudo bloquean [color=%s]%d[/color] de daño extra.
+ITEM_POTION_HEAL,Potion Healing,Curación de Poción
+ITEM_POTION_HEAL_DESC,Your Potion cards heal [color=%s]%d[/color] extra HP.,Tus cartas de Poción curan [color=%s]%d[/color] de vida extra.
+ITEM_MAGIC_DAMAGE,Magic Damage,Daño Mágico
+ITEM_MAGIC_DAMAGE_DESC,Your Magic cards deal [color=%s]%d[/color] extra damage.,Tus cartas de Magia infligen [color=%s]%d[/color] de daño extra.
